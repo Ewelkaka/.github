@@ -1,6 +1,7 @@
 # GitHub Skills
 
-_This is not a course._ See https://skills.github.com for our list of available courses.
+> [!IMPORTANT]
+> _This is not a course._ See https://skills.github.com for our list of available courses.
 
 See [profile/README.md](profile/README.md) for more information about GitHub Skills. If you'd like to provide any feedback, please start a new [discussion](https://github.com/orgs/skills/discussions).
 

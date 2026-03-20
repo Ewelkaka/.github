@@ -1,0 +1,3 @@
+## 2026-03-20 - [Documentation UX and Accessibility Polish]
+**Learning:** This repository is content-driven and relies heavily on GitHub-native Markdown features. Using specific GFM alert blocks like `> [!IMPORTANT]` significantly improves the scannability of information for new users. Additionally, branded SVGs (like the mascot) provide essential context and should have descriptive alt text rather than being treated as purely decorative.
+**Action:** Always check for opportunities to upgrade plain text callouts to semantic GFM alert blocks and ensure all non-trivial images have descriptive alternative text.

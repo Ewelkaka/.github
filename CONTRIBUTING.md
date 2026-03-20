@@ -2,7 +2,7 @@
 
 Hi there! We're thrilled that you'd like to contribute to this project. Your help is essential for keeping it great.
 
-Contributions to this project are [released](https://docs.github.com/en/github/site-policy/github-terms-of-service#6-contributions-under-repository-license) to the public under the project's open source license.
+Contributions to this project are [released](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service) to the public under the project's open source license.
 
 Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms.
 
@@ -16,10 +16,10 @@ Please note that this project is released with a Contributor Code of Conduct. By
 
 Here are a few things you can do that will increase the likelihood of your pull request being accepted:
 
-- Follow the [style guide](https://github.com/github/docs/blob/main/contributing/content-style-guide.md).
+- Follow the [style guide](https://docs.github.com/en/contributing/style-guide-and-content-model/style-guide).
 - Verify your actions workflows work as expected.
 - Keep your change as focused as possible. If there are multiple changes you would like to make that are not dependent upon each other, consider submitting them as separate pull requests.
-- Write a [good commit message](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
+- Write a [good commit message](https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
 
 ## Resources
 
