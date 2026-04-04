@@ -1,0 +1,3 @@
+## 2026-04-03 - Redundant File I/O and Regex Compilation in Test Suites
+**Learning:** In repositories dominated by static content like Markdown files, test suites often perform redundant file I/O by reading the same source files in every test case's `setUp` method. Additionally, inline regular expression compilation within test methods can lead to unnecessary CPU overhead when running large numbers of tests.
+**Action:** Use `@classmethod setUpClass` to perform one-time file I/O per test class and pre-compile regular expressions at the module level to minimize redundant operations and improve overall test execution speed.
