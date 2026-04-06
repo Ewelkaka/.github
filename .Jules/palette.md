@@ -5,3 +5,7 @@
 ## 2026-04-02 - Use semantic alert blocks for critical documentation disclaimers
 **Learning:** Plain-text disclaimers in documentation can be easily overlooked. Converting these to semantic GitHub-native alert blocks (e.g., `> [!IMPORTANT]`) significantly improves visual hierarchy, scannability, and ensures that critical context is immediately apparent to all users, including those using assistive technologies.
 **Action:** Identify plain-text call-to-actions or disclaimers in Markdown files and wrap them in the appropriate semantic alert block to enhance visibility and accessibility.
+
+## 2026-04-03 - Use descriptive "Illustration of" prefix for mascot alt text
+**Learning:** Following the GitHub Style Guide for informative illustrations by starting with "Illustration of..." and ending with a period provides a consistent and professional experience for screen reader users, clearly identifying the nature and subject of the image.
+**Action:** When adding or updating alt text for brand mascots or characters, use the "Illustration of [Subject]." format.
