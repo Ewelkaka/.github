@@ -14,6 +14,13 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROFILE_README = os.path.join(REPO_ROOT, "profile", "README.md")
 PALETTE_MD = os.path.join(REPO_ROOT, ".Jules", "palette.md")
 
+# Pre-compiled regular expressions for performance
+EMPTY_ALT_REGEX = re.compile(r'<img\s[^>]*alt\s*=\s*["\']["\']')
+WHITESPACE_ALT_REGEX = re.compile(r'<img\s[^>]*alt\s*=\s*["\'](\s+)["\']')
+IMG_TAG_REGEX = re.compile(r"<img\s")
+IMG_TAG_ALL_REGEX = re.compile(r"<img\b[^>]*>", re.IGNORECASE)
+ALT_ATTR_REGEX = re.compile(r'\balt\s*=\s*["\']([^"\']*)["\']', re.IGNORECASE)
+
 
 def _read(path: str) -> str:
     with open(path, encoding="utf-8") as fh:
@@ -23,13 +30,14 @@ def _read(path: str) -> str:
 class TestProfileReadmeAltText(unittest.TestCase):
     """Tests for the <img> alt attribute change in profile/README.md."""
 
-    def setUp(self):
-        self.content = _read(PROFILE_README)
+    @classmethod
+    def setUpClass(cls):
+        cls.content = _read(PROFILE_README)
 
     def test_img_alt_is_not_empty(self):
         """The mascot <img> must not carry an empty alt attribute (alt="")."""
         # Match alt="" or alt='' (empty)
-        empty_alt = re.search(r'<img\s[^>]*alt\s*=\s*["\']["\']', self.content)
+        empty_alt = EMPTY_ALT_REGEX.search(self.content)
         self.assertIsNone(
             empty_alt,
             "Found an <img> tag with an empty alt attribute; all informative "
@@ -47,9 +55,7 @@ class TestProfileReadmeAltText(unittest.TestCase):
 
     def test_img_alt_not_whitespace_only(self):
         """The alt attribute value must not be only whitespace."""
-        whitespace_alt = re.search(
-            r'<img\s[^>]*alt\s*=\s*["\'](\s+)["\']', self.content
-        )
+        whitespace_alt = WHITESPACE_ALT_REGEX.search(self.content)
         self.assertIsNone(
             whitespace_alt,
             "Found an <img> tag whose alt attribute contains only whitespace.",
@@ -59,7 +65,7 @@ class TestProfileReadmeAltText(unittest.TestCase):
         """The profile README must still contain the mascot <img> tag."""
         self.assertRegex(
             self.content,
-            r"<img\s",
+            IMG_TAG_REGEX,
             "No <img> tag found in profile/README.md; the mascot image may have "
             "been accidentally removed.",
         )
@@ -82,9 +88,9 @@ class TestProfileReadmeAltText(unittest.TestCase):
         This acts as a regression guard so future image additions cannot
         silently omit or empty the alt attribute.
         """
-        img_tags = re.findall(r"<img\b[^>]*>", self.content, re.IGNORECASE)
+        img_tags = IMG_TAG_ALL_REGEX.findall(self.content)
         for tag in img_tags:
-            alt_match = re.search(r'\balt\s*=\s*["\']([^"\']*)["\']', tag, re.IGNORECASE)
+            alt_match = ALT_ATTR_REGEX.search(tag)
             self.assertIsNotNone(
                 alt_match,
                 f"<img> tag is missing an alt attribute: {tag}",
@@ -99,8 +105,9 @@ class TestProfileReadmeAltText(unittest.TestCase):
 class TestPaletteMarkdown(unittest.TestCase):
     """Tests for the new .Jules/palette.md file."""
 
-    def setUp(self):
-        self.content = _read(PALETTE_MD)
+    @classmethod
+    def setUpClass(cls):
+        cls.content = _read(PALETTE_MD)
 
     def test_file_exists(self):
         """.Jules/palette.md must exist in the repository."""
