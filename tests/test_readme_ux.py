@@ -5,9 +5,12 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 README_PATH = os.path.join(REPO_ROOT, "README.md")
 
 class TestReadmeUX(unittest.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
+         # Optimization: Read file content once for the entire test class to reduce redundant disk I/O.
+         # Baseline: 3 openat calls (1 per test method) -> Optimized: 1 openat call.
         with open(README_PATH, "r", encoding="utf-8") as f:
-            self.content = f.read()
+            cls.content = f.read()
 
     def test_alert_block_present(self):
         self.assertIn("> [!IMPORTANT]", self.content)
