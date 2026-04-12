@@ -5,3 +5,7 @@
 ## 2026-04-02 - Use semantic alert blocks for critical documentation disclaimers
 **Learning:** Plain-text disclaimers in documentation can be easily overlooked. Converting these to semantic GitHub-native alert blocks (e.g., `> [!IMPORTANT]`) significantly improves visual hierarchy, scannability, and ensures that critical context is immediately apparent to all users, including those using assistive technologies.
 **Action:** Identify plain-text call-to-actions or disclaimers in Markdown files and wrap them in the appropriate semantic alert block to enhance visibility and accessibility.
+
+## 2026-04-10 - Documentation scannability and Style Guide compliance
+**Learning:** Micro-UX improvements in documentation, such as fixing typos, sequential list numbering, and using canonical links with descriptive text, collectively enhance readability and trust. Additionally, adhering to specific Style Guide requirements for alt text (e.g., "Illustration of...") and consistently quoting HTML attributes in Markdown ensures both human accessibility and machine-readable consistency.
+**Action:** Group related minor documentation flaws into a single theme to deliver a high-impact UX improvement while maintaining repository-specific standards and style guide compliance.
