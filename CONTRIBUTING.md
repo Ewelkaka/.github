@@ -4,15 +4,16 @@ Hi there! We're thrilled that you'd like to contribute to this project. Your hel
 
 Contributions to this project are [released](https://docs.github.com/en/github/site-policy/github-terms-of-service#6-contributions-under-repository-license) to the public under the project's open source license.
 
-Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms.
+> [!IMPORTANT]
+> Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms.
 
 ## Submitting a pull request
 
-0. Fork and clone the repository
-0. Create a new branch: `git checkout -b my-branch-name`
-0. Make your change, and make sure the actions still work
-0. Push to your fork and submit a pull request
-0. Wait for your pull request to be reviewed and merged.
+1. Fork and clone the repository
+2. Create a new branch: `git checkout -b my-branch-name`
+3. Make your change, and make sure the actions still work
+4. Push to your fork and submit a pull request
+5. Wait for your pull request to be reviewed and merged.
 
 Here are a few things you can do that will increase the likelihood of your pull request being accepted:
 
