@@ -5,3 +5,7 @@
 ## 2026-04-02 - Use semantic alert blocks for critical documentation disclaimers
 **Learning:** Plain-text disclaimers in documentation can be easily overlooked. Converting these to semantic GitHub-native alert blocks (e.g., `> [!IMPORTANT]`) significantly improves visual hierarchy, scannability, and ensures that critical context is immediately apparent to all users, including those using assistive technologies.
 **Action:** Identify plain-text call-to-actions or disclaimers in Markdown files and wrap them in the appropriate semantic alert block to enhance visibility and accessibility.
+
+## 2026-04-10 - Prefer sequential numbering for step-by-step guides
+**Learning:** While Markdown allows non-sequential numbering (like all `0.` or `1.`) for ordered lists, using sequential numbering (`1.`, `2.`, `3.`) in the source code improves readability for contributors and makes the document structure more intuitive during manual edits.
+**Action:** Update non-sequential ordered lists in documentation to use sequential numbering for better human scannability in the source file.
