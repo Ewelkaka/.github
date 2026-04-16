@@ -76,6 +76,20 @@ class TestProfileReadmeAltText(unittest.TestCase):
             "The mascot image src URL was unexpectedly changed.",
         )
 
+    def test_all_img_attributes_are_quoted(self):
+        """All <img> attributes must be enclosed in double quotes."""
+        # This regex looks for attributes that are NOT followed by a quoted value
+        # It matches attribute=value where value doesn't start with " or '
+        img_tags = re.findall(r"<img\b[^>]*>", self.content, re.IGNORECASE)
+        for tag in img_tags:
+            # Match any attribute=value where value is not quoted
+            unquoted_attr = re.search(r'\b\w+\s*=\s*([^"\'][\w/:-]*)', tag)
+            self.assertIsNone(
+                unquoted_attr,
+                f"Found unquoted attribute in <img> tag: {tag}. "
+                f"All attributes must be enclosed in double quotes.",
+            )
+
     def test_all_img_tags_have_nonempty_alt(self):
         """Every <img> tag in the file must carry a non-empty alt attribute.
 
