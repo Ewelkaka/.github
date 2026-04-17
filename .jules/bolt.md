@@ -1,0 +1,3 @@
+## 2026-04-10 - Optimizing Python Test Suite File I/O
+**Learning:** In Python's `unittest` framework, using `setUp` for file I/O operations causes the file to be opened and read for every single test method. For test suites that perform many assertions on the same static content, this leads to significant redundant system calls (`openat`).
+**Action:** Use `@classmethod setUpClass` to perform expensive, one-time setup (like reading static documentation files) and store the results as class attributes. This reduced the total `openat` calls for the target files from 19 down to 3 in this repository.
