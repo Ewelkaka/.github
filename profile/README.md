@@ -1,6 +1,6 @@
 # Advance your GitHub journey
 
-<img alt="GitHub Skills character illustration" src=https://user-images.githubusercontent.com/1221423/156894097-ff2d6566-7b6a-4488-950e-f4ebe990965a.svg width=200 align=right>
+<img alt="Illustration of the GitHub Skills character." src="https://user-images.githubusercontent.com/1221423/156894097-ff2d6566-7b6a-4488-950e-f4ebe990965a.svg" width="200" align="right">
 
 _Learn how to use GitHub with interactive courses designed for beginners and experts._
 

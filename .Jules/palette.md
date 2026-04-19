@@ -5,3 +5,7 @@
 ## 2026-04-02 - Use semantic alert blocks for critical documentation disclaimers
 **Learning:** Plain-text disclaimers in documentation can be easily overlooked. Converting these to semantic GitHub-native alert blocks (e.g., `> [!IMPORTANT]`) significantly improves visual hierarchy, scannability, and ensures that critical context is immediately apparent to all users, including those using assistive technologies.
 **Action:** Identify plain-text call-to-actions or disclaimers in Markdown files and wrap them in the appropriate semantic alert block to enhance visibility and accessibility.
+
+## 2026-04-10 - Standardize illustration alt text and attribute syntax
+**Learning:** Consistently using "Illustration of..." for informative graphics and ensuring all HTML attributes are enclosed in double quotes improves both accessibility (by adhering to the GitHub Style Guide) and markup reliability across different Markdown parsers.
+**Action:** When updating images, ensure `alt` text follows the required prefix/suffix pattern and that all attributes like `src`, `width`, and `align` are explicitly quoted.
