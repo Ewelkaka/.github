@@ -1,0 +1,3 @@
+## 2026-04-10 - Reduce redundant file I/O in test suite
+**Learning:** Redundant file I/O in test suites can significantly increase the number of system calls and execution time as the number of tests grows. Using `@classmethod setUpClass` to load static resources once per class instead of once per test (`setUp`) is a highly effective way to optimize performance without sacrificing readability or correctness.
+**Action:** Always prefer `@classmethod setUpClass` for one-time setup of static resources (like reading Markdown files) in test classes, especially when the resource is immutable throughout the test execution.
