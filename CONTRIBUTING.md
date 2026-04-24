@@ -23,6 +23,8 @@ Here are a few things you can do that will increase the likelihood of your pull 
 
 ## Resources
 
-- [How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)
+> [!TIP]
+> New to open source? Check out the [How to Contribute to Open Source](https://opensource.guide/how-to-contribute/) guide.
+
 - [Using Pull Requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)
 - [GitHub Docs](https://docs.github.com/)
