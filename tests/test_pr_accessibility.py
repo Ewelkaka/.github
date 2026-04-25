@@ -39,9 +39,9 @@ class TestProfileReadmeAltText(unittest.TestCase):
     def test_img_alt_is_descriptive(self):
         """The mascot <img> must use the new descriptive alt text."""
         self.assertIn(
-            'alt="GitHub Skills character illustration"',
+            'alt="Illustration of GitHub Skills character."',
             self.content,
-            "Expected descriptive alt text 'GitHub Skills character illustration' "
+            "Expected descriptive alt text 'Illustration of GitHub Skills character.' "
             "not found in profile/README.md.",
         )
 
