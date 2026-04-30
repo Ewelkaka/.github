@@ -16,13 +16,14 @@ Please note that this project is released with a Contributor Code of Conduct. By
 
 Here are a few things you can do that will increase the likelihood of your pull request being accepted:
 
-- Follow the [style guide](https://github.com/github/docs/blob/main/contributing/content-style-guide.md).
+- Follow the [style guide](https://docs.github.com/en/contributing/style-guide-and-content-model/style-guide).
 - Verify your actions workflows work as expected.
 - Keep your change as focused as possible. If there are multiple changes you would like to make that are not dependent upon each other, consider submitting them as separate pull requests.
 - Write a [good commit message](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
 
 ## Resources
 
-- [How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)
-- [Using Pull Requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)
-- [GitHub Docs](https://docs.github.com/)
+> [!TIP]
+> - [How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)
+> - [Using Pull Requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)
+> - [GitHub Docs](https://docs.github.com/)
