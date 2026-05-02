@@ -20,6 +20,12 @@
 *.tar
 *.zip
 
+# Python #
+##########
+__pycache__/
+*.py[cod]
+*$py.class
+
 # Logs and databases #
 ######################
 *.log
