@@ -182,5 +182,33 @@ class TestPaletteMarkdown(unittest.TestCase):
         )
 
 
+class TestSecurityUX(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        with open(os.path.join(REPO_ROOT, "SECURITY.md"), "r", encoding="utf-8") as f:
+            cls.content = f.read()
+
+    def test_warning_alert_present(self):
+        """Check if the GitHub-native [!WARNING] alert is present."""
+        self.assertIn("> [!WARNING]", self.content)
+        self.assertIn("> Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.", self.content)
+
+    def test_old_bold_text_absent(self):
+        """Ensure the old bold text is no longer present."""
+        self.assertNotIn("**Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.**", self.content)
+
+
+class TestContributingUX(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        with open(os.path.join(REPO_ROOT, "CONTRIBUTING.md"), "r", encoding="utf-8") as f:
+            cls.content = f.read()
+
+    def test_coc_alert_present(self):
+        """Check if the CoC disclaimer is in an [!IMPORTANT] alert block."""
+        self.assertIn("> [!IMPORTANT]", self.content)
+        self.assertIn("> This project is released with a Contributor Code of Conduct.", self.content)
+
+
 if __name__ == "__main__":
     unittest.main()
