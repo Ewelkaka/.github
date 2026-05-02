@@ -4,7 +4,8 @@ Hi there! We're thrilled that you'd like to contribute to this project. Your hel
 
 Contributions to this project are [released](https://docs.github.com/en/github/site-policy/github-terms-of-service#6-contributions-under-repository-license) to the public under the project's open source license.
 
-Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms.
+> [!IMPORTANT]
+> This project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms.
 
 ## Submitting a pull request
 
