@@ -5,3 +5,7 @@
 ## 2026-04-02 - Use semantic alert blocks for critical documentation disclaimers
 **Learning:** Plain-text disclaimers in documentation can be easily overlooked. Converting these to semantic GitHub-native alert blocks (e.g., `> [!IMPORTANT]`) significantly improves visual hierarchy, scannability, and ensures that critical context is immediately apparent to all users, including those using assistive technologies.
 **Action:** Identify plain-text call-to-actions or disclaimers in Markdown files and wrap them in the appropriate semantic alert block to enhance visibility and accessibility.
+
+## 2026-05-05 - Use alert blocks to surface high-value resources
+**Learning:** Using GitHub-native alert blocks (e.g., `> [!TIP]`) to surface high-value resources in documentation significantly improves scannability and ensures helpful links are not lost in standard bulleted lists.
+**Action:** Wrap high-value resource lists or key links in semantic alert blocks to make them stand out to users scanning the documentation.
