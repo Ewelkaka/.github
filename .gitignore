@@ -28,6 +28,8 @@
 
 # OS generated files #
 ######################
+__pycache__/
+*.py[cod]
 .DS_Store
 .DS_Store?
 ._*
