@@ -23,8 +23,10 @@ def _read(path: str) -> str:
 class TestProfileReadmeAltText(unittest.TestCase):
     """Tests for the <img> alt attribute change in profile/README.md."""
 
-    def setUp(self):
-        self.content = _read(PROFILE_README)
+    @classmethod
+    def setUpClass(cls):
+        # Suite-wide impact: Redundant openat calls reduced by reading once per class.
+        cls.content = _read(PROFILE_README)
 
     def test_img_alt_is_not_empty(self):
         """The mascot <img> must not carry an empty alt attribute (alt="")."""
@@ -99,8 +101,10 @@ class TestProfileReadmeAltText(unittest.TestCase):
 class TestPaletteMarkdown(unittest.TestCase):
     """Tests for the new .Jules/palette.md file."""
 
-    def setUp(self):
-        self.content = _read(PALETTE_MD)
+    @classmethod
+    def setUpClass(cls):
+        # Suite-wide impact: Redundant openat calls reduced by reading once per class.
+        cls.content = _read(PALETTE_MD)
 
     def test_file_exists(self):
         """.Jules/palette.md must exist in the repository."""
@@ -179,6 +183,92 @@ class TestPaletteMarkdown(unittest.TestCase):
             "brand",
             self.content.lower(),
             "Expected 'brand' keyword not found in the learning section of .Jules/palette.md.",
+        )
+
+    # --- Tests for the PR change: removal of the 2026-05-27 entry ---
+
+    def test_removed_entry_date_not_present(self):
+        """The 2026-05-27 entry must have been removed from .Jules/palette.md."""
+        self.assertNotIn(
+            "2026-05-27",
+            self.content,
+            "The 2026-05-27 palette entry should have been removed but was found.",
+        )
+
+    def test_no_warning_alert_block_in_palette(self):
+        """The removed entry's [!WARNING] alert block must not appear in palette.md."""
+        self.assertNotIn(
+            "[!WARNING]",
+            self.content,
+            "Found '[!WARNING]' in .Jules/palette.md; the entry containing it should have been removed.",
+        )
+
+    def test_no_mailto_link_in_palette(self):
+        """The removed entry's mailto: reference must not appear in palette.md."""
+        self.assertNotIn(
+            "mailto:",
+            self.content,
+            "Found 'mailto:' in .Jules/palette.md; the entry containing it should have been removed.",
+        )
+
+    def test_exactly_two_second_level_headings(self):
+        """palette.md must have exactly two ## date headings after the removal."""
+        import re
+        headings = re.findall(r"^## \d{4}-\d{2}-\d{2}", self.content, re.MULTILINE)
+        self.assertEqual(
+            len(headings),
+            2,
+            f"Expected exactly 2 date headings in .Jules/palette.md, found {len(headings)}: {headings}",
+        )
+
+    def test_second_entry_date_still_present(self):
+        """The 2026-04-02 entry must still be present after the 2026-05-27 entry was removed."""
+        self.assertIn(
+            "2026-04-02",
+            self.content,
+            "Expected date '2026-04-02' not found; it should remain after removing the 2026-05-27 entry.",
+        )
+
+    # --- Tests for the PR change: setUp -> setUpClass refactor ---
+
+    def test_content_is_class_level_attribute(self):
+        """After the setUpClass refactor, content must be a class-level attribute."""
+        self.assertIn(
+            "content",
+            TestPaletteMarkdown.__dict__,
+            "'content' must be set on the class dict (not just instance) after setUpClass refactor.",
+        )
+
+    def test_content_accessible_via_instance(self):
+        """Class-level content must still be accessible via self in test methods."""
+        # If setUpClass set cls.content, self.content must resolve to the same object.
+        self.assertIs(
+            self.content,
+            TestPaletteMarkdown.__dict__["content"],
+            "self.content must resolve to the same object as the class attribute set by setUpClass.",
+        )
+
+
+class TestProfileReadmeSetupClassBehavior(unittest.TestCase):
+    """Verify the setUp -> setUpClass refactor in TestProfileReadmeAltText."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.content = _read(PROFILE_README)
+
+    def test_content_is_class_level_attribute(self):
+        """After the setUpClass refactor, content must be stored on the class, not per-instance."""
+        self.assertIn(
+            "content",
+            TestProfileReadmeAltText.__dict__,
+            "'content' must be a class-level attribute on TestProfileReadmeAltText after refactor.",
+        )
+
+    def test_content_accessible_via_self(self):
+        """Class-level attribute must be reachable via self in any test method."""
+        self.assertIs(
+            self.content,
+            TestProfileReadmeSetupClassBehavior.__dict__["content"],
         )
 
 
