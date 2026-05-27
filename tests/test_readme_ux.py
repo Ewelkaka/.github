@@ -23,5 +23,32 @@ class TestReadmeUX(unittest.TestCase):
     def test_copyright_year(self):
         self.assertIn("&copy; 2026 GitHub", self.content)
 
+    # --- Tests for the PR change: setUp -> setUpClass refactor ---
+
+    def test_content_is_class_level_attribute(self):
+        """After the setUpClass refactor, content must be stored on the class dict."""
+        self.assertIn(
+            "content",
+            TestReadmeUX.__dict__,
+            "'content' should be a class-level attribute set by setUpClass, not just an instance attribute.",
+        )
+
+    def test_content_accessible_via_instance(self):
+        """Class-level content must be accessible via self in test methods."""
+        self.assertIs(
+            self.content,
+            TestReadmeUX.__dict__["content"],
+            "self.content must resolve to the class attribute set by setUpClass.",
+        )
+
+    def test_content_is_string(self):
+        """The content attribute must be a non-empty string (regression for setUpClass refactor)."""
+        self.assertIsInstance(self.content, str)
+        self.assertGreater(
+            len(self.content),
+            0,
+            "cls.content must not be empty after setUpClass reads README.md.",
+        )
+
 if __name__ == "__main__":
     unittest.main()
