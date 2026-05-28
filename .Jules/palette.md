@@ -9,3 +9,7 @@
 ## 2026-05-27 - Enhance critical security instructions with alert blocks and mailto links
 **Learning:** Security reporting instructions are high-priority but can be overlooked in plain Markdown. Using a `> [!WARNING]` alert block improves visual hierarchy and urgency. Furthermore, providing a direct `mailto:` link for security email addresses reduces friction for reporters, making the process more accessible and intuitive.
 **Action:** In `SECURITY.md` or similar sensitive files, wrap critical reporting instructions in a prominent alert block and ensure email addresses are interactive via `mailto:` links.
+
+## 2026-05-28 - Use tip alert blocks for high-value resource links
+**Learning:** In documentation, resource lists or "next steps" can blend into the background when presented as standard bulleted lists. Wrapping these in a `> [!TIP]` alert block with a clear call-to-action improves scannability and guides the user toward high-value links, making the contribution process feel more guided and accessible.
+**Action:** Identify lists of high-value external resources or guidance in documentation and consider wrapping them in a `> [!TIP]` alert block to enhance their prominence and scannability.
