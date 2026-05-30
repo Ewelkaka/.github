@@ -9,3 +9,7 @@
 ## 2026-05-27 - Enhance critical security instructions with alert blocks and mailto links
 **Learning:** Security reporting instructions are high-priority but can be overlooked in plain Markdown. Using a `> [!WARNING]` alert block improves visual hierarchy and urgency. Furthermore, providing a direct `mailto:` link for security email addresses reduces friction for reporters, making the process more accessible and intuitive.
 **Action:** In `SECURITY.md` or similar sensitive files, wrap critical reporting instructions in a prominent alert block and ensure email addresses are interactive via `mailto:` links.
+
+## 2026-06-12 - Use semantic alert blocks to highlight high-value documentation links
+**Learning:** High-value external resources and community forum links can easily blend into standard lists or paragraphs. Wrapping these in semantic alert blocks (e.g., `> [!TIP]` for resources, `> [!NOTE]` for community links) provides a distinct visual hierarchy that guides the user toward helpful next steps and improves scannability.
+**Action:** Identify critical external links or "Resources" sections in documentation and apply appropriate GitHub-native alert blocks to elevate their visibility.
