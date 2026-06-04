@@ -9,3 +9,7 @@
 ## 2026-05-27 - Enhance critical security instructions with alert blocks and mailto links
 **Learning:** Security reporting instructions are high-priority but can be overlooked in plain Markdown. Using a `> [!WARNING]` alert block improves visual hierarchy and urgency. Furthermore, providing a direct `mailto:` link for security email addresses reduces friction for reporters, making the process more accessible and intuitive.
 **Action:** In `SECURITY.md` or similar sensitive files, wrap critical reporting instructions in a prominent alert block and ensure email addresses are interactive via `mailto:` links.
+
+## 2026-06-15 - Improve visibility of reporting instructions with semantic alert blocks
+**Learning:** High-priority instructions, such as how to report Code of Conduct violations, can be lost in long documents. Wrapping these instructions in a > [!IMPORTANT] alert block provides a clear visual signal and better scannability, ensuring users can quickly find critical safety information.
+**Action:** Use prominent alert blocks for key procedural instructions in documentation to enhance visibility and user safety.
