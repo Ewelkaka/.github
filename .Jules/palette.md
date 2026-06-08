@@ -9,3 +9,7 @@
 ## 2026-05-27 - Enhance critical security instructions with alert blocks and mailto links
 **Learning:** Security reporting instructions are high-priority but can be overlooked in plain Markdown. Using a `> [!WARNING]` alert block improves visual hierarchy and urgency. Furthermore, providing a direct `mailto:` link for security email addresses reduces friction for reporters, making the process more accessible and intuitive.
 **Action:** In `SECURITY.md` or similar sensitive files, wrap critical reporting instructions in a prominent alert block and ensure email addresses are interactive via `mailto:` links.
+
+## 2026-05-28 - Use un-wrapped lines within GitHub alert blocks to prevent rendering artifacts
+**Learning:** GitHub-native alert blocks (e.g., `> [!IMPORTANT]`) can misrender if the content contains hard-wrapped lines preceded by blockquote markers (`>`). This can lead to the markers appearing in the rendered text. Using single, long lines for paragraphs within the block ensures a clean, professional appearance.
+**Action:** When implementing or modifying GitHub-native alert blocks in Markdown, ensure that each paragraph is a single line to avoid rendering issues across different platforms.
