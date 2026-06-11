@@ -1,0 +1,3 @@
+## 2025-01-24 - Reducing redundant file I/O in Python test suites
+**Learning:** Using `setUp` in `unittest.TestCase` causes the setup logic (like reading a file) to run before EVERY test method. For static files, this results in O(N) `openat` calls where N is the number of test methods, which is inefficient for large test suites.
+**Action:** Use `@classmethod setUpClass` to perform expensive, one-time setup (like reading static documentation files) and store the result in a class attribute. This reduces file I/O to O(1) per test class and significantly decreases the number of `openat` system calls.
