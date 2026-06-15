@@ -9,3 +9,7 @@
 ## 2026-05-27 - Enhance critical security instructions with alert blocks and mailto links
 **Learning:** Security reporting instructions are high-priority but can be overlooked in plain Markdown. Using a `> [!WARNING]` alert block improves visual hierarchy and urgency. Furthermore, providing a direct `mailto:` link for security email addresses reduces friction for reporters, making the process more accessible and intuitive.
 **Action:** In `SECURITY.md` or similar sensitive files, wrap critical reporting instructions in a prominent alert block and ensure email addresses are interactive via `mailto:` links.
+
+## 2026-05-27 - Enhance Code of Conduct visibility and reporting accessibility
+**Learning:** Localizing critical document links (like the Code of Conduct) and utilizing semantic alert blocks for reporting instructions reduces user friction and improves the accessibility of safety-critical information. Standardizing on mailto: links for email-based reporting further streamlines the UX for victims and witnesses.
+**Action:** In all repositories, ensure high-priority safety links are localized and reporting instructions are surfaced using appropriate GitHub-native alert blocks.
