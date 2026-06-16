@@ -1,0 +1,3 @@
+## 2026-04-03 - Optimize test suite performance by reducing redundant I/O
+**Learning:** Python test suites using the `unittest` framework can incur significant overhead if file I/O is performed in `setUp` instead of `setUpClass`. In this repository, multiple tests were reading the same files (README.md, palette.md) repeatedly. Additionally, pre-compiling regular expressions at the module level avoids redundant compilation during test execution.
+**Action:** When writing or refactoring tests that perform static file I/O or use complex regular expressions, move I/O to `setUpClass` and pre-compile regexes to minimize execution time and resource usage.
