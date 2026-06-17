@@ -23,8 +23,11 @@ def _read(path: str) -> str:
 class TestProfileReadmeAltText(unittest.TestCase):
     """Tests for the <img> alt attribute change in profile/README.md."""
 
-    def setUp(self):
-        self.content = _read(PROFILE_README)
+    @classmethod
+    def setUpClass(cls):
+        # Optimization: Read file once per class instead of once per test method.
+        # Baseline: 6 openat calls -> Optimized: 1 openat call
+        cls.content = _read(PROFILE_README)
 
     def test_img_alt_is_not_empty(self):
         """The mascot <img> must not carry an empty alt attribute (alt="")."""
@@ -99,8 +102,11 @@ class TestProfileReadmeAltText(unittest.TestCase):
 class TestPaletteMarkdown(unittest.TestCase):
     """Tests for the new .Jules/palette.md file."""
 
-    def setUp(self):
-        self.content = _read(PALETTE_MD)
+    @classmethod
+    def setUpClass(cls):
+        # Optimization: Read file once per class instead of once per test method.
+        # Baseline: 10 openat calls -> Optimized: 1 openat call
+        cls.content = _read(PALETTE_MD)
 
     def test_file_exists(self):
         """.Jules/palette.md must exist in the repository."""
