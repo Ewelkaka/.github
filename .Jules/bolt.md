@@ -1,0 +1,3 @@
+## 2026-04-03 - Redundant I/O and Regex Compilation in Test Suites
+**Learning:** In Python `unittest` suites, using `setUp` for file I/O or regular expression compilation results in redundant operations for every test method. This scales poorly as the number of tests grows. Transitioning to `@classmethod setUpClass` for static file reads and module-level pre-compiled regex patterns can significantly reduce the overhead of the test suite.
+**Action:** Always prefer `@classmethod setUpClass` for reading static assets required by multiple tests in a class. Pre-compile regular expressions used in loops or multiple test methods to avoid repeated parsing and cache lookups in the `re` module.
