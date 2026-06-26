@@ -1,0 +1,3 @@
+## 2026-04-03 - Optimize test suite I/O and regex compilation in content-driven repos
+**Learning:** In repositories primarily consisting of Markdown files, test suites often repeatedly read the same files and compile the same regular expressions for every test method. Transitioning to `setUpClass` for file I/O and module-level pre-compiled regex constants significantly reduces redundant system calls and CPU cycles, providing a measurable performance boost as the test suite grows.
+**Action:** When working with Python test suites that perform intensive file analysis or pattern matching, prioritize class-level setup (`setUpClass`) for static file I/O and move repeated regex patterns to module-level pre-compiled constants.
