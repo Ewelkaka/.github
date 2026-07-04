@@ -181,6 +181,17 @@ class TestPaletteMarkdown(unittest.TestCase):
             "Expected 'brand' keyword not found in the learning section of .Jules/palette.md.",
         )
 
+class TestCocAccessibility(unittest.TestCase):
+    def setUp(self):
+        with open(os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md"), "r", encoding="utf-8") as f:
+            self.content = f.read()
+
+    def test_alert_block_present(self):
+        self.assertIn("> [!IMPORTANT]", self.content)
+        self.assertIn("opensource-security@github.com", self.content)
+
+    def test_mailto_link(self):
+        self.assertIn("[opensource-security@github.com](mailto:opensource-security@github.com)", self.content)
 
 if __name__ == "__main__":
     unittest.main()
