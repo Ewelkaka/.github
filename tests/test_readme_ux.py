@@ -21,5 +21,18 @@ class TestReadmeUX(unittest.TestCase):
     def test_copyright_year(self):
         self.assertIn("&copy; 2026 GitHub", self.content)
 
+    def test_localized_links(self):
+        self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", self.content)
+        self.assertIn("[MIT License](LICENSE)", self.content)
+
+class TestSupportUX(unittest.TestCase):
+    def setUp(self):
+        with open(os.path.join(REPO_ROOT, "SUPPORT.md"), "r", encoding="utf-8") as f:
+            self.content = f.read()
+
+    def test_typo_fix(self):
+        self.assertIn("feature request", self.content)
+        self.assertNotIn("feaure request", self.content)
+
 if __name__ == "__main__":
     unittest.main()
