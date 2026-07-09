@@ -17,9 +17,20 @@ class TestReadmeUX(unittest.TestCase):
         self.assertIn("[skills.github.com](https://skills.github.com)", self.content)
         self.assertIn("[organization profile](profile/README.md)", self.content)
         self.assertIn("[GitHub Skills content model](https://skills.github.com/content-model)", self.content)
+        self.assertIn("[Code of Conduct](./CODE_OF_CONDUCT.md)", self.content)
 
     def test_copyright_year(self):
         self.assertIn("&copy; 2026 GitHub", self.content)
+
+class TestCodeOfConductUX(unittest.TestCase):
+    def setUp(self):
+        coc_path = os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md")
+        with open(coc_path, "r", encoding="utf-8") as f:
+            self.content = f.read()
+
+    def test_contact_method_alert(self):
+        self.assertIn("> [!IMPORTANT]", self.content)
+        self.assertIn("[opensource-security@github.com](mailto:opensource-security@github.com)", self.content)
 
 if __name__ == "__main__":
     unittest.main()
