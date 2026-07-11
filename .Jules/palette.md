@@ -9,3 +9,7 @@
 ## 2026-05-27 - Enhance critical security instructions with alert blocks and mailto links
 **Learning:** Security reporting instructions are high-priority but can be overlooked in plain Markdown. Using a `> [!WARNING]` alert block improves visual hierarchy and urgency. Furthermore, providing a direct `mailto:` link for security email addresses reduces friction for reporters, making the process more accessible and intuitive.
 **Action:** In `SECURITY.md` or similar sensitive files, wrap critical reporting instructions in a prominent alert block and ensure email addresses are interactive via `mailto:` links.
+
+## 2026-07-11 - Localize documentation links to maintain context
+**Learning:** Linking to external versions of standard documents (like the Code of Conduct) can inadvertently lead users away from the repository and may point to versions that don't match the project's specific policies. Localizing these links to point to files within the repository improves user retention, ensures policy consistency, and maintains the user's focus on the project's own context.
+**Action:** Replace external URLs for project-specific documents (e.g., Code of Conduct, Contributing Guidelines) with relative links to their local counterparts within the repository.
