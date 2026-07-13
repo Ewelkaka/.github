@@ -13,6 +13,8 @@ import unittest
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROFILE_README = os.path.join(REPO_ROOT, "profile", "README.md")
 PALETTE_MD = os.path.join(REPO_ROOT, ".Jules", "palette.md")
+COC_MD = os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md")
+CONTRIBUTING_MD = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 
 
 def _read(path: str) -> str:
@@ -180,6 +182,39 @@ class TestPaletteMarkdown(unittest.TestCase):
             self.content.lower(),
             "Expected 'brand' keyword not found in the learning section of .Jules/palette.md.",
         )
+
+
+class TestCodeOfConductAccessibility(unittest.TestCase):
+    """Tests for Code of Conduct accessibility improvements."""
+
+    def setUp(self):
+        self.content = _read(COC_MD)
+
+    def test_coc_has_mailto_link(self):
+        """The Code of Conduct must contain the interactive security mailto link."""
+        self.assertIn(
+            "[opensource-security@github.com](mailto:opensource-security@github.com)",
+            self.content,
+        )
+
+    def test_coc_has_important_alert(self):
+        """The reporting method must be highlighted with an [!IMPORTANT] alert."""
+        self.assertIn("> [!IMPORTANT]", self.content)
+
+    def test_coc_placeholder_removed(self):
+        """The placeholder [INSERT CONTACT METHOD] must be removed."""
+        self.assertNotIn("[INSERT CONTACT METHOD]", self.content)
+
+
+class TestContributingDiscoverability(unittest.TestCase):
+    """Tests for CONTRIBUTING.md UX improvements."""
+
+    def setUp(self):
+        self.content = _read(CONTRIBUTING_MD)
+
+    def test_contributing_links_to_coc(self):
+        """CONTRIBUTING.md should link to the local CODE_OF_CONDUCT.md."""
+        self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", self.content)
 
 
 if __name__ == "__main__":
