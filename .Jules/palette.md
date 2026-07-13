@@ -9,3 +9,7 @@
 ## 2026-05-27 - Enhance critical security instructions with alert blocks and mailto links
 **Learning:** Security reporting instructions are high-priority but can be overlooked in plain Markdown. Using a `> [!WARNING]` alert block improves visual hierarchy and urgency. Furthermore, providing a direct `mailto:` link for security email addresses reduces friction for reporters, making the process more accessible and intuitive.
 **Action:** In `SECURITY.md` or similar sensitive files, wrap critical reporting instructions in a prominent alert block and ensure email addresses are interactive via `mailto:` links.
+
+## 2026-07-13 - Localize documentation links and use alert blocks for policy enforcement
+**Learning:** Localizing documentation links (e.g., pointing to a project's own `CODE_OF_CONDUCT.md` instead of an external URL) keeps users within the project context and improves trust. Combining this with high-visibility `> [!IMPORTANT]` alert blocks for reporting instructions ensures that critical community standards are both discoverable and accessible.
+**Action:** Always prefer local links for standard project documentation and use semantic alert blocks to highlight essential contact methods or policy enforcement details.
