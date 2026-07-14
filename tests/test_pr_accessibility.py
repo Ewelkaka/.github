@@ -4,6 +4,8 @@ Tests for PR: Improve accessibility with descriptive alt text for mascot SVG
 Covers:
   - profile/README.md: <img> tag has a non-empty, descriptive alt attribute
   - .Jules/palette.md: file exists and contains the expected learning/action content
+  - CODE_OF_CONDUCT.md: contact email is present and highlighted with an alert block
+  - README.md: Code of Conduct links to the local file
 """
 
 import os
@@ -11,7 +13,9 @@ import re
 import unittest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+README = os.path.join(REPO_ROOT, "README.md")
 PROFILE_README = os.path.join(REPO_ROOT, "profile", "README.md")
+CODE_OF_CONDUCT = os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md")
 PALETTE_MD = os.path.join(REPO_ROOT, ".Jules", "palette.md")
 
 
@@ -179,6 +183,37 @@ class TestPaletteMarkdown(unittest.TestCase):
             "brand",
             self.content.lower(),
             "Expected 'brand' keyword not found in the learning section of .Jules/palette.md.",
+        )
+
+
+class TestCodeOfConductAccessibility(unittest.TestCase):
+    """Tests for CoC contact accessibility and README link localization."""
+
+    def test_coc_contains_email_link(self):
+        """CODE_OF_CONDUCT.md must contain the reporting email as a mailto link."""
+        content = _read(CODE_OF_CONDUCT)
+        self.assertIn(
+            "[opensource-security@github.com](mailto:opensource-security@github.com)",
+            content,
+            "Reporting email mailto link not found in CODE_OF_CONDUCT.md.",
+        )
+
+    def test_coc_uses_important_alert(self):
+        """CODE_OF_CONDUCT.md must use an [!IMPORTANT] alert for the contact method."""
+        content = _read(CODE_OF_CONDUCT)
+        self.assertIn(
+            "> [!IMPORTANT]",
+            content,
+            "Expected [!IMPORTANT] alert block not found in CODE_OF_CONDUCT.md.",
+        )
+
+    def test_readme_links_to_local_coc(self):
+        """README.md must link to the local CODE_OF_CONDUCT.md file."""
+        content = _read(README)
+        self.assertIn(
+            "[Code of Conduct](CODE_OF_CONDUCT.md)",
+            content,
+            "README.md does not link to the local CODE_OF_CONDUCT.md file.",
         )
 
 
