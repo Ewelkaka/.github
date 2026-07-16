@@ -13,9 +13,6 @@ import unittest
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROFILE_README = os.path.join(REPO_ROOT, "profile", "README.md")
 PALETTE_MD = os.path.join(REPO_ROOT, ".Jules", "palette.md")
-COC_MD = os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md")
-CONTRIBUTING_MD = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
-README_MD = os.path.join(REPO_ROOT, "README.md")
 
 
 def _read(path: str) -> str:
@@ -26,11 +23,8 @@ def _read(path: str) -> str:
 class TestProfileReadmeAltText(unittest.TestCase):
     """Tests for the <img> alt attribute change in profile/README.md."""
 
-    @classmethod
-    def setUpClass(cls):
-        # Optimization: Read file once per class instead of once per test method.
-        # Reduces openat() system calls from O(N_tests) to O(1).
-        cls.content = _read(PROFILE_README)
+    def setUp(self):
+        self.content = _read(PROFILE_README)
 
     def test_img_alt_is_not_empty(self):
         """The mascot <img> must not carry an empty alt attribute (alt="")."""
@@ -105,11 +99,8 @@ class TestProfileReadmeAltText(unittest.TestCase):
 class TestPaletteMarkdown(unittest.TestCase):
     """Tests for the new .Jules/palette.md file."""
 
-    @classmethod
-    def setUpClass(cls):
-        # Optimization: Read file once per class instead of once per test method.
-        # Reduces openat() system calls from O(N_tests) to O(1).
-        cls.content = _read(PALETTE_MD)
+    def setUp(self):
+        self.content = _read(PALETTE_MD)
 
     def test_file_exists(self):
         """.Jules/palette.md must exist in the repository."""
@@ -190,45 +181,78 @@ class TestPaletteMarkdown(unittest.TestCase):
             "Expected 'brand' keyword not found in the learning section of .Jules/palette.md.",
         )
 
+class TestCocAccessibility(unittest.TestCase):
+    def setUp(self):
+        with open(os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md"), "r", encoding="utf-8") as f:
+            self.content = f.read()
 
-class TestCodeOfConductUX(unittest.TestCase):
-    """Tests for Code of Conduct contact standardization and visibility."""
+    def test_alert_block_present(self):
+        self.assertIn("> [!IMPORTANT]", self.content)
+        self.assertIn("opensource-security@github.com", self.content)
 
-    def test_coc_contains_correct_email(self):
-        """CODE_OF_CONDUCT.md should contain the official reporting email."""
-        content = _read(COC_MD)
+    def test_mailto_link(self):
+        self.assertIn("[opensource-security@github.com](mailto:opensource-security@github.com)", self.content)
+
+    def test_placeholder_contact_method_removed(self):
+        """The old unresolved '[INSERT CONTACT METHOD]' placeholder must be gone."""
+        self.assertNotIn(
+            "[INSERT CONTACT METHOD]",
+            self.content,
+            "Found leftover '[INSERT CONTACT METHOD]' placeholder in CODE_OF_CONDUCT.md.",
+        )
+
+    def test_complaints_review_statement_preserved(self):
+        """The original assurance about complaint review must be preserved inside the alert block."""
         self.assertIn(
-            "[opensource-security@github.com](mailto:opensource-security@github.com)",
-            content,
-            "Official reporting email not found in CODE_OF_CONDUCT.md.",
+            "All complaints will be reviewed and investigated promptly and fairly.",
+            self.content,
         )
 
-    def test_coc_contains_alert_block(self):
-        """The reporting email in CODE_OF_CONDUCT.md should be in an alert block."""
-        content = _read(COC_MD)
-        self.assertRegex(
-            content,
-            r"> \[!IMPORTANT\]\s*\n>\s*\[opensource-security@github.com\]",
-            "Reporting email should be wrapped in a > [!IMPORTANT] alert block in CODE_OF_CONDUCT.md.",
-        )
+    def test_alert_block_is_important_not_warning(self):
+        """This alert must use the IMPORTANT semantic level (not WARNING)."""
+        self.assertNotIn("[!WARNING]", self.content)
 
-    def test_readme_localized_coc_link(self):
-        """README.md should have a localized link to CODE_OF_CONDUCT.md."""
-        content = _read(README_MD)
+    def test_enforcement_heading_still_present(self):
+        """The surrounding '## Enforcement' section heading must remain intact."""
+        self.assertIn("## Enforcement", self.content)
+
+
+class TestPaletteLocalizedLinksEntry(unittest.TestCase):
+    """Tests for the new 2026-06-15 palette.md entry about localizing documentation links."""
+
+    def setUp(self):
+        with open(os.path.join(REPO_ROOT, ".Jules", "palette.md"), "r", encoding="utf-8") as f:
+            self.content = f.read()
+
+    def test_contains_date_heading(self):
         self.assertIn(
-            "[Code of Conduct](CODE_OF_CONDUCT.md)",
-            content,
-            "Localized Code of Conduct link not found in README.md footer.",
+            "## 2026-06-15 - Localize documentation links to maintain repository context",
+            self.content,
         )
 
-    def test_contributing_localized_coc_link(self):
-        """CONTRIBUTING.md should have a localized link to CODE_OF_CONDUCT.md."""
-        content = _read(CONTRIBUTING_MD)
+    def test_learning_mentions_contributor_covenant(self):
+        self.assertIn("Contributor Covenant", self.content)
+
+    def test_learning_mentions_local_files(self):
+        self.assertIn("`CODE_OF_CONDUCT.md`", self.content)
+        self.assertIn("`LICENSE`", self.content)
+
+    def test_action_mentions_readme_and_contributing(self):
+        self.assertIn("`README.md`", self.content)
+        self.assertIn("`CONTRIBUTING.md`", self.content)
+
+    def test_action_instructs_replacing_external_links(self):
         self.assertIn(
-            "[Contributor Code of Conduct](CODE_OF_CONDUCT.md)",
-            content,
-            "Localized Code of Conduct link not found in CONTRIBUTING.md.",
+            "replace them with internal relative links to local copies",
+            self.content,
         )
+
+    def test_entry_has_learning_and_action_markers(self):
+        # Find the section for this specific entry and ensure both markers exist within it.
+        idx = self.content.index("## 2026-06-15")
+        section = self.content[idx:]
+        self.assertIn("**Learning:**", section)
+        self.assertIn("**Action:**", section)
 
 
 if __name__ == "__main__":
