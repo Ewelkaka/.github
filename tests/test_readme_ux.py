@@ -1,5 +1,6 @@
 import os
 import unittest
+from test_pr_accessibility import _read
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 README_PATH = os.path.join(REPO_ROOT, "README.md")
@@ -31,8 +32,8 @@ class TestReadmeUX(unittest.TestCase):
 class TestSupportUX(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        with open(SUPPORT_PATH, "r", encoding="utf-8") as f:
-            cls.content = f.read()
+        # Optimization: Use the cached _read helper to prevent duplicate file I/O
+        cls.content = _read(SUPPORT_PATH)
 
     def test_alert_blocks_present(self):
         self.assertIn("> [!TIP]", self.content)
