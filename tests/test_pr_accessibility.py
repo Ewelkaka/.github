@@ -13,6 +13,9 @@ import unittest
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROFILE_README = os.path.join(REPO_ROOT, "profile", "README.md")
 PALETTE_MD = os.path.join(REPO_ROOT, ".Jules", "palette.md")
+COC_MD = os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md")
+CONTRIBUTING_MD = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
+README_MD = os.path.join(REPO_ROOT, "README.md")
 
 
 def _read(path: str) -> str:
@@ -185,6 +188,46 @@ class TestPaletteMarkdown(unittest.TestCase):
             "brand",
             self.content.lower(),
             "Expected 'brand' keyword not found in the learning section of .Jules/palette.md.",
+        )
+
+
+class TestCodeOfConductUX(unittest.TestCase):
+    """Tests for Code of Conduct contact standardization and visibility."""
+
+    def test_coc_contains_correct_email(self):
+        """CODE_OF_CONDUCT.md should contain the official reporting email."""
+        content = _read(COC_MD)
+        self.assertIn(
+            "[opensource-security@github.com](mailto:opensource-security@github.com)",
+            content,
+            "Official reporting email not found in CODE_OF_CONDUCT.md.",
+        )
+
+    def test_coc_contains_alert_block(self):
+        """The reporting email in CODE_OF_CONDUCT.md should be in an alert block."""
+        content = _read(COC_MD)
+        self.assertRegex(
+            content,
+            r"> \[!IMPORTANT\]\s*\n>\s*\[opensource-security@github.com\]",
+            "Reporting email should be wrapped in a > [!IMPORTANT] alert block in CODE_OF_CONDUCT.md.",
+        )
+
+    def test_readme_localized_coc_link(self):
+        """README.md should have a localized link to CODE_OF_CONDUCT.md."""
+        content = _read(README_MD)
+        self.assertIn(
+            "[Code of Conduct](CODE_OF_CONDUCT.md)",
+            content,
+            "Localized Code of Conduct link not found in README.md footer.",
+        )
+
+    def test_contributing_localized_coc_link(self):
+        """CONTRIBUTING.md should have a localized link to CODE_OF_CONDUCT.md."""
+        content = _read(CONTRIBUTING_MD)
+        self.assertIn(
+            "[Contributor Code of Conduct](CODE_OF_CONDUCT.md)",
+            content,
+            "Localized Code of Conduct link not found in CONTRIBUTING.md.",
         )
 
 

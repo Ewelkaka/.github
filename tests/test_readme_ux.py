@@ -24,5 +24,8 @@ class TestReadmeUX(unittest.TestCase):
     def test_copyright_year(self):
         self.assertIn("&copy; 2026 GitHub", self.content)
 
+    def test_localized_coc_link(self):
+        self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", self.content)
+
 if __name__ == "__main__":
     unittest.main()
