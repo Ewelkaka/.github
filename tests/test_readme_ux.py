@@ -3,6 +3,7 @@ import unittest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 README_PATH = os.path.join(REPO_ROOT, "README.md")
+SUPPORT_PATH = os.path.join(REPO_ROOT, "SUPPORT.md")
 
 class TestReadmeUX(unittest.TestCase):
     @classmethod
@@ -26,6 +27,23 @@ class TestReadmeUX(unittest.TestCase):
 
     def test_localized_coc_link(self):
         self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", self.content)
+
+class TestSupportUX(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        with open(SUPPORT_PATH, "r", encoding="utf-8") as f:
+            cls.content = f.read()
+
+    def test_alert_blocks_present(self):
+        self.assertIn("> [!TIP]", self.content)
+        self.assertIn("> [!NOTE]", self.content)
+
+    def test_clean_title(self):
+        # Ensure no trailing space in title
+        self.assertTrue(self.content.startswith("# Support\n"))
+
+    def test_community_forum_link(self):
+        self.assertIn("[ask on our community forum](https://github.com/skills/.github/discussions)", self.content)
 
 if __name__ == "__main__":
     unittest.main()
