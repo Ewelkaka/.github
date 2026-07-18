@@ -230,6 +230,15 @@ class TestCodeOfConductUX(unittest.TestCase):
             "Localized Code of Conduct link not found in CONTRIBUTING.md.",
         )
 
+    def test_contributing_has_alert_block(self):
+        """The Code of Conduct disclaimer in CONTRIBUTING.md should be highlighted in an alert block."""
+        content = _read(CONTRIBUTING_MD)
+        self.assertRegex(
+            content,
+            r"> \[!IMPORTANT\]\s*\n>\s*Please note that this project is released with a \[Contributor Code of Conduct\]\(CODE_OF_CONDUCT\.md\)\.",
+            "The Code of Conduct warning in CONTRIBUTING.md should be wrapped in a > [!IMPORTANT] alert block.",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

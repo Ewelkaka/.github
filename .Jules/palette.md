@@ -13,3 +13,7 @@
 ## 2026-06-15 - Improve support documentation scannability with semantic alert blocks
 **Learning:** Support documentation often contains multiple call-to-actions, such as community forums and maintenance statements. Wrapping these in semantic alert blocks (e.g., `> [!TIP]` for helpful links and `> [!NOTE]` for project status) improves scannability and ensures users can quickly find the help they need.
 **Action:** Use appropriate semantic alert blocks to distinguish between different types of support resources and project information in `SUPPORT.md`.
+
+## 2026-07-20 - Highlight regulatory and compliance notices in contribution guidelines
+**Learning:** Contributor guidelines must clearly surface important administrative requirements, such as adherence to the Code of Conduct. Using a prominent `> [!IMPORTANT]` alert block instead of plain body text significantly improves user awareness and ensures compliance boundaries are highly scannable before any contributions are initiated.
+**Action:** Identify critical policy or compliance statements in contribution guides and wrap them in standard alert blocks to guarantee visibility.
