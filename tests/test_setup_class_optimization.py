@@ -39,6 +39,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
         pr_accessibility_module.TestProfileReadmeAltText,
         pr_accessibility_module.TestPaletteMarkdown,
         readme_ux_module.TestReadmeUX,
+        pr_accessibility_module.TestCodeOfConductUX,
     ]
 
     def test_classes_do_not_define_instance_setUp(self):
@@ -114,6 +115,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
             pr_accessibility_module.TestProfileReadmeAltText: pr_accessibility_module.PROFILE_README,
             pr_accessibility_module.TestPaletteMarkdown: pr_accessibility_module.PALETTE_MD,
             readme_ux_module.TestReadmeUX: readme_ux_module.README_PATH,
+            pr_accessibility_module.TestCodeOfConductUX: pr_accessibility_module.COC_MD,
         }
         for cls, path in path_by_class.items():
             with self.subTest(cls=cls.__name__):
@@ -121,6 +123,20 @@ class TestSetUpClassOptimization(unittest.TestCase):
                 with open(path, encoding="utf-8") as fh:
                     expected = fh.read()
                 self.assertEqual(cls.content, expected)
+
+    def test_additional_cached_contents_for_coc_ux(self):
+        """TestCodeOfConductUX caches extra files; they must match direct reads too."""
+        cls = pr_accessibility_module.TestCodeOfConductUX
+        cls.setUpClass()
+        for attr, path in [
+            ("readme_content", pr_accessibility_module.README_MD),
+            ("contributing_content", pr_accessibility_module.CONTRIBUTING_MD),
+        ]:
+            with self.subTest(attr=attr):
+                self.assertTrue(hasattr(cls, attr))
+                with open(path, encoding="utf-8") as fh:
+                    expected = fh.read()
+                self.assertEqual(getattr(cls, attr), expected)
 
 
 class TestRefactoredSuitesStillPass(unittest.TestCase):
