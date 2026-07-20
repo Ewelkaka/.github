@@ -194,39 +194,43 @@ class TestPaletteMarkdown(unittest.TestCase):
 class TestCodeOfConductUX(unittest.TestCase):
     """Tests for Code of Conduct contact standardization and visibility."""
 
+    @classmethod
+    def setUpClass(cls):
+        # Optimization: Read static Markdown files once per class instead of once per test method.
+        # Reduces openat() system calls from O(N_tests) to O(1) for test_pr_accessibility suite.
+        cls.coc_content = _read(COC_MD)
+        cls.readme_content = _read(README_MD)
+        cls.contributing_content = _read(CONTRIBUTING_MD)
+
     def test_coc_contains_correct_email(self):
         """CODE_OF_CONDUCT.md should contain the official reporting email."""
-        content = _read(COC_MD)
         self.assertIn(
             "[opensource-security@github.com](mailto:opensource-security@github.com)",
-            content,
+            self.coc_content,
             "Official reporting email not found in CODE_OF_CONDUCT.md.",
         )
 
     def test_coc_contains_alert_block(self):
         """The reporting email in CODE_OF_CONDUCT.md should be in an alert block."""
-        content = _read(COC_MD)
         self.assertRegex(
-            content,
+            self.coc_content,
             r"> \[!IMPORTANT\]\s*\n>\s*\[opensource-security@github.com\]",
             "Reporting email should be wrapped in a > [!IMPORTANT] alert block in CODE_OF_CONDUCT.md.",
         )
 
     def test_readme_localized_coc_link(self):
         """README.md should have a localized link to CODE_OF_CONDUCT.md."""
-        content = _read(README_MD)
         self.assertIn(
             "[Code of Conduct](CODE_OF_CONDUCT.md)",
-            content,
+            self.readme_content,
             "Localized Code of Conduct link not found in README.md footer.",
         )
 
     def test_contributing_localized_coc_link(self):
         """CONTRIBUTING.md should have a localized link to CODE_OF_CONDUCT.md."""
-        content = _read(CONTRIBUTING_MD)
         self.assertIn(
             "[Contributor Code of Conduct](CODE_OF_CONDUCT.md)",
-            content,
+            self.contributing_content,
             "Localized Code of Conduct link not found in CONTRIBUTING.md.",
         )
 
