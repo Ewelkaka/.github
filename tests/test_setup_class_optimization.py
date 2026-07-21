@@ -1,6 +1,6 @@
 """
 Tests for the setUp() -> setUpClass() refactor applied to:
-  - tests/test_pr_accessibility.py (TestProfileReadmeAltText, TestPaletteMarkdown)
+  - tests/test_pr_accessibility.py (TestProfileReadmeAltText, TestPaletteMarkdown, TestCodeOfConductUX)
   - tests/test_readme_ux.py (TestReadmeUX)
 
 This refactor (see .jules/bolt.md) reads static test-data files once per
@@ -38,6 +38,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
     CLASSES_UNDER_TEST = [
         pr_accessibility_module.TestProfileReadmeAltText,
         pr_accessibility_module.TestPaletteMarkdown,
+        pr_accessibility_module.TestCodeOfConductUX,
         readme_ux_module.TestReadmeUX,
     ]
 
@@ -113,6 +114,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
         path_by_class = {
             pr_accessibility_module.TestProfileReadmeAltText: pr_accessibility_module.PROFILE_README,
             pr_accessibility_module.TestPaletteMarkdown: pr_accessibility_module.PALETTE_MD,
+            pr_accessibility_module.TestCodeOfConductUX: pr_accessibility_module.COC_MD,
             readme_ux_module.TestReadmeUX: readme_ux_module.README_PATH,
         }
         for cls, path in path_by_class.items():
