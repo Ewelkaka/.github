@@ -38,7 +38,9 @@ class TestSetUpClassOptimization(unittest.TestCase):
     CLASSES_UNDER_TEST = [
         pr_accessibility_module.TestProfileReadmeAltText,
         pr_accessibility_module.TestPaletteMarkdown,
+        pr_accessibility_module.TestCodeOfConductUX,
         readme_ux_module.TestReadmeUX,
+        readme_ux_module.TestSupportUX,
     ]
 
     def test_classes_do_not_define_instance_setUp(self):
@@ -113,7 +115,9 @@ class TestSetUpClassOptimization(unittest.TestCase):
         path_by_class = {
             pr_accessibility_module.TestProfileReadmeAltText: pr_accessibility_module.PROFILE_README,
             pr_accessibility_module.TestPaletteMarkdown: pr_accessibility_module.PALETTE_MD,
+            pr_accessibility_module.TestCodeOfConductUX: pr_accessibility_module.COC_MD,
             readme_ux_module.TestReadmeUX: readme_ux_module.README_PATH,
+            readme_ux_module.TestSupportUX: readme_ux_module.SUPPORT_PATH,
         }
         for cls, path in path_by_class.items():
             with self.subTest(cls=cls.__name__):
