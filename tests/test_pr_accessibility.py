@@ -18,9 +18,20 @@ CONTRIBUTING_MD = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 README_MD = os.path.join(REPO_ROOT, "README.md")
 
 
+# Centralized in-memory cache to ensure each static Markdown file
+# is read from disk exactly once during a full test suite execution.
+_FILE_CACHE = {}
+
+def _read_cached(path: str) -> str:
+    """Reads a file from disk and caches its content in memory."""
+    if path not in _FILE_CACHE:
+        with open(path, encoding="utf-8") as fh:
+            _FILE_CACHE[path] = fh.read()
+    return _FILE_CACHE[path]
+
+
 def _read(path: str) -> str:
-    with open(path, encoding="utf-8") as fh:
-        return fh.read()
+    return _read_cached(path)
 
 
 class TestProfileReadmeAltText(unittest.TestCase):

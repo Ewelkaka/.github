@@ -5,13 +5,14 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 README_PATH = os.path.join(REPO_ROOT, "README.md")
 SUPPORT_PATH = os.path.join(REPO_ROOT, "SUPPORT.md")
 
+from test_pr_accessibility import _read_cached
+
 class TestReadmeUX(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        # Optimization: Read file once per class instead of once per test method.
-        # Reduces openat() system calls from O(N_tests) to O(1).
-        with open(README_PATH, "r", encoding="utf-8") as f:
-            cls.content = f.read()
+        # Optimization: Use the centralized in-memory cache _read_cached
+        # to ensure the file is read from disk exactly once across the whole suite.
+        cls.content = _read_cached(README_PATH)
 
     def test_alert_block_present(self):
         self.assertIn("> [!IMPORTANT]", self.content)
@@ -31,8 +32,9 @@ class TestReadmeUX(unittest.TestCase):
 class TestSupportUX(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        with open(SUPPORT_PATH, "r", encoding="utf-8") as f:
-            cls.content = f.read()
+        # Optimization: Use the centralized in-memory cache _read_cached
+        # to ensure the file is read from disk exactly once across the whole suite.
+        cls.content = _read_cached(SUPPORT_PATH)
 
     def test_alert_blocks_present(self):
         self.assertIn("> [!TIP]", self.content)
