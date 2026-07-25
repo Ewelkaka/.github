@@ -239,6 +239,80 @@ class TestCodeOfConductUX(unittest.TestCase):
             "Code of Conduct disclaimer is not wrapped inside a > [!IMPORTANT] alert block in CONTRIBUTING.md.",
         )
 
+    def test_contributing_alert_marker_immediately_precedes_disclaimer(self):
+        """The [!IMPORTANT] marker line must be immediately followed by the
+        blockquoted disclaimer line, with no blank line in between (which
+        would break GitHub's alert-block rendering)."""
+        content = _read(CONTRIBUTING_MD)
+        self.assertRegex(
+            content,
+            r"> \[!IMPORTANT\]\n>\s*Please note that this project is released",
+            "The > [!IMPORTANT] marker is not immediately followed by the "
+            "blockquoted disclaimer text in CONTRIBUTING.md.",
+        )
+
+    def test_contributing_alert_block_lines_are_blockquoted(self):
+        """Both lines of the CONTRIBUTING.md alert block must use the '>' blockquote prefix, as required for GitHub alert syntax."""
+        content = _read(CONTRIBUTING_MD)
+        lines = content.splitlines()
+        marker_index = lines.index("> [!IMPORTANT]")
+        self.assertTrue(
+            lines[marker_index + 1].startswith(">"),
+            "The line following '> [!IMPORTANT]' must also be blockquoted "
+            "with '>' in CONTRIBUTING.md.",
+        )
+
+    def test_contributing_alert_block_surrounded_by_blank_lines(self):
+        """The alert block should be separated from surrounding paragraphs
+        by blank lines, matching standard Markdown block formatting."""
+        content = _read(CONTRIBUTING_MD)
+        lines = content.splitlines()
+        marker_index = lines.index("> [!IMPORTANT]")
+        self.assertEqual(
+            lines[marker_index - 1].strip(),
+            "",
+            "Expected a blank line immediately before the '> [!IMPORTANT]' "
+            "alert block in CONTRIBUTING.md.",
+        )
+        disclaimer_index = marker_index + 1
+        self.assertEqual(
+            lines[disclaimer_index + 1].strip(),
+            "",
+            "Expected a blank line immediately after the alert block's "
+            "disclaimer line in CONTRIBUTING.md.",
+        )
+
+    def test_contributing_disclaimer_not_present_unquoted(self):
+        """Regression guard: the disclaimer must not also appear as a plain,
+        non-blockquoted paragraph elsewhere in CONTRIBUTING.md (i.e. the old
+        unwrapped form should be fully replaced, not duplicated)."""
+        content = _read(CONTRIBUTING_MD)
+        unwrapped_disclaimer = (
+            "\nPlease note that this project is released with a "
+            "[Contributor Code of Conduct](CODE_OF_CONDUCT.md)."
+        )
+        self.assertNotIn(
+            unwrapped_disclaimer,
+            content,
+            "Found the Code of Conduct disclaimer outside of the "
+            "> [!IMPORTANT] alert block in CONTRIBUTING.md; it should only "
+            "appear in its blockquoted form.",
+        )
+
+    def test_contributing_alert_block_contains_coc_link(self):
+        """The blockquoted disclaimer line inside the alert block must still
+        contain the link to CODE_OF_CONDUCT.md."""
+        content = _read(CONTRIBUTING_MD)
+        lines = content.splitlines()
+        marker_index = lines.index("> [!IMPORTANT]")
+        disclaimer_line = lines[marker_index + 1]
+        self.assertIn(
+            "[Contributor Code of Conduct](CODE_OF_CONDUCT.md)",
+            disclaimer_line,
+            "The blockquoted disclaimer line in CONTRIBUTING.md's alert "
+            "block must contain the link to CODE_OF_CONDUCT.md.",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
