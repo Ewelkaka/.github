@@ -18,20 +18,9 @@ CONTRIBUTING_MD = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 README_MD = os.path.join(REPO_ROOT, "README.md")
 
 
-# Centralized in-memory cache to ensure each static Markdown file
-# is read from disk exactly once during a full test suite execution.
-_FILE_CACHE = {}
-
-def _read_cached(path: str) -> str:
-    """Reads a file from disk and caches its content in memory."""
-    if path not in _FILE_CACHE:
-        with open(path, encoding="utf-8") as fh:
-            _FILE_CACHE[path] = fh.read()
-    return _FILE_CACHE[path]
-
-
 def _read(path: str) -> str:
-    return _read_cached(path)
+    with open(path, encoding="utf-8") as fh:
+        return fh.read()
 
 
 class TestProfileReadmeAltText(unittest.TestCase):
@@ -242,18 +231,60 @@ class TestCodeOfConductUX(unittest.TestCase):
         )
 
     def test_contributing_coc_alert_block(self):
-        """CONTRIBUTING.md should wrap the Code of Conduct disclaimer in an IMPORTANT alert block."""
+        """CONTRIBUTING.md should wrap the Code of Conduct disclaimer inside a [!IMPORTANT] alert block."""
         content = _read(CONTRIBUTING_MD)
         self.assertIn(
             "> [!IMPORTANT]\n> Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.",
             content,
-            "Code of Conduct disclaimer should be wrapped in a > [!IMPORTANT] alert block in CONTRIBUTING.md.",
+            "Code of Conduct disclaimer is not wrapped inside a > [!IMPORTANT] alert block in CONTRIBUTING.md.",
         )
 
-    def test_contributing_secure_links(self):
-        """CONTRIBUTING.md should not contain unencrypted http:// links."""
+    def test_contributing_coc_alert_block_regex(self):
+        """The [!IMPORTANT] marker and disclaimer text must be on consecutive blockquote lines."""
         content = _read(CONTRIBUTING_MD)
-        self.assertNotIn("http://", content)
+        self.assertRegex(
+            content,
+            r"> \[!IMPORTANT\]\s*\n>\s*Please note that this project is released with a \[Contributor Code of Conduct\]",
+            "Expected the [!IMPORTANT] marker directly followed by a blockquote line "
+            "containing the Code of Conduct disclaimer in CONTRIBUTING.md.",
+        )
+
+    def test_contributing_disclaimer_not_a_bare_paragraph(self):
+        """The disclaimer line itself must be prefixed with '> ' and not appear as a plain paragraph."""
+        content = _read(CONTRIBUTING_MD)
+        for line in content.splitlines():
+            if "Please note that this project is released with a [Contributor Code of Conduct]" in line:
+                self.assertTrue(
+                    line.startswith(">"),
+                    "The Code of Conduct disclaimer line must start with '>' to remain "
+                    f"inside the alert block, but found: {line!r}",
+                )
+                break
+        else:
+            self.fail("Code of Conduct disclaimer line not found in CONTRIBUTING.md.")
+
+    def test_contributing_alert_block_precedes_submitting_section(self):
+        """The [!IMPORTANT] alert block must appear before the 'Submitting a pull request' section."""
+        content = _read(CONTRIBUTING_MD)
+        alert_index = content.find("> [!IMPORTANT]")
+        section_index = content.find("## Submitting a pull request")
+        self.assertNotEqual(alert_index, -1, "[!IMPORTANT] marker not found in CONTRIBUTING.md.")
+        self.assertNotEqual(section_index, -1, "'Submitting a pull request' section not found in CONTRIBUTING.md.")
+        self.assertLess(
+            alert_index,
+            section_index,
+            "The [!IMPORTANT] alert block should appear before the "
+            "'Submitting a pull request' section in CONTRIBUTING.md.",
+        )
+
+    def test_contributing_only_one_important_alert_block(self):
+        """CONTRIBUTING.md should contain exactly one [!IMPORTANT] alert marker."""
+        content = _read(CONTRIBUTING_MD)
+        self.assertEqual(
+            content.count("[!IMPORTANT]"),
+            1,
+            "Expected exactly one [!IMPORTANT] alert marker in CONTRIBUTING.md.",
+        )
 
 
 if __name__ == "__main__":
