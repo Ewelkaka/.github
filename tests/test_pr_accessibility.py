@@ -250,6 +250,11 @@ class TestCodeOfConductUX(unittest.TestCase):
             "Code of Conduct disclaimer should be wrapped in a > [!IMPORTANT] alert block in CONTRIBUTING.md.",
         )
 
+    def test_contributing_secure_links(self):
+        """CONTRIBUTING.md should not contain unencrypted http:// links."""
+        content = _read(CONTRIBUTING_MD)
+        self.assertNotIn("http://", content)
+
 
 if __name__ == "__main__":
     unittest.main()

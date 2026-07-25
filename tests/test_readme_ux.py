@@ -29,6 +29,9 @@ class TestReadmeUX(unittest.TestCase):
     def test_localized_coc_link(self):
         self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", self.content)
 
+    def test_localized_license_link(self):
+        self.assertIn("[MIT License](LICENSE)", self.content)
+
 class TestSupportUX(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
