@@ -6,8 +6,8 @@
 <!-- Describe the changes this pull request introduces. -->
 
 
-<!-- If there's an existing issue for your change, please link to it below next to "Closes".
-If there's _not_ an existing issue, please open one first to make it more likely that this update will be accepted. -->
+> [!NOTE]
+> If there's an existing issue for your change, please link to it below next to "Closes". If there's _not_ an existing issue, please open one first to make it more likely that this update will be accepted.
 
 Closes:
 
