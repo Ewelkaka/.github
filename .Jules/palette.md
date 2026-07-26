@@ -17,3 +17,7 @@
 ## 2026-07-26 - Localize legal links and secure external pathways for contributors
 **Learning:** Navigation inside documentation should be both safe and context-preserving. Localizing standard repository links (such as the MIT License) keeps users inside the project's ecosystem and ensures offline readiness. Similarly, ensuring external links to guides use HTTPS prevents insecure, unencrypted traffic, protecting users when they leave the repository context.
 **Action:** Always localize standard project links (like LICENSE files) rather than using external redirects, and verify that all external links are upgraded to HTTPS for secure and seamless user navigation.
+
+## 2026-08-05 - Enhance PR guidelines scannability using visible native alert blocks
+**Learning:** Relying on developer comments (`<!-- ... -->`) inside templates (like `PULL_REQUEST_TEMPLATE.md`) to guide contributors hides critical context during preview or rendered states. Replacing these with native, prominent alert blocks (e.g. `> [!NOTE]`) with appropriate spacing and non-hard-wrapped text makes the instructions scannable, visible, and accessible throughout the PR creation process.
+**Action:** Identify hidden instructions or guide comments in templates and promote them to appropriate semantic alert blocks to elevate usability and readability.
