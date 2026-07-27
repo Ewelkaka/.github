@@ -17,3 +17,7 @@
 ## 2026-07-26 - Localize legal links and secure external pathways for contributors
 **Learning:** Navigation inside documentation should be both safe and context-preserving. Localizing standard repository links (such as the MIT License) keeps users inside the project's ecosystem and ensures offline readiness. Similarly, ensuring external links to guides use HTTPS prevents insecure, unencrypted traffic, protecting users when they leave the repository context.
 **Action:** Always localize standard project links (like LICENSE files) rather than using external redirects, and verify that all external links are upgraded to HTTPS for secure and seamless user navigation.
+
+## 2026-07-27 - Elevate hidden developer comments to visible alert blocks in templates
+**Learning:** Guidelines embedded in issue or pull request templates as HTML comments are invisible to users once rendered, meaning crucial instructions are easily missed during composition. Converting developer comments into a visible, semantic GitHub-native `> [!NOTE]` alert block improves visual experience and guarantees immediate scannability of linking guidelines.
+**Action:** Replace hidden HTML developer comments in issue or PR templates with visible, accessible alert blocks to ensure compliance and readability during document drafting.
