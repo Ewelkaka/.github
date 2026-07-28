@@ -41,7 +41,7 @@ class TestProfileReadmeAltText(unittest.TestCase):
     def setUpClass(cls):
         # Optimization: Read file once per class instead of once per test method.
         # Reduces openat() system calls from O(N_tests) to O(1).
-        cls.content = _read(PROFILE_README)
+        cls.content = _read_cached(PROFILE_README)
 
     def test_img_alt_is_not_empty(self):
         """The mascot <img> must not carry an empty alt attribute (alt="")."""
@@ -120,7 +120,7 @@ class TestPaletteMarkdown(unittest.TestCase):
     def setUpClass(cls):
         # Optimization: Read file once per class instead of once per test method.
         # Reduces openat() system calls from O(N_tests) to O(1).
-        cls.content = _read(PALETTE_MD)
+        cls.content = _read_cached(PALETTE_MD)
 
     def test_file_exists(self):
         """.Jules/palette.md must exist in the repository."""
@@ -205,55 +205,57 @@ class TestPaletteMarkdown(unittest.TestCase):
 class TestCodeOfConductUX(unittest.TestCase):
     """Tests for Code of Conduct contact standardization and visibility."""
 
+    @classmethod
+    def setUpClass(cls):
+        # Optimization: Read and cache files at the class level instead of on-demand per test method.
+        # Reduces redundant openat() system calls across tests.
+        cls.content = _read_cached(COC_MD)
+        cls.readme_content = _read_cached(README_MD)
+        cls.contributing_content = _read_cached(CONTRIBUTING_MD)
+
     def test_coc_contains_correct_email(self):
         """CODE_OF_CONDUCT.md should contain the official reporting email."""
-        content = _read(COC_MD)
         self.assertIn(
             "[opensource-security@github.com](mailto:opensource-security@github.com)",
-            content,
+            self.content,
             "Official reporting email not found in CODE_OF_CONDUCT.md.",
         )
 
     def test_coc_contains_alert_block(self):
         """The reporting email in CODE_OF_CONDUCT.md should be in an alert block."""
-        content = _read(COC_MD)
         self.assertRegex(
-            content,
+            self.content,
             r"> \[!IMPORTANT\]\s*\n>\s*\[opensource-security@github.com\]",
             "Reporting email should be wrapped in a > [!IMPORTANT] alert block in CODE_OF_CONDUCT.md.",
         )
 
     def test_readme_localized_coc_link(self):
         """README.md should have a localized link to CODE_OF_CONDUCT.md."""
-        content = _read(README_MD)
         self.assertIn(
             "[Code of Conduct](CODE_OF_CONDUCT.md)",
-            content,
+            self.readme_content,
             "Localized Code of Conduct link not found in README.md footer.",
         )
 
     def test_contributing_localized_coc_link(self):
         """CONTRIBUTING.md should have a localized link to CODE_OF_CONDUCT.md."""
-        content = _read(CONTRIBUTING_MD)
         self.assertIn(
             "[Contributor Code of Conduct](CODE_OF_CONDUCT.md)",
-            content,
+            self.contributing_content,
             "Localized Code of Conduct link not found in CONTRIBUTING.md.",
         )
 
     def test_contributing_coc_alert_block(self):
         """CONTRIBUTING.md should wrap the Code of Conduct disclaimer in an IMPORTANT alert block."""
-        content = _read(CONTRIBUTING_MD)
         self.assertIn(
             "> [!IMPORTANT]\n> Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.",
-            content,
+            self.contributing_content,
             "Code of Conduct disclaimer should be wrapped in a > [!IMPORTANT] alert block in CONTRIBUTING.md.",
         )
 
     def test_contributing_secure_links(self):
         """CONTRIBUTING.md should not contain unencrypted http:// links."""
-        content = _read(CONTRIBUTING_MD)
-        self.assertNotIn("http://", content)
+        self.assertNotIn("http://", self.contributing_content)
 
 
 if __name__ == "__main__":

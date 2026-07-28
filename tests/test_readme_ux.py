@@ -4,6 +4,7 @@ import unittest
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 README_PATH = os.path.join(REPO_ROOT, "README.md")
 SUPPORT_PATH = os.path.join(REPO_ROOT, "SUPPORT.md")
+TEMPLATE_PATH = os.path.join(REPO_ROOT, "PULL_REQUEST_TEMPLATE.md")
 
 from test_pr_accessibility import _read_cached
 
@@ -49,6 +50,22 @@ class TestSupportUX(unittest.TestCase):
 
     def test_community_forum_link(self):
         self.assertIn("[ask on our community forum](https://github.com/skills/.github/discussions)", self.content)
+
+class TestPullRequestTemplateUX(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        # Optimization: Use the centralized in-memory cache _read_cached
+        # to ensure the file is read from disk exactly once across the whole suite.
+        cls.content = _read_cached(TEMPLATE_PATH)
+
+    def test_summary_section_present(self):
+        self.assertIn("### Summary", self.content)
+
+    def test_changes_section_present(self):
+        self.assertIn("### Changes", self.content)
+
+    def test_task_list_present(self):
+        self.assertIn("### Task list", self.content)
 
 if __name__ == "__main__":
     unittest.main()
