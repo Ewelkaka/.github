@@ -38,7 +38,10 @@ class TestSetUpClassOptimization(unittest.TestCase):
     CLASSES_UNDER_TEST = [
         pr_accessibility_module.TestProfileReadmeAltText,
         pr_accessibility_module.TestPaletteMarkdown,
+        pr_accessibility_module.TestCodeOfConductUX,
         readme_ux_module.TestReadmeUX,
+        readme_ux_module.TestSupportUX,
+        readme_ux_module.TestPullRequestTemplateUX,
     ]
 
     def test_classes_do_not_define_instance_setUp(self):
@@ -86,12 +89,18 @@ class TestSetUpClassOptimization(unittest.TestCase):
                     method_name = _first_test_method(cls)
                     instance_a = cls(method_name)
                     instance_b = cls(method_name)
-                    self.assertTrue(hasattr(instance_a, "content"))
+
+                    # Distinguish between classes with cls.content vs cls.coc_content etc.
+                    attr_name = "content"
+                    if cls == pr_accessibility_module.TestCodeOfConductUX:
+                        attr_name = "coc_content"
+
+                    self.assertTrue(hasattr(instance_a, attr_name))
                     self.assertIs(
-                        instance_a.content,
-                        instance_b.content,
+                        getattr(instance_a, attr_name),
+                        getattr(instance_b, attr_name),
                         f"{cls.__name__}: expected both instances to share the "
-                        "identical `content` object set by setUpClass().",
+                        f"identical `{attr_name}` object set by setUpClass().",
                     )
                 finally:
                     tear_down = getattr(cls, "tearDownClass", None)
@@ -103,24 +112,31 @@ class TestSetUpClassOptimization(unittest.TestCase):
         for cls in self.CLASSES_UNDER_TEST:
             with self.subTest(cls=cls.__name__):
                 cls.setUpClass()
-                self.assertIsInstance(cls.content, str)
-                self.assertGreater(len(cls.content), 0)
+                attr_name = "content"
+                if cls == pr_accessibility_module.TestCodeOfConductUX:
+                    attr_name = "coc_content"
+                val = getattr(cls, attr_name)
+                self.assertIsInstance(val, str)
+                self.assertGreater(len(val), 0)
 
     def test_content_matches_direct_file_read(self):
         """The content cached by setUpClass must match a fresh direct read
         of the underlying source file, proving no data was lost or altered
         by moving the read out of setUp()."""
         path_by_class = {
-            pr_accessibility_module.TestProfileReadmeAltText: pr_accessibility_module.PROFILE_README,
-            pr_accessibility_module.TestPaletteMarkdown: pr_accessibility_module.PALETTE_MD,
-            readme_ux_module.TestReadmeUX: readme_ux_module.README_PATH,
+            pr_accessibility_module.TestProfileReadmeAltText: (pr_accessibility_module.PROFILE_README, "content"),
+            pr_accessibility_module.TestPaletteMarkdown: (pr_accessibility_module.PALETTE_MD, "content"),
+            pr_accessibility_module.TestCodeOfConductUX: (pr_accessibility_module.COC_MD, "coc_content"),
+            readme_ux_module.TestReadmeUX: (readme_ux_module.README_PATH, "content"),
+            readme_ux_module.TestSupportUX: (readme_ux_module.SUPPORT_PATH, "content"),
+            readme_ux_module.TestPullRequestTemplateUX: (readme_ux_module.PR_TEMPLATE_PATH, "content"),
         }
-        for cls, path in path_by_class.items():
+        for cls, (path, attr_name) in path_by_class.items():
             with self.subTest(cls=cls.__name__):
                 cls.setUpClass()
                 with open(path, encoding="utf-8") as fh:
                     expected = fh.read()
-                self.assertEqual(cls.content, expected)
+                self.assertEqual(getattr(cls, attr_name), expected)
 
 
 class TestRefactoredSuitesStillPass(unittest.TestCase):
