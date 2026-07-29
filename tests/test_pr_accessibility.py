@@ -205,20 +205,22 @@ class TestPaletteMarkdown(unittest.TestCase):
 class TestCodeOfConductUX(unittest.TestCase):
     """Tests for Code of Conduct contact standardization and visibility."""
 
+    @classmethod
+    def setUpClass(cls):
+        cls.content = _read_cached(COC_MD)
+
     def test_coc_contains_correct_email(self):
         """CODE_OF_CONDUCT.md should contain the official reporting email."""
-        content = _read(COC_MD)
         self.assertIn(
             "[opensource-security@github.com](mailto:opensource-security@github.com)",
-            content,
+            self.content,
             "Official reporting email not found in CODE_OF_CONDUCT.md.",
         )
 
     def test_coc_contains_alert_block(self):
         """The reporting email in CODE_OF_CONDUCT.md should be in an alert block."""
-        content = _read(COC_MD)
         self.assertRegex(
-            content,
+            self.content,
             r"> \[!IMPORTANT\]\s*\n>\s*\[opensource-security@github.com\]",
             "Reporting email should be wrapped in a > [!IMPORTANT] alert block in CODE_OF_CONDUCT.md.",
         )
