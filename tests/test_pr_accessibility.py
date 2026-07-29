@@ -30,10 +30,6 @@ def _read_cached(path: str) -> str:
     return _FILE_CACHE[path]
 
 
-def _read(path: str) -> str:
-    return _read_cached(path)
-
-
 class TestProfileReadmeAltText(unittest.TestCase):
     """Tests for the <img> alt attribute change in profile/README.md."""
 
@@ -41,7 +37,7 @@ class TestProfileReadmeAltText(unittest.TestCase):
     def setUpClass(cls):
         # Optimization: Read file once per class instead of once per test method.
         # Reduces openat() system calls from O(N_tests) to O(1).
-        cls.content = _read(PROFILE_README)
+        cls.content = _read_cached(PROFILE_README)
 
     def test_img_alt_is_not_empty(self):
         """The mascot <img> must not carry an empty alt attribute (alt="")."""
@@ -120,7 +116,7 @@ class TestPaletteMarkdown(unittest.TestCase):
     def setUpClass(cls):
         # Optimization: Read file once per class instead of once per test method.
         # Reduces openat() system calls from O(N_tests) to O(1).
-        cls.content = _read(PALETTE_MD)
+        cls.content = _read_cached(PALETTE_MD)
 
     def test_file_exists(self):
         """.Jules/palette.md must exist in the repository."""
@@ -227,7 +223,7 @@ class TestCodeOfConductUX(unittest.TestCase):
 
     def test_readme_localized_coc_link(self):
         """README.md should have a localized link to CODE_OF_CONDUCT.md."""
-        content = _read(README_MD)
+        content = _read_cached(README_MD)
         self.assertIn(
             "[Code of Conduct](CODE_OF_CONDUCT.md)",
             content,
@@ -236,7 +232,7 @@ class TestCodeOfConductUX(unittest.TestCase):
 
     def test_contributing_localized_coc_link(self):
         """CONTRIBUTING.md should have a localized link to CODE_OF_CONDUCT.md."""
-        content = _read(CONTRIBUTING_MD)
+        content = _read_cached(CONTRIBUTING_MD)
         self.assertIn(
             "[Contributor Code of Conduct](CODE_OF_CONDUCT.md)",
             content,
@@ -245,7 +241,7 @@ class TestCodeOfConductUX(unittest.TestCase):
 
     def test_contributing_coc_alert_block(self):
         """CONTRIBUTING.md should wrap the Code of Conduct disclaimer in an IMPORTANT alert block."""
-        content = _read(CONTRIBUTING_MD)
+        content = _read_cached(CONTRIBUTING_MD)
         self.assertIn(
             "> [!IMPORTANT]\n> Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.",
             content,
@@ -254,7 +250,7 @@ class TestCodeOfConductUX(unittest.TestCase):
 
     def test_contributing_secure_links(self):
         """CONTRIBUTING.md should not contain unencrypted http:// links."""
-        content = _read(CONTRIBUTING_MD)
+        content = _read_cached(CONTRIBUTING_MD)
         self.assertNotIn("http://", content)
 
 
