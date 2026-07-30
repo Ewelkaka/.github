@@ -1,3 +1,7 @@
+## 2026-08-15 - Establish proper visual hierarchy and eliminate broken reference pathways
+**Learning:** Document structures starting with sub-headings (e.g., `##`) confuse assistive technologies and degrade raw readability by conflating section headers with document titles. Furthermore, invalid and broken links (such as those missing the TLD like `.com`) block critical user resources. Establishing clear H1 entry headers and validating reference pathways ensures a smooth, predictable, and accessible navigation experience.
+**Action:** Always start documents with an H1 (`#`) heading to establish correct visual and semantic hierarchy, and systematically verify that all resource links use fully-qualified, reachable domains.
+
 ## 2026-08-10 - Elevate hidden template comments to visible alert blocks
 **Learning:** Hidden developer comments in pull request templates can easily be ignored or overlooked during PR creation. Converting these into visible GitHub-native alert blocks (e.g., `> [!NOTE]`) significantly improves the visual experience and scannability of issue linking guidelines.
 **Action:** Identify commented-out instructions inside templates and elevate them to prominent, visible GitHub-native alert blocks with proper newline spacing.
