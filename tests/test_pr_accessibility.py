@@ -253,6 +253,28 @@ class TestCodeOfConductUX(unittest.TestCase):
         content = _read_cached(CONTRIBUTING_MD)
         self.assertNotIn("http://", content)
 
+    def test_contributing_h1_title(self):
+        """CONTRIBUTING.md should start with a level-1 heading to establish correct visual and semantic hierarchy."""
+        content = _read_cached(CONTRIBUTING_MD)
+        self.assertTrue(
+            content.startswith("# Contributing\n"),
+            "CONTRIBUTING.md should start with '# Contributing' heading to maintain proper visual hierarchy.",
+        )
+
+    def test_contributing_list_numbering(self):
+        """CONTRIBUTING.md should use sequential list numbering starting with '1.' for the PR submission guide."""
+        content = _read_cached(CONTRIBUTING_MD)
+        self.assertIn(
+            "1. Fork and clone the repository",
+            content,
+            "PR submission guide should use sequential list numbering starting with '1.'.",
+        )
+        self.assertNotIn(
+            "0. Fork and clone the repository",
+            content,
+            "PR submission guide should not use '0.' prefixes.",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
