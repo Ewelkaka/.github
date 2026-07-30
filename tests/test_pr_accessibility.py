@@ -203,7 +203,11 @@ class TestCodeOfConductUX(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Optimization: Use centralized cache to read COC, README, and CONTRIBUTING files
+        # exactly once at class-level to prevent redundant cache/file reads during tests.
         cls.content = _read_cached(COC_MD)
+        cls.readme_content = _read_cached(README_MD)
+        cls.contributing_content = _read_cached(CONTRIBUTING_MD)
 
     def test_coc_contains_correct_email(self):
         """CODE_OF_CONDUCT.md should contain the official reporting email."""
@@ -223,35 +227,31 @@ class TestCodeOfConductUX(unittest.TestCase):
 
     def test_readme_localized_coc_link(self):
         """README.md should have a localized link to CODE_OF_CONDUCT.md."""
-        content = _read_cached(README_MD)
         self.assertIn(
             "[Code of Conduct](CODE_OF_CONDUCT.md)",
-            content,
+            self.readme_content,
             "Localized Code of Conduct link not found in README.md footer.",
         )
 
     def test_contributing_localized_coc_link(self):
         """CONTRIBUTING.md should have a localized link to CODE_OF_CONDUCT.md."""
-        content = _read_cached(CONTRIBUTING_MD)
         self.assertIn(
             "[Contributor Code of Conduct](CODE_OF_CONDUCT.md)",
-            content,
+            self.contributing_content,
             "Localized Code of Conduct link not found in CONTRIBUTING.md.",
         )
 
     def test_contributing_coc_alert_block(self):
         """CONTRIBUTING.md should wrap the Code of Conduct disclaimer in an IMPORTANT alert block."""
-        content = _read_cached(CONTRIBUTING_MD)
         self.assertIn(
             "> [!IMPORTANT]\n> Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.",
-            content,
+            self.contributing_content,
             "Code of Conduct disclaimer should be wrapped in a > [!IMPORTANT] alert block in CONTRIBUTING.md.",
         )
 
     def test_contributing_secure_links(self):
         """CONTRIBUTING.md should not contain unencrypted http:// links."""
-        content = _read_cached(CONTRIBUTING_MD)
-        self.assertNotIn("http://", content)
+        self.assertNotIn("http://", self.contributing_content)
 
 
 if __name__ == "__main__":
