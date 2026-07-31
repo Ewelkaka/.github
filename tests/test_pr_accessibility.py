@@ -253,6 +253,14 @@ class TestCodeOfConductUX(unittest.TestCase):
         content = _read_cached(CONTRIBUTING_MD)
         self.assertNotIn("http://", content)
 
+    def test_contributing_top_level_heading(self):
+        """CONTRIBUTING.md should have a level-1 heading '# Contributing' to establish a semantically correct visual hierarchy."""
+        content = _read_cached(CONTRIBUTING_MD)
+        self.assertTrue(
+            content.startswith("# Contributing\n"),
+            "CONTRIBUTING.md should start with a level-1 heading '# Contributing' for correct visual hierarchy."
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
