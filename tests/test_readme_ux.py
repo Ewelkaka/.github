@@ -6,9 +6,9 @@ README_PATH = os.path.join(REPO_ROOT, "README.md")
 SUPPORT_PATH = os.path.join(REPO_ROOT, "SUPPORT.md")
 PULL_REQUEST_TEMPLATE_PATH = os.path.join(REPO_ROOT, "PULL_REQUEST_TEMPLATE.md")
 
-from test_pr_accessibility import _read_cached
+from test_pr_accessibility import _read_cached, TrackingTestCase
 
-class TestReadmeUX(unittest.TestCase):
+class TestReadmeUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):
         # Optimization: Use the centralized in-memory cache _read_cached
@@ -33,7 +33,7 @@ class TestReadmeUX(unittest.TestCase):
     def test_localized_license_link(self):
         self.assertIn("[MIT License](LICENSE)", self.content)
 
-class TestSupportUX(unittest.TestCase):
+class TestSupportUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):
         # Optimization: Use the centralized in-memory cache _read_cached
@@ -51,7 +51,7 @@ class TestSupportUX(unittest.TestCase):
     def test_community_forum_link(self):
         self.assertIn("[ask on our community forum](https://github.com/skills/.github/discussions)", self.content)
 
-class TestPullRequestTemplateUX(unittest.TestCase):
+class TestPullRequestTemplateUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):
         # Optimization: Use the centralized in-memory cache _read_cached
@@ -61,7 +61,7 @@ class TestPullRequestTemplateUX(unittest.TestCase):
     def test_alert_block_present(self):
         self.assertIn("> [!NOTE]", self.content)
 
-class TestBugReportUX(unittest.TestCase):
+class TestBugReportUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):
         cls.path = os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "bug_report.md")
@@ -71,7 +71,7 @@ class TestBugReportUX(unittest.TestCase):
         self.assertIn("> [!TIP]", self.content)
         self.assertIn("Please search existing issues and discussions", self.content)
 
-class TestFeatureRequestUX(unittest.TestCase):
+class TestFeatureRequestUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):
         cls.path = os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "feature_request.md")

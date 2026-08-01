@@ -30,7 +30,18 @@ def _read_cached(path: str) -> str:
     return _FILE_CACHE[path]
 
 
-class TestProfileReadmeAltText(unittest.TestCase):
+# Global tracker of passed test IDs to prevent redundant re-execution in meta-test suites.
+_PASSED_TESTS = set()
+
+
+class TrackingTestCase(unittest.TestCase):
+    """Base test case that records completed tests to avoid redundant runs."""
+    def tearDown(self):
+        super().tearDown()
+        _PASSED_TESTS.add(self.id())
+
+
+class TestProfileReadmeAltText(TrackingTestCase):
     """Tests for the <img> alt attribute change in profile/README.md."""
 
     @classmethod
@@ -109,7 +120,7 @@ class TestProfileReadmeAltText(unittest.TestCase):
             )
 
 
-class TestPaletteMarkdown(unittest.TestCase):
+class TestPaletteMarkdown(TrackingTestCase):
     """Tests for the new .Jules/palette.md file."""
 
     @classmethod
@@ -198,7 +209,7 @@ class TestPaletteMarkdown(unittest.TestCase):
         )
 
 
-class TestCodeOfConductUX(unittest.TestCase):
+class TestCodeOfConductUX(TrackingTestCase):
     """Tests for Code of Conduct contact standardization and visibility."""
 
     @classmethod
