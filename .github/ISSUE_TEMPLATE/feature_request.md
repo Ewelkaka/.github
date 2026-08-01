@@ -7,6 +7,9 @@ assignees: ''
 
 ---
 
+> [!TIP]
+> **Please search existing feature requests and discussions before suggesting a new feature to avoid duplicates.**
+
 ### Summary
 
 A clear and concise description of what the problem is, and what you solution you want.

@@ -61,5 +61,25 @@ class TestPullRequestTemplateUX(unittest.TestCase):
     def test_alert_block_present(self):
         self.assertIn("> [!NOTE]", self.content)
 
+class TestBugReportUX(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.path = os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "bug_report.md")
+        cls.content = _read_cached(cls.path)
+
+    def test_alert_block_present(self):
+        self.assertIn("> [!TIP]", self.content)
+        self.assertIn("Please search existing issues and discussions", self.content)
+
+class TestFeatureRequestUX(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.path = os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "feature_request.md")
+        cls.content = _read_cached(cls.path)
+
+    def test_alert_block_present(self):
+        self.assertIn("> [!TIP]", self.content)
+        self.assertIn("Please search existing feature requests and discussions", self.content)
+
 if __name__ == "__main__":
     unittest.main()

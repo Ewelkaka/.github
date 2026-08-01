@@ -7,6 +7,9 @@ assignees: ''
 
 ---
 
+> [!TIP]
+> **Please search existing issues and discussions before filing a new bug report to avoid duplicates.**
+
 ### Summary
 
 A clear and concise description of what the bug is, and what you expected to happen.
