@@ -18,6 +18,7 @@ import sys
 import unittest
 
 TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.dirname(TESTS_DIR)
 if TESTS_DIR not in sys.path:
     sys.path.insert(0, TESTS_DIR)
 
@@ -42,6 +43,8 @@ class TestSetUpClassOptimization(unittest.TestCase):
         readme_ux_module.TestReadmeUX,
         readme_ux_module.TestSupportUX,
         readme_ux_module.TestPullRequestTemplateUX,
+        readme_ux_module.TestBugReportUX,
+        readme_ux_module.TestFeatureRequestUX,
     ]
 
     def test_classes_do_not_define_instance_setUp(self):
@@ -120,6 +123,8 @@ class TestSetUpClassOptimization(unittest.TestCase):
             readme_ux_module.TestReadmeUX: readme_ux_module.README_PATH,
             readme_ux_module.TestSupportUX: readme_ux_module.SUPPORT_PATH,
             readme_ux_module.TestPullRequestTemplateUX: readme_ux_module.PULL_REQUEST_TEMPLATE_PATH,
+            readme_ux_module.TestBugReportUX: os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "bug_report.md"),
+            readme_ux_module.TestFeatureRequestUX: os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "feature_request.md"),
         }
         for cls, path in path_by_class.items():
             with self.subTest(cls=cls.__name__):

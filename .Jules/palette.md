@@ -1,3 +1,7 @@
+## 2026-08-11 - Use prominent tip alert blocks in issue templates
+**Learning:** Prominent GitHub-native alert blocks (e.g., `> [!TIP]`) inside issue templates are highly effective at guiding contributors to search existing issues/discussions first. Highlighting these instructions visually prevents duplicate issues and improves overall repository maintenance UX.
+**Action:** Embed friendly search instructions in a `> [!TIP]` alert block at the top of issue templates, with proper newline spacing.
+
 ## 2026-08-10 - Elevate hidden template comments to visible alert blocks
 **Learning:** Hidden developer comments in pull request templates can easily be ignored or overlooked during PR creation. Converting these into visible GitHub-native alert blocks (e.g., `> [!NOTE]`) significantly improves the visual experience and scannability of issue linking guidelines.
 **Action:** Identify commented-out instructions inside templates and elevate them to prominent, visible GitHub-native alert blocks with proper newline spacing.
