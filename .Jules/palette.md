@@ -1,3 +1,7 @@
+## 2026-08-12 - Promote Security Policy heading for semantic visual hierarchy
+**Learning:** Document structures in documentation repositories must adhere to strict visual and semantic heading hierarchies to be accessible to screen readers and other assistive technologies. Starting a critical document like `SECURITY.md` without a level-1 heading leaves screen reader users without an immediate, clear page title.
+**Action:** Always verify that critical repository documentation begins with a top-level `#` (level-1) heading to establish proper semantic outlines, and implement regression tests to guarantee standard compliance.
+
 ## 2026-08-11 - Use prominent tip alert blocks in issue templates
 **Learning:** Prominent GitHub-native alert blocks (e.g., `> [!TIP]`) inside issue templates are highly effective at guiding contributors to search existing issues/discussions first. Highlighting these instructions visually prevents duplicate issues and improves overall repository maintenance UX.
 **Action:** Embed friendly search instructions in a `> [!TIP]` alert block at the top of issue templates, with proper newline spacing.

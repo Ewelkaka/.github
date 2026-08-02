@@ -56,6 +56,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
         readme_ux_module.TestPullRequestTemplateUX,
         readme_ux_module.TestBugReportUX,
         readme_ux_module.TestFeatureRequestUX,
+        readme_ux_module.TestSecurityUX,
     ]
 
     def test_classes_do_not_define_instance_setUp(self):
@@ -136,6 +137,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
             readme_ux_module.TestPullRequestTemplateUX: readme_ux_module.PULL_REQUEST_TEMPLATE_PATH,
             readme_ux_module.TestBugReportUX: os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "bug_report.md"),
             readme_ux_module.TestFeatureRequestUX: os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "feature_request.md"),
+            readme_ux_module.TestSecurityUX: readme_ux_module.SECURITY_PATH,
         }
         for cls, path in path_by_class.items():
             with self.subTest(cls=cls.__name__):
