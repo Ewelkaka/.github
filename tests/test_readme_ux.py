@@ -5,6 +5,7 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 README_PATH = os.path.join(REPO_ROOT, "README.md")
 SUPPORT_PATH = os.path.join(REPO_ROOT, "SUPPORT.md")
 PULL_REQUEST_TEMPLATE_PATH = os.path.join(REPO_ROOT, "PULL_REQUEST_TEMPLATE.md")
+SECURITY_PATH = os.path.join(REPO_ROOT, "SECURITY.md")
 
 from test_pr_accessibility import _read_cached, TrackingTestCase
 
@@ -80,6 +81,20 @@ class TestFeatureRequestUX(TrackingTestCase):
     def test_alert_block_present(self):
         self.assertIn("> [!TIP]", self.content)
         self.assertIn("Please search existing feature requests and discussions", self.content)
+
+class TestSecurityUX(TrackingTestCase):
+    @classmethod
+    def setUpClass(cls):
+        # Optimization: Use the centralized in-memory cache _read_cached
+        # to ensure the file is read from disk exactly once across the whole suite.
+        cls.content = _read_cached(SECURITY_PATH)
+
+    def test_security_starts_with_h1_heading(self):
+        """SECURITY.md must start with a level-1 heading '# Security Policy'."""
+        self.assertTrue(
+            self.content.startswith("# Security Policy\n"),
+            "SECURITY.md must start with a level-1 heading '# Security Policy' for screen reader accessibility."
+        )
 
 if __name__ == "__main__":
     unittest.main()

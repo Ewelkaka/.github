@@ -27,14 +27,12 @@ import test_readme_ux as readme_ux_module  # noqa: E402
 
 
 def _get_test_cases(suite):
-    """Recursively extracts all individual TestCase instances from a TestSuite."""
-    cases = []
+    """Recursively yields individual TestCase instances from a TestSuite without list allocation overhead."""
     for test in suite:
         if isinstance(test, unittest.TestSuite):
-            cases.extend(_get_test_cases(test))
+            yield from _get_test_cases(test)
         else:
-            cases.append(test)
-    return cases
+            yield test
 
 
 def _first_test_method(cls):
@@ -56,6 +54,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
         readme_ux_module.TestPullRequestTemplateUX,
         readme_ux_module.TestBugReportUX,
         readme_ux_module.TestFeatureRequestUX,
+        readme_ux_module.TestSecurityUX,
     ]
 
     def test_classes_do_not_define_instance_setUp(self):
@@ -136,6 +135,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
             readme_ux_module.TestPullRequestTemplateUX: readme_ux_module.PULL_REQUEST_TEMPLATE_PATH,
             readme_ux_module.TestBugReportUX: os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "bug_report.md"),
             readme_ux_module.TestFeatureRequestUX: os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "feature_request.md"),
+            readme_ux_module.TestSecurityUX: readme_ux_module.SECURITY_PATH,
         }
         for cls, path in path_by_class.items():
             with self.subTest(cls=cls.__name__):
@@ -158,8 +158,7 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         # executed and passed in the main test runner. If so, return a mock success
         # result immediately, saving redundant execution and system calls.
         from test_pr_accessibility import _PASSED_TESTS
-        test_cases = _get_test_cases(suite)
-        test_ids = {test.id() for test in test_cases}
+        test_ids = {test.id() for test in _get_test_cases(suite)}
 
         if test_ids and test_ids.issubset(_PASSED_TESTS):
             class MockResult:

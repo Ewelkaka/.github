@@ -9,6 +9,7 @@ Covers:
 import os
 import re
 import unittest
+import functools
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROFILE_README = os.path.join(REPO_ROOT, "profile", "README.md")
@@ -20,14 +21,25 @@ README_MD = os.path.join(REPO_ROOT, "README.md")
 
 # Centralized in-memory cache to ensure each static Markdown file
 # is read from disk exactly once during a full test suite execution.
-_FILE_CACHE = {}
-
+# Optimization: Use @functools.lru_cache(maxsize=None) to cache static
+# Markdown files in memory at the C level, removing Python-level dictionary
+# lookup and manual branching overhead.
+@functools.lru_cache(maxsize=None)
 def _read_cached(path: str) -> str:
     """Reads a file from disk and caches its content in memory."""
-    if path not in _FILE_CACHE:
-        with open(path, encoding="utf-8") as fh:
-            _FILE_CACHE[path] = fh.read()
-    return _FILE_CACHE[path]
+    with open(path, encoding="utf-8") as fh:
+        return fh.read()
+
+
+# Pre-compiled regular expression patterns for optimized string search operations.
+# Compilation of regexes at the module level avoids redundant compilation overhead
+# during repeat test executions and loop evaluations.
+RE_EMPTY_ALT = re.compile(r'<img\s[^>]*alt\s*=\s*["\']["\']')
+RE_WHITESPACE_ALT = re.compile(r'<img\s[^>]*alt\s*=\s*["\'](\s+)["\']')
+RE_IMG_TAG = re.compile(r"<img\s")
+RE_IMG_TAG_ALL = re.compile(r"<img\b[^>]*>", re.IGNORECASE)
+RE_ALT_ATTRIBUTE = re.compile(r'\balt\s*=\s*["\']([^"\']*)["\']', re.IGNORECASE)
+RE_COC_ALERT_BLOCK = re.compile(r"> \[!IMPORTANT\]\s*\n>\s*\[opensource-security@github.com\]")
 
 
 # Global tracker of passed test IDs to prevent redundant re-execution in meta-test suites.
@@ -53,7 +65,7 @@ class TestProfileReadmeAltText(TrackingTestCase):
     def test_img_alt_is_not_empty(self):
         """The mascot <img> must not carry an empty alt attribute (alt="")."""
         # Match alt="" or alt='' (empty)
-        empty_alt = re.search(r'<img\s[^>]*alt\s*=\s*["\']["\']', self.content)
+        empty_alt = RE_EMPTY_ALT.search(self.content)
         self.assertIsNone(
             empty_alt,
             "Found an <img> tag with an empty alt attribute; all informative "
@@ -71,9 +83,7 @@ class TestProfileReadmeAltText(TrackingTestCase):
 
     def test_img_alt_not_whitespace_only(self):
         """The alt attribute value must not be only whitespace."""
-        whitespace_alt = re.search(
-            r'<img\s[^>]*alt\s*=\s*["\'](\s+)["\']', self.content
-        )
+        whitespace_alt = RE_WHITESPACE_ALT.search(self.content)
         self.assertIsNone(
             whitespace_alt,
             "Found an <img> tag whose alt attribute contains only whitespace.",
@@ -83,7 +93,7 @@ class TestProfileReadmeAltText(TrackingTestCase):
         """The profile README must still contain the mascot <img> tag."""
         self.assertRegex(
             self.content,
-            r"<img\s",
+            RE_IMG_TAG,
             "No <img> tag found in profile/README.md; the mascot image may have "
             "been accidentally removed.",
         )
@@ -106,9 +116,9 @@ class TestProfileReadmeAltText(TrackingTestCase):
         This acts as a regression guard so future image additions cannot
         silently omit or empty the alt attribute.
         """
-        img_tags = re.findall(r"<img\b[^>]*>", self.content, re.IGNORECASE)
+        img_tags = RE_IMG_TAG_ALL.findall(self.content)
         for tag in img_tags:
-            alt_match = re.search(r'\balt\s*=\s*["\']([^"\']*)["\']', tag, re.IGNORECASE)
+            alt_match = RE_ALT_ATTRIBUTE.search(tag)
             self.assertIsNotNone(
                 alt_match,
                 f"<img> tag is missing an alt attribute: {tag}",
@@ -233,7 +243,7 @@ class TestCodeOfConductUX(TrackingTestCase):
         """The reporting email in CODE_OF_CONDUCT.md should be in an alert block."""
         self.assertRegex(
             self.content,
-            r"> \[!IMPORTANT\]\s*\n>\s*\[opensource-security@github.com\]",
+            RE_COC_ALERT_BLOCK,
             "Reporting email should be wrapped in a > [!IMPORTANT] alert block in CODE_OF_CONDUCT.md.",
         )
 
