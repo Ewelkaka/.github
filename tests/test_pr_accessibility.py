@@ -277,9 +277,10 @@ class TestCodeOfConductUX(TrackingTestCase):
 
     def test_contributing_top_level_heading(self):
         """CONTRIBUTING.md should have a level-1 heading '# Contributing' to establish a semantically correct visual hierarchy."""
-        content = _read_cached(CONTRIBUTING_MD)
+        # Optimization: Use self.contributing_content loaded in setUpClass()
+        # instead of calling redundant caching helper _read_cached().
         self.assertTrue(
-            content.startswith("# Contributing\n"),
+            self.contributing_content.startswith("# Contributing\n"),
             "CONTRIBUTING.md should start with a level-1 heading '# Contributing' for correct visual hierarchy."
         )
 
