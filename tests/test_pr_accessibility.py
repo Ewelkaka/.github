@@ -283,6 +283,19 @@ class TestCodeOfConductUX(TrackingTestCase):
             "CONTRIBUTING.md should start with a level-1 heading '# Contributing' for correct visual hierarchy."
         )
 
+    def test_contributing_released_link_is_descriptive(self):
+        """CONTRIBUTING.md should use descriptive link text 'released under the GitHub Terms of Service' instead of a generic 'released' link for better screen-reader accessibility."""
+        self.assertNotIn(
+            "[released](https://docs.github.com",
+            self.contributing_content,
+            "Expected 'released' link text in CONTRIBUTING.md to be updated with descriptive anchor text for accessibility."
+        )
+        self.assertIn(
+            "[released under the GitHub Terms of Service](https://docs.github.com",
+            self.contributing_content,
+            "Expected descriptive anchor text 'released under the GitHub Terms of Service' for the site policy link in CONTRIBUTING.md."
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,3 +1,7 @@
+## 2026-08-12 - Descriptive anchor text for accessible legal and policy links
+**Learning:** Generic or un-descriptive link text like "released" or "click here" fails Web Content Accessibility Guidelines (WCAG) for link purpose. Providing descriptive link text (e.g., "released under the GitHub Terms of Service") ensures that screen reader users listing links out of context can understand the purpose and destination of each hyperlink without parsing surrounding text.
+**Action:** Always audit documentation files for generic link texts and rewrite them to describe the destination or purpose of the link, improving raw scannability and screen-reader context.
+
 ## 2026-08-11 - Use prominent tip alert blocks in issue templates
 **Learning:** Prominent GitHub-native alert blocks (e.g., `> [!TIP]`) inside issue templates are highly effective at guiding contributors to search existing issues/discussions first. Highlighting these instructions visually prevents duplicate issues and improves overall repository maintenance UX.
 **Action:** Embed friendly search instructions in a `> [!TIP]` alert block at the top of issue templates, with proper newline spacing.
