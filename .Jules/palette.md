@@ -1,3 +1,7 @@
+## 2026-08-13 - Localize and promote security policy discoverability
+**Learning:** Security policies are vital documentation assets, yet they are often hard to discover when buried or only linked externally. Providing a localized footer link directly to `SECURITY.md` alongside the Code of Conduct and LICENSE ensures that security practices are discoverable by contributors and users from the entry point of the repository.
+**Action:** Always add localized links to `SECURITY.md` in repository README footers to maximize compliance and reporting pathway visibility.
+
 ## 2026-08-12 - Descriptive anchor text for accessible legal and policy links
 **Learning:** Generic or un-descriptive link text like "released" or "click here" fails Web Content Accessibility Guidelines (WCAG) for link purpose. Providing descriptive link text (e.g., "released under the GitHub Terms of Service") ensures that screen reader users listing links out of context can understand the purpose and destination of each hyperlink without parsing surrounding text.
 **Action:** Always audit documentation files for generic link texts and rewrite them to describe the destination or purpose of the link, improving raw scannability and screen-reader context.
