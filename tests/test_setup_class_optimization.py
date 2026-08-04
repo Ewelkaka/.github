@@ -122,22 +122,25 @@ class TestSetUpClassOptimization(unittest.TestCase):
                 self.assertIsInstance(cls.content, str)
                 self.assertGreater(len(cls.content), 0)
 
+    PATH_BY_CLASS = {
+        pr_accessibility_module.TestProfileReadmeAltText: pr_accessibility_module.PROFILE_README,
+        pr_accessibility_module.TestPaletteMarkdown: pr_accessibility_module.PALETTE_MD,
+        pr_accessibility_module.TestCodeOfConductUX: pr_accessibility_module.COC_MD,
+        readme_ux_module.TestReadmeUX: readme_ux_module.README_PATH,
+        readme_ux_module.TestSupportUX: readme_ux_module.SUPPORT_PATH,
+        readme_ux_module.TestPullRequestTemplateUX: readme_ux_module.PULL_REQUEST_TEMPLATE_PATH,
+        readme_ux_module.TestBugReportUX: os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "bug_report.md"),
+        readme_ux_module.TestFeatureRequestUX: os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "feature_request.md"),
+        readme_ux_module.TestSecurityUX: readme_ux_module.SECURITY_PATH,
+    }
+
     def test_content_matches_direct_file_read(self):
         """The content cached by setUpClass must match a fresh direct read
         of the underlying source file, proving no data was lost or altered
         by moving the read out of setUp()."""
-        path_by_class = {
-            pr_accessibility_module.TestProfileReadmeAltText: pr_accessibility_module.PROFILE_README,
-            pr_accessibility_module.TestPaletteMarkdown: pr_accessibility_module.PALETTE_MD,
-            pr_accessibility_module.TestCodeOfConductUX: pr_accessibility_module.COC_MD,
-            readme_ux_module.TestReadmeUX: readme_ux_module.README_PATH,
-            readme_ux_module.TestSupportUX: readme_ux_module.SUPPORT_PATH,
-            readme_ux_module.TestPullRequestTemplateUX: readme_ux_module.PULL_REQUEST_TEMPLATE_PATH,
-            readme_ux_module.TestBugReportUX: os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "bug_report.md"),
-            readme_ux_module.TestFeatureRequestUX: os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "feature_request.md"),
-            readme_ux_module.TestSecurityUX: readme_ux_module.SECURITY_PATH,
-        }
-        for cls, path in path_by_class.items():
+        # Optimization: Defined PATH_BY_CLASS as a static class-level attribute rather
+        # than re-instantiating the dictionary on every execution of this test method.
+        for cls, path in self.PATH_BY_CLASS.items():
             with self.subTest(cls=cls.__name__):
                 cls.setUpClass()
                 with open(path, encoding="utf-8") as fh:
@@ -150,17 +153,23 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
     must still pass in their entirety after switching from setUp to
     setUpClass."""
 
-    def _run_module_suite(self, module):
+    @classmethod
+    def setUpClass(cls):
+        # Performance Optimization: Load test suites once at the class level
+        # to avoid repeating loadTestsFromModule during separate test method executions.
         loader = unittest.TestLoader()
-        suite = loader.loadTestsFromModule(module)
+        cls.pr_accessibility_suite = loader.loadTestsFromModule(pr_accessibility_module)
+        cls.readme_ux_suite = loader.loadTestsFromModule(readme_ux_module)
 
+    def _run_suite(self, suite):
         # Performance Optimization: Check if all tests in this suite have already
         # executed and passed in the main test runner. If so, return a mock success
         # result immediately, saving redundant execution and system calls.
+        # This implementation uses a generator expression with all() against the global
+        # _PASSED_TESTS set to verify passing IDs with O(1) intermediate space allocation.
         from test_pr_accessibility import _PASSED_TESTS
-        test_ids = {test.id() for test in _get_test_cases(suite)}
 
-        if test_ids and test_ids.issubset(_PASSED_TESTS):
+        if all(test.id() in _PASSED_TESTS for test in _get_test_cases(suite)):
             class MockResult:
                 def wasSuccessful(self):
                     return True
@@ -178,7 +187,7 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         return result
 
     def test_pr_accessibility_suite_passes(self):
-        result = self._run_module_suite(pr_accessibility_module)
+        result = self._run_suite(self.pr_accessibility_suite)
         self.assertTrue(
             result.wasSuccessful(),
             "tests/test_pr_accessibility.py failed after the setUp -> "
@@ -186,7 +195,7 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         )
 
     def test_readme_ux_suite_passes(self):
-        result = self._run_module_suite(readme_ux_module)
+        result = self._run_suite(self.readme_ux_suite)
         self.assertTrue(
             result.wasSuccessful(),
             "tests/test_readme_ux.py failed after the setUp -> setUpClass "
