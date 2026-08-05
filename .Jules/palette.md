@@ -1,3 +1,7 @@
+## 2026-08-13 - Localize key resource and policy links in the README footer for optimal discoverability
+**Learning:** Critical resource files (like security policies and support documentation) must be highly discoverable. Placing localized links (e.g., `[Security Policy](SECURITY.md)` and `[Support](SUPPORT.md)`) directly in the root README's footer alongside standard Code of Conduct and License links provides users and security researchers with immediate, zero-friction path discoverability from the repository's main entry point.
+**Action:** Always ensure important policies and community resources have localized links prominently displayed in the main project entry point (like the README footer), ensuring intuitive navigation for all developers.
+
 ## 2026-08-12 - Descriptive anchor text for accessible legal and policy links
 **Learning:** Generic or un-descriptive link text like "released" or "click here" fails Web Content Accessibility Guidelines (WCAG) for link purpose. Providing descriptive link text (e.g., "released under the GitHub Terms of Service") ensures that screen reader users listing links out of context can understand the purpose and destination of each hyperlink without parsing surrounding text.
 **Action:** Always audit documentation files for generic link texts and rewrite them to describe the destination or purpose of the link, improving raw scannability and screen-reader context.
