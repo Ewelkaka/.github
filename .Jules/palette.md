@@ -1,3 +1,7 @@
+## 2026-08-13 - Consolidate localized policy and support pathways in README footer
+**Learning:** Navigating to auxiliary files like `SECURITY.md` and `SUPPORT.md` can be difficult if they are not linked in the main repository landing page (`README.md`). Localizing and consolidating these project hygiene links directly in the footer next to standard links (Code of Conduct and License) ensures high discoverability and clear paths for users seeking help or wishing to report vulnerabilities.
+**Action:** Always include localized, descriptive links to `SECURITY.md` and `SUPPORT.md` in the README footer to make standard help and security procedures immediately accessible.
+
 ## 2026-08-12 - Descriptive anchor text for accessible legal and policy links
 **Learning:** Generic or un-descriptive link text like "released" or "click here" fails Web Content Accessibility Guidelines (WCAG) for link purpose. Providing descriptive link text (e.g., "released under the GitHub Terms of Service") ensures that screen reader users listing links out of context can understand the purpose and destination of each hyperlink without parsing surrounding text.
 **Action:** Always audit documentation files for generic link texts and rewrite them to describe the destination or purpose of the link, improving raw scannability and screen-reader context.
