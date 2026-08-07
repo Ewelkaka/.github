@@ -144,23 +144,41 @@ class TestSetUpClassOptimization(unittest.TestCase):
                     expected = fh.read()
                 self.assertEqual(cls.content, expected)
 
+    def test_meta_suite_loads_suites_in_setUpClass(self):
+        """TestRefactoredSuitesStillPass should define setUpClass and preload suites as class attributes."""
+        cls = TestRefactoredSuitesStillPass
+        self.assertIn("setUpClass", cls.__dict__)
+        cls.setUpClass()
+        self.assertTrue(hasattr(cls, "pr_suite"))
+        self.assertTrue(hasattr(cls, "readme_suite"))
+        self.assertIsInstance(cls.pr_suite, unittest.TestSuite)
+        self.assertIsInstance(cls.readme_suite, unittest.TestSuite)
+
 
 class TestRefactoredSuitesStillPass(unittest.TestCase):
     """Regression guard: the full test suites for the refactored modules
     must still pass in their entirety after switching from setUp to
     setUpClass."""
 
-    def _run_module_suite(self, module):
+    @classmethod
+    def setUpClass(cls):
+        # Optimization: Preload the test suites once at the class level instead
+        # of reloading them on demand for each test method. This prevents redundant
+        # loader instantiation and suite rebuilding overhead.
         loader = unittest.TestLoader()
-        suite = loader.loadTestsFromModule(module)
+        cls.pr_suite = loader.loadTestsFromModule(pr_accessibility_module)
+        cls.readme_suite = loader.loadTestsFromModule(readme_ux_module)
 
+    def _run_module_suite(self, suite):
         # Performance Optimization: Check if all tests in this suite have already
         # executed and passed in the main test runner. If so, return a mock success
         # result immediately, saving redundant execution and system calls.
         from test_pr_accessibility import _PASSED_TESTS
-        test_ids = {test.id() for test in _get_test_cases(suite)}
 
-        if test_ids and test_ids.issubset(_PASSED_TESTS):
+        # Optimization: Use an O(1) space generator expression with all() against
+        # the global _PASSED_TESTS set to avoid creating an intermediate set of IDs.
+        # This reduces memory allocation overhead.
+        if all(test.id() in _PASSED_TESTS for test in _get_test_cases(suite)):
             class MockResult:
                 def wasSuccessful(self):
                     return True
@@ -178,7 +196,7 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         return result
 
     def test_pr_accessibility_suite_passes(self):
-        result = self._run_module_suite(pr_accessibility_module)
+        result = self._run_module_suite(self.pr_suite)
         self.assertTrue(
             result.wasSuccessful(),
             "tests/test_pr_accessibility.py failed after the setUp -> "
@@ -186,7 +204,7 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         )
 
     def test_readme_ux_suite_passes(self):
-        result = self._run_module_suite(readme_ux_module)
+        result = self._run_module_suite(self.readme_suite)
         self.assertTrue(
             result.wasSuccessful(),
             "tests/test_readme_ux.py failed after the setUp -> setUpClass "
