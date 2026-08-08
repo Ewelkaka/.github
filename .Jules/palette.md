@@ -1,3 +1,7 @@
+## 2026-08-13 - Standardize support pathways and centralize community forums
+**Learning:** Having disparate or fragmented communication links (e.g., repository-level vs. organization-level discussions) across documentation causes UX friction and confusion. Aligning all support links to point to a centralized organization forum ensures consistency, builds trust, and helps users get answers more quickly.
+**Action:** Always audit support pages (`SUPPORT.md`) and project guides to ensure all discussion, question, and feedback links point to the centralized organization-level forum rather than fragmented or inactive repository-level pages.
+
 ## 2026-08-12 - Descriptive anchor text for accessible legal and policy links
 **Learning:** Generic or un-descriptive link text like "released" or "click here" fails Web Content Accessibility Guidelines (WCAG) for link purpose. Providing descriptive link text (e.g., "released under the GitHub Terms of Service") ensures that screen reader users listing links out of context can understand the purpose and destination of each hyperlink without parsing surrounding text.
 **Action:** Always audit documentation files for generic link texts and rewrite them to describe the destination or purpose of the link, improving raw scannability and screen-reader context.
