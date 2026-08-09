@@ -1,3 +1,7 @@
+## 2026-08-14 - Descriptive anchor text for feedback discussion links in README
+**Learning:** Having a generic link text like "discussion" in README files lacks the necessary context for users using screen readers, which often list hyperlinks out of context. Elevating generic feedback links to descriptive phrases like "discussion in our community forum" ensures clear, accessible, and intuitive navigation.
+**Action:** Audit and replace generic hyperlink words such as "discussion" or "forum" with descriptive, context-specific phrases to provide a seamless screen-reader navigation experience.
+
 ## 2026-08-12 - Descriptive anchor text for accessible legal and policy links
 **Learning:** Generic or un-descriptive link text like "released" or "click here" fails Web Content Accessibility Guidelines (WCAG) for link purpose. Providing descriptive link text (e.g., "released under the GitHub Terms of Service") ensures that screen reader users listing links out of context can understand the purpose and destination of each hyperlink without parsing surrounding text.
 **Action:** Always audit documentation files for generic link texts and rewrite them to describe the destination or purpose of the link, improving raw scannability and screen-reader context.
