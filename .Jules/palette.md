@@ -1,3 +1,7 @@
+## 2026-08-13 - Enhance user journey with direct and descriptive interactive links
+**Learning:** Static "search existing" and "file an issue" instructions can be friction-prone for contributors. Adding active, descriptive, and localized Markdown links directly to the target URLs (e.g., issues list, discussion forum, issue templates, issue creation screens) within templates and support docs dramatically improves workflow efficiency and user delightful interaction.
+**Action:** Always identify key instruction-level target URLs in files like `SUPPORT.md`, `PULL_REQUEST_TEMPLATE.md`, and issue templates, and wrap those instructional phrases in descriptive Markdown hyperlinks rather than leaving them as plain text.
+
 ## 2026-08-12 - Descriptive anchor text for accessible legal and policy links
 **Learning:** Generic or un-descriptive link text like "released" or "click here" fails Web Content Accessibility Guidelines (WCAG) for link purpose. Providing descriptive link text (e.g., "released under the GitHub Terms of Service") ensures that screen reader users listing links out of context can understand the purpose and destination of each hyperlink without parsing surrounding text.
 **Action:** Always audit documentation files for generic link texts and rewrite them to describe the destination or purpose of the link, improving raw scannability and screen-reader context.
