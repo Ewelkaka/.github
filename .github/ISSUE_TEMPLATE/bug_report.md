@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 > [!TIP]
-> **Please search existing issues and discussions before filing a new bug report to avoid duplicates.**
+> **Please search [existing issues](https://github.com/skills/.github/issues) and [discussions](https://github.com/skills/.github/discussions) before filing a new bug report to avoid duplicates.**
 
 ### Summary
 
