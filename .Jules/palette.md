@@ -51,6 +51,9 @@
 **Learning:** Support documentation often contains multiple call-to-actions, such as community forums and maintenance statements. Wrapping these in semantic alert blocks (e.g., `> [!TIP]` for helpful links and `> [!NOTE]` for project status) improves scannability and ensures users can quickly find the help they need.
 **Action:** Use appropriate semantic alert blocks to distinguish between different types of support resources and project information in `SUPPORT.md`.
 
+## 2026-07-20 - Highlight regulatory and compliance notices in contribution guidelines
+**Learning:** Contributor guidelines must clearly surface important administrative requirements, such as adherence to the Code of Conduct. Using a prominent `> [!IMPORTANT]` alert block instead of plain body text significantly improves user awareness and ensures compliance boundaries are highly scannable before any contributions are initiated.
+**Action:** Identify critical policy or compliance statements in contribution guides and wrap them in standard alert blocks to guarantee visibility.
 ## 2026-07-26 - Localize legal links and secure external pathways for contributors
 **Learning:** Navigation inside documentation should be both safe and context-preserving. Localizing standard repository links (such as the MIT License) keeps users inside the project's ecosystem and ensures offline readiness. Similarly, ensuring external links to guides use HTTPS prevents insecure, unencrypted traffic, protecting users when they leave the repository context.
 **Action:** Always localize standard project links (like LICENSE files) rather than using external redirects, and verify that all external links are upgraded to HTTPS for secure and seamless user navigation.
