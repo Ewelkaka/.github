@@ -145,6 +145,15 @@ class TestSetUpClassOptimization(unittest.TestCase):
                 self.assertEqual(cls.content, expected)
 
     def test_meta_suite_loads_suites_in_setUpClass(self):
+        """TestRefactoredSuitesStillPass must load test suites during setUpClass
+        and expose them as class-level attributes, avoiding overhead of on-demand loading."""
+        suite_cls = TestRefactoredSuitesStillPass
+        self.assertIn("setUpClass", suite_cls.__dict__)
+        suite_cls.setUpClass()
+        self.assertTrue(hasattr(suite_cls, "pr_accessibility_suite"))
+        self.assertTrue(hasattr(suite_cls, "readme_ux_suite"))
+        self.assertIsInstance(suite_cls.pr_accessibility_suite, unittest.TestSuite)
+        self.assertIsInstance(suite_cls.readme_ux_suite, unittest.TestSuite)
         """TestRefactoredSuitesStillPass must define setUpClass and preload its suites."""
         cls = TestRefactoredSuitesStillPass
         self.assertIn("setUpClass", cls.__dict__)
@@ -163,18 +172,24 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Optimization: Preload the test suites once at class-level using setUpClass.
+        # This prevents redundant loading overhead of modules during individual test case execution.
         # Optimization: Preload the test suites once at class-level
         # to prevent redundant loading of test suites during individual test executions.
         loader = unittest.TestLoader()
         cls.pr_accessibility_suite = loader.loadTestsFromModule(pr_accessibility_module)
         cls.readme_ux_suite = loader.loadTestsFromModule(readme_ux_module)
 
+    def _run_module_suite(self, suite):
     def _run_suite(self, suite):
         # Performance Optimization: Check if all tests in this suite have already
         # executed and passed in the main test runner. If so, return a mock success
         # result immediately, saving redundant execution and system calls.
+        # Uses an O(1) space generator expression with all() against the global _PASSED_TESTS
+        # set to avoid high memory allocations of set construction.
         from test_pr_accessibility import _PASSED_TESTS
 
+        # Generator-based traversal with all() bypasses set/list construction entirely, achieving O(1) space complexity.
         # Optimization: Use an O(1) space generator expression with all() against
         # the global _PASSED_TESTS set to avoid intermediate list/set allocations.
         if all(test.id() in _PASSED_TESTS for test in _get_test_cases(suite)):
@@ -195,6 +210,7 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         return result
 
     def test_pr_accessibility_suite_passes(self):
+        result = self._run_module_suite(self.pr_accessibility_suite)
         result = self._run_suite(self.pr_accessibility_suite)
         self.assertTrue(
             result.wasSuccessful(),
@@ -203,6 +219,7 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         )
 
     def test_readme_ux_suite_passes(self):
+        result = self._run_module_suite(self.readme_ux_suite)
         result = self._run_suite(self.readme_ux_suite)
         self.assertTrue(
             result.wasSuccessful(),
