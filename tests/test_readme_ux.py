@@ -60,7 +60,7 @@ class TestSupportUX(TrackingTestCase):
         self.assertTrue(self.content.startswith("# Support\n"))
 
     def test_community_forum_link(self):
-        self.assertIn("[ask on our community forum](https://github.com/skills/.github/discussions)", self.content)
+        self.assertIn("[ask on our community forum](https://github.com/orgs/skills/discussions)", self.content)
 
     def test_interactive_issue_links(self):
         self.assertIn("[GitHub issues](https://github.com/skills/.github/issues)", self.content)

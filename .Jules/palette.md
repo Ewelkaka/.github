@@ -1,3 +1,6 @@
+## 2026-08-13 - Standardize support pathways and centralize community forums
+**Learning:** Having disparate or fragmented communication links (e.g., repository-level vs. organization-level discussions) across documentation causes UX friction and confusion. Aligning all support links to point to a centralized organization forum ensures consistency, builds trust, and helps users get answers more quickly.
+**Action:** Always audit support pages (`SUPPORT.md`) and project guides to ensure all discussion, question, and feedback links point to the centralized organization-level forum rather than fragmented or inactive repository-level pages.
 ## 2026-08-14 - Descriptive anchor text for feedback discussion links in README
 **Learning:** Having a generic link text like "discussion" in README files lacks the necessary context for users using screen readers, which often list hyperlinks out of context. Elevating generic feedback links to descriptive phrases like "discussion in our community forum" ensures clear, accessible, and intuitive navigation.
 **Action:** Audit and replace generic hyperlink words such as "discussion" or "forum" with descriptive, context-specific phrases to provide a seamless screen-reader navigation experience.
