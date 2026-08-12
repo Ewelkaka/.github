@@ -204,5 +204,22 @@ class TestOtherDocsUX(unittest.TestCase):
             content = f.read()
         self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", content)
 
+
+class TestCodeOfConductUX(unittest.TestCase):
+    def setUp(self):
+        coc_path = os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md")
+        with open(coc_path, "r", encoding="utf-8") as f:
+            self.content = f.read()
+
+    def test_alert_block_present(self):
+        self.assertIn("> [!IMPORTANT]", self.content)
+
+    def test_contact_email_present(self):
+        self.assertIn("[opensource-security@github.com](mailto:opensource-security@github.com)", self.content)
+
+    def test_no_placeholder(self):
+        self.assertNotIn("[INSERT CONTACT METHOD]", self.content)
+
+
 if __name__ == "__main__":
     unittest.main()
