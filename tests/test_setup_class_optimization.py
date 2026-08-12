@@ -50,6 +50,34 @@ class TestSetUpClassOptimization(unittest.TestCase):
         pr_accessibility_module.TestPaletteMarkdown,
         pr_accessibility_module.TestCodeOfConductUX,
         readme_ux_module.TestReadmeUX,
+        readme_ux_module.TestSupportUX,
+    ]
+
+    def test_coc_ux_class_uses_setup_class(self):
+        """TestCodeOfConductUX must use setUpClass to load its three files."""
+        cls = pr_accessibility_module.TestCodeOfConductUX
+        self.assertNotIn(
+            "setUp",
+            cls.__dict__,
+            "TestCodeOfConductUX should not define its own setUp()",
+        )
+        self.assertIn(
+            "setUpClass",
+            cls.__dict__,
+            "TestCodeOfConductUX is expected to define setUpClass()",
+        )
+        self.assertIsInstance(
+            cls.__dict__["setUpClass"],
+            classmethod,
+            "TestCodeOfConductUX.setUpClass must be declared as a classmethod.",
+        )
+        cls.setUpClass()
+        self.assertTrue(hasattr(cls, "coc_content"))
+        self.assertTrue(hasattr(cls, "readme_content"))
+        self.assertTrue(hasattr(cls, "contributing_content"))
+        self.assertGreater(len(cls.coc_content), 0)
+        self.assertGreater(len(cls.readme_content), 0)
+        self.assertGreater(len(cls.contributing_content), 0)
         pr_accessibility_module.TestCodeOfConductUX,
         readme_ux_module.TestSupportUX,
         readme_ux_module.TestPullRequestTemplateUX,
@@ -158,6 +186,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
             pr_accessibility_module.TestProfileReadmeAltText: pr_accessibility_module.PROFILE_README,
             pr_accessibility_module.TestPaletteMarkdown: pr_accessibility_module.PALETTE_MD,
             readme_ux_module.TestReadmeUX: readme_ux_module.README_PATH,
+            readme_ux_module.TestSupportUX: readme_ux_module.SUPPORT_PATH,
             pr_accessibility_module.TestCodeOfConductUX: pr_accessibility_module.COC_MD,
         }
         for cls, path in path_by_class.items():
