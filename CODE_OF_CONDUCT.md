@@ -67,6 +67,12 @@ representative at an online or offline event.
 >
 > All complaints will be reviewed and investigated promptly and fairly.
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
+reported to the community leaders responsible for enforcement.
+
+> [!IMPORTANT]
+> **Please report any Code of Conduct violations via email.**
+>
+> You can reach the enforcement team at [opensource-security@github.com](mailto:opensource-security@github.com).
 reported to the community leaders responsible for enforcement at
 [opensource-security@github.com](mailto:opensource-security@github.com).
 reported to the community leaders responsible for enforcement:
