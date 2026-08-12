@@ -228,6 +228,10 @@ class TestCodeOfConductUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):
         # Optimization: Read static data files once per class instead of once per test method.
+        # Reduces redundant file openat() system calls from O(N_tests) to O(1).
+        cls.coc_content = _read(COC_MD)
+        cls.contributing_content = _read(CONTRIBUTING_MD)
+        cls.readme_content = _read(README_MD)
         # Reduces openat() system calls from O(N_tests) to O(1).
         cls.coc_content = _read(COC_MD)
         cls.readme_content = _read(README_MD)
