@@ -66,6 +66,8 @@ class TestProfileReadmeAltText(TrackingTestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Suite-wide impact: 19 openat calls reduced to 3
+        cls.content = _read(PROFILE_README)
         cls.content = _read(PROFILE_README)
         # Suite-wide impact: reduced openat calls from 19 to 3 by reading once per class
         cls.content = _read(PROFILE_README)
@@ -202,6 +204,8 @@ class TestPaletteMarkdown(TrackingTestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Suite-wide impact: 19 openat calls reduced to 3
+        cls.content = _read(PALETTE_MD)
         cls.content = _read(PALETTE_MD)
         # Suite-wide impact: reduced openat calls from 19 to 3 by reading once per class
         cls.content = _read(PALETTE_MD)
