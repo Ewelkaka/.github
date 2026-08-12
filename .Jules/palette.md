@@ -1,3 +1,6 @@
+## 2026-08-13 - Localize key resource and policy links in the README footer for optimal discoverability
+**Learning:** Critical resource files (like security policies and support documentation) must be highly discoverable. Placing localized links (e.g., `[Security Policy](SECURITY.md)` and `[Support](SUPPORT.md)`) directly in the root README's footer alongside standard Code of Conduct and License links provides users and security researchers with immediate, zero-friction path discoverability from the repository's main entry point.
+**Action:** Always ensure important policies and community resources have localized links prominently displayed in the main project entry point (like the README footer), ensuring intuitive navigation for all developers.
 ## 2026-08-13 - Enhance main README footer with localized policy and support links
 **Learning:** Highlighting localized links for critical support paths and safety guidelines (such as `SECURITY.md` and `SUPPORT.md`) directly in the main repository entry point (`README.md`) footer vastly improves the user journey and navigation discoverability, especially for developers looking for help or reporting issues offline.
 **Action:** Always localize and elevate key policy, license, and support links directly in the footer of the central `README.md` to establish a safe and highly discoverable navigation baseline.
