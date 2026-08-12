@@ -65,6 +65,7 @@ Thumbs.db
 ##########
 __pycache__/
 *.py[cod]
+*.class
 *$py.class
 *.class
 *$py.class
