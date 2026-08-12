@@ -1,3 +1,6 @@
+## 2026-08-13 - Localize and promote security policy discoverability
+**Learning:** Security policies are vital documentation assets, yet they are often hard to discover when buried or only linked externally. Providing a localized footer link directly to `SECURITY.md` alongside the Code of Conduct and LICENSE ensures that security practices are discoverable by contributors and users from the entry point of the repository.
+**Action:** Always add localized links to `SECURITY.md` in repository README footers to maximize compliance and reporting pathway visibility.
 ## 2026-08-13 - Localize key resource and policy links in the README footer for optimal discoverability
 **Learning:** Critical resource files (like security policies and support documentation) must be highly discoverable. Placing localized links (e.g., `[Security Policy](SECURITY.md)` and `[Support](SUPPORT.md)`) directly in the root README's footer alongside standard Code of Conduct and License links provides users and security researchers with immediate, zero-friction path discoverability from the repository's main entry point.
 **Action:** Always ensure important policies and community resources have localized links prominently displayed in the main project entry point (like the README footer), ensuring intuitive navigation for all developers.
