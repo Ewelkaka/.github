@@ -1,3 +1,6 @@
+## 2025-05-15 - Redundant I/O in Python Test Suites
+**Learning:** Using `setUp()` in `unittest.TestCase` for static file reading causes the file to be re-opened for every single test method in the class, leading to O(N) file I/O where N is the number of tests.
+**Action:** Use `@classmethod setUpClass` to read static files once per test class, reducing I/O to O(1) per class and significantly improving efficiency in documentation-heavy test suites.
 ## 2026-06-18 - [Reduce Redundant File I/O in Python Tests]
 **Learning:** Re-reading static files in the `setUp` method of a `unittest.TestCase` causes redundant `openat` system calls proportional to the number of test methods. Moving file I/O to `@classmethod setUpClass` ensures the file is read only once per test class.
 **Action:** Always prefer `@classmethod setUpClass` for reading static test data or configuration files that do not change between test runs to improve I/O efficiency.
