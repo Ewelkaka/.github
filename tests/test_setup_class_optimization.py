@@ -50,6 +50,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
         pr_accessibility_module.TestPaletteMarkdown,
         pr_accessibility_module.TestCodeOfConductUX,
         readme_ux_module.TestReadmeUX,
+        pr_accessibility_module.TestCodeOfConductUX,
         readme_ux_module.TestSupportUX,
         readme_ux_module.TestPullRequestTemplateUX,
         readme_ux_module.TestBugReportUX,
@@ -153,6 +154,13 @@ class TestSetUpClassOptimization(unittest.TestCase):
         """The content cached by setUpClass must match a fresh direct read
         of the underlying source file, proving no data was lost or altered
         by moving the read out of setUp()."""
+        path_by_class = {
+            pr_accessibility_module.TestProfileReadmeAltText: pr_accessibility_module.PROFILE_README,
+            pr_accessibility_module.TestPaletteMarkdown: pr_accessibility_module.PALETTE_MD,
+            readme_ux_module.TestReadmeUX: readme_ux_module.README_PATH,
+            pr_accessibility_module.TestCodeOfConductUX: pr_accessibility_module.COC_MD,
+        }
+        for cls, path in path_by_class.items():
         # Optimization: Defined PATH_BY_CLASS as a static class-level attribute rather
         # than re-instantiating the dictionary on every execution of this test method.
         for cls, path in self.PATH_BY_CLASS.items():
@@ -162,6 +170,19 @@ class TestSetUpClassOptimization(unittest.TestCase):
                     expected = fh.read()
                 self.assertEqual(cls.content, expected)
 
+    def test_additional_cached_contents_for_coc_ux(self):
+        """TestCodeOfConductUX caches extra files; they must match direct reads too."""
+        cls = pr_accessibility_module.TestCodeOfConductUX
+        cls.setUpClass()
+        for attr, path in [
+            ("readme_content", pr_accessibility_module.README_MD),
+            ("contributing_content", pr_accessibility_module.CONTRIBUTING_MD),
+        ]:
+            with self.subTest(attr=attr):
+                self.assertTrue(hasattr(cls, attr))
+                with open(path, encoding="utf-8") as fh:
+                    expected = fh.read()
+                self.assertEqual(getattr(cls, attr), expected)
     def test_meta_suite_loads_suites_in_setUpClass(self):
         """TestRefactoredSuitesStillPass should define setUpClass and preload suites as class attributes."""
         cls = TestRefactoredSuitesStillPass
