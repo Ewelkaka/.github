@@ -47,6 +47,9 @@
 **Learning:** Security reporting instructions are high-priority but can be overlooked in plain Markdown. Using a `> [!WARNING]` alert block improves visual hierarchy and urgency. Furthermore, providing a direct `mailto:` link for security email addresses reduces friction for reporters, making the process more accessible and intuitive.
 **Action:** In `SECURITY.md` or similar sensitive files, wrap critical reporting instructions in a prominent alert block and ensure email addresses are interactive via `mailto:` links.
 
+## 2026-06-15 - Localize policy links and use accessible contact methods
+**Learning:** Linking to external versions of policies (like the Code of Conduct) can cause users to lose context. Localizing these links ensures users stay within the project's environment. Additionally, replacing placeholders with high-visibility alert blocks and interactive `mailto:` links ensures that reporting procedures are both discoverable and easy to use.
+**Action:** Localize footer policy links in `README.md` and ensure `CODE_OF_CONDUCT.md` uses a `> [!IMPORTANT]` block for reporting instructions with a functional `mailto:` link.
 ## 2026-06-15 - Localize documentation links to maintain repository context
 **Learning:** Externalizing links to global documentation (e.g., pointing to the generic Contributor Covenant site) can inadvertently lead users away from the specific repository context. Providing local links to `CODE_OF_CONDUCT.md` or `LICENSE` files within the repository ensures that users can easily access enforcement policies and legal terms without losing their place in the project's documentation.
 **Action:** Audit `README.md` and `CONTRIBUTING.md` for external links to standard documentation and replace them with internal relative links to local copies when available.

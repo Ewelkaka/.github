@@ -7,6 +7,7 @@ See [organization profile](profile/README.md) for more information about GitHub 
 
 See the [GitHub Skills Quickstart Guide](https://skills.github.com/quickstart) to learn how to build your own Actions-backed courses. See [GitHub Skills content model](https://skills.github.com/content-model) for more information about how to write the content for GitHub Skills courses.
 
+&copy; 2026 GitHub &bull; [Code of Conduct](CODE_OF_CONDUCT.md) &bull; [MIT License](https://gh.io/mit)
 &copy; 2026 GitHub &bull; [Code of Conduct](CODE_OF_CONDUCT.md) &bull; [MIT License](LICENSE)
 &copy; 2026 GitHub &bull; [Code of Conduct](CODE_OF_CONDUCT.md) &bull; [Security Policy](SECURITY.md) &bull; [MIT License](LICENSE)
 &copy; 2026 GitHub &bull; [Code of Conduct](CODE_OF_CONDUCT.md) &bull; [MIT License](LICENSE) &bull; [Security Policy](SECURITY.md) &bull; [Support](SUPPORT.md)
