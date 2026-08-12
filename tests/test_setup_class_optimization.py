@@ -122,22 +122,24 @@ class TestSetUpClassOptimization(unittest.TestCase):
                 self.assertIsInstance(cls.content, str)
                 self.assertGreater(len(cls.content), 0)
 
+    # Static configuration mapping defined as a class attribute to prevent repetitive memory reallocation during individual test executions.
+    PATH_BY_CLASS = {
+        pr_accessibility_module.TestProfileReadmeAltText: pr_accessibility_module.PROFILE_README,
+        pr_accessibility_module.TestPaletteMarkdown: pr_accessibility_module.PALETTE_MD,
+        pr_accessibility_module.TestCodeOfConductUX: pr_accessibility_module.COC_MD,
+        readme_ux_module.TestReadmeUX: readme_ux_module.README_PATH,
+        readme_ux_module.TestSupportUX: readme_ux_module.SUPPORT_PATH,
+        readme_ux_module.TestPullRequestTemplateUX: readme_ux_module.PULL_REQUEST_TEMPLATE_PATH,
+        readme_ux_module.TestBugReportUX: os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "bug_report.md"),
+        readme_ux_module.TestFeatureRequestUX: os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "feature_request.md"),
+        readme_ux_module.TestSecurityUX: readme_ux_module.SECURITY_PATH,
+    }
+
     def test_content_matches_direct_file_read(self):
         """The content cached by setUpClass must match a fresh direct read
         of the underlying source file, proving no data was lost or altered
         by moving the read out of setUp()."""
-        path_by_class = {
-            pr_accessibility_module.TestProfileReadmeAltText: pr_accessibility_module.PROFILE_README,
-            pr_accessibility_module.TestPaletteMarkdown: pr_accessibility_module.PALETTE_MD,
-            pr_accessibility_module.TestCodeOfConductUX: pr_accessibility_module.COC_MD,
-            readme_ux_module.TestReadmeUX: readme_ux_module.README_PATH,
-            readme_ux_module.TestSupportUX: readme_ux_module.SUPPORT_PATH,
-            readme_ux_module.TestPullRequestTemplateUX: readme_ux_module.PULL_REQUEST_TEMPLATE_PATH,
-            readme_ux_module.TestBugReportUX: os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "bug_report.md"),
-            readme_ux_module.TestFeatureRequestUX: os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "feature_request.md"),
-            readme_ux_module.TestSecurityUX: readme_ux_module.SECURITY_PATH,
-        }
-        for cls, path in path_by_class.items():
+        for cls, path in self.PATH_BY_CLASS.items():
             with self.subTest(cls=cls.__name__):
                 cls.setUpClass()
                 with open(path, encoding="utf-8") as fh:
@@ -145,6 +147,11 @@ class TestSetUpClassOptimization(unittest.TestCase):
                 self.assertEqual(cls.content, expected)
 
     def test_meta_suite_loads_suites_in_setUpClass(self):
+        """Assert that the meta-test suite preloads its test suites correctly in setUpClass."""
+        self.assertTrue(hasattr(TestRefactoredSuitesStillPass, "pr_suite"))
+        self.assertTrue(hasattr(TestRefactoredSuitesStillPass, "readme_suite"))
+        self.assertIsInstance(TestRefactoredSuitesStillPass.pr_suite, unittest.TestSuite)
+        self.assertIsInstance(TestRefactoredSuitesStillPass.readme_suite, unittest.TestSuite)
         """Verify that the meta-test suite preloads its test suites in setUpClass()."""
         # Call setUpClass on TestRefactoredSuitesStillPass to ensure the suites are loaded.
         TestRefactoredSuitesStillPass.setUpClass()
@@ -179,6 +186,19 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Optimization: Pre-load the test suites at the class level to avoid
+        # redundant module loading and test suite allocation during individual test execution.
+        loader = unittest.TestLoader()
+        cls.pr_suite = loader.loadTestsFromModule(pr_accessibility_module)
+        cls.readme_suite = loader.loadTestsFromModule(readme_ux_module)
+
+    def _run_module_suite(self, suite):
+        # Performance Optimization: Check if all tests in this suite have already
+        # executed and passed in the main test runner.
+        # Use an O(1) space generator expression with all() against the global _PASSED_TESTS set,
+        # completely avoiding intermediate list/set allocation.
+        from test_pr_accessibility import _PASSED_TESTS
+
         # Optimization: Preload the test suites once at the class level to avoid
         # loading them dynamically during test execution.
         # Optimization: Preload the test suites once at class-level using setUpClass.
@@ -220,6 +240,7 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         return result
 
     def test_pr_accessibility_suite_passes(self):
+        result = self._run_module_suite(self.pr_suite)
         result = self._run_module_suite(self.pr_accessibility_suite)
         result = self._run_suite(self.pr_accessibility_suite)
         self.assertTrue(
@@ -229,6 +250,7 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         )
 
     def test_readme_ux_suite_passes(self):
+        result = self._run_module_suite(self.readme_suite)
         result = self._run_module_suite(self.readme_ux_suite)
         result = self._run_suite(self.readme_ux_suite)
         self.assertTrue(
