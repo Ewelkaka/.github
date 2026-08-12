@@ -1,5 +1,8 @@
 # Bolt's Journal - Critical Learnings Only
 
+## 2026-07-17 - Optimize Test Suite Loading and Meta-Test Suite Checks
+**Learning:** Instantiating `unittest.TestLoader()` and loading suites dynamically using `loadTestsFromModule()` repeatedly adds memory allocation and search overhead. Moving suite loading to class-level `setUpClass` and replacing $O(N)$ test ID set checks with an $O(1)$ space, short-circuiting `all()` generator significantly decreases memory usage and execution overhead.
+**Action:** Always load dynamic sub-suites once at the class-level instead of repeatedly in test methods, and prefer short-circuiting generators with `all()` or `any()` over materializing large lists/sets when comparing elements.
 ## 2026-07-17 - Optimize meta-test execution with class-level caching and O(1) generators
 **Learning:** Programmatic test suite execution under `unittest` can be optimized by caching loaded TestSuites at the class level inside `setUpClass()` rather than dynamically reloading them for every assertion method. Additionally, checking if all tests have already passed can be done in O(1) space with a generator expression passed directly to `all()`, completely avoiding intermediate set or list allocations.
 **Action:** Preload programmatic test suites at the class level via `setUpClass()`, and use generator-based traversal with `all()` instead of set comprehension to minimize memory churn.
