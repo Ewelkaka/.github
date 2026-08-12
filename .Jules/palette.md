@@ -47,6 +47,9 @@
 **Learning:** Security reporting instructions are high-priority but can be overlooked in plain Markdown. Using a `> [!WARNING]` alert block improves visual hierarchy and urgency. Furthermore, providing a direct `mailto:` link for security email addresses reduces friction for reporters, making the process more accessible and intuitive.
 **Action:** In `SECURITY.md` or similar sensitive files, wrap critical reporting instructions in a prominent alert block and ensure email addresses are interactive via `mailto:` links.
 
+## 2026-06-22 - Localize documentation links and establish clear reporting channels
+**Learning:** In documentation-heavy repositories, "Contributor UX" is just as important as "User UX". Localizing links to the Code of Conduct and providing a direct, interactive reporting channel (via mailto links) reduces friction for community members and ensures they stay within the project context.
+**Action:** Replace external links to repository-specific documents with local file references and ensure contact placeholders are replaced with functional, interactive links.
 ## 2024-06-05 - Localize meta-documentation links to maintain user context
 **Learning:** Linking to external versions of a Code of Conduct or similar meta-documentation can cause users to lose context or encounter version mismatches. Localizing these links to point to the files within the repository ensures that users stay within the project environment and read the specific version of the policy that applies to that project.
 **Action:** Update global or external links to meta-documentation (like `CODE_OF_CONDUCT.md`) in `README.md` and `CONTRIBUTING.md` to use relative local paths.
