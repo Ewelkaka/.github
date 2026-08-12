@@ -32,6 +32,10 @@ __pycache__/
 *.sql
 *.sqlite
 
+# Python #
+##########
+__pycache__/
+*.py[cod]
 # Python cache #
 ################
 __pycache__/

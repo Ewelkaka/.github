@@ -43,6 +43,9 @@
 **Learning:** Plain-text disclaimers in documentation can be easily overlooked. Converting these to semantic GitHub-native alert blocks (e.g., `> [!IMPORTANT]`) significantly improves visual hierarchy, scannability, and ensures that critical context is immediately apparent to all users, including those using assistive technologies.
 **Action:** Identify plain-text call-to-actions or disclaimers in Markdown files and wrap them in the appropriate semantic alert block to enhance visibility and accessibility.
 
+## 2026-04-03 - Combine alert blocks with actionable links for critical paths
+**Learning:** High-priority instructions, such as security reporting procedures, benefit from combining visual prominence (alert blocks) with direct actionability (mailto: links). This reduces cognitive load by clearly identifying the 'what' (warning) and providing an immediate 'how' (contact link) in a single scannable unit.
+**Action:** When creating or updating critical documentation alerts, ensure that any associated contact methods or external resources are directly linked within the block to facilitate immediate user action.
 ## 2026-06-25 - Combine alert blocks with mailto links for critical contact info
 **Learning:** Highlighting critical contact information, such as a security reporting email, using GitHub-native alert blocks (e.g., `> [!WARNING]`) combined with `mailto:` links significantly reduces friction and cognitive load for users in urgent situations.
 **Action:** When documenting critical reporting procedures, use a semantic alert block to surface the instruction and provide direct action links (like `mailto:`) to improve accessibility and response time.

@@ -12,6 +12,7 @@ class TestSecurityUX(unittest.TestCase):
         with open(SECURITY_PATH, "r", encoding="utf-8") as f:
             cls.content = f.read()
 
+    def test_alert_block_present(self):
     def test_warning_alert_present(self):
         """Verify that the security reporting warning is in a [!WARNING] alert block."""
         with open(SECURITY_MD_PATH, "r", encoding="utf-8") as f:
