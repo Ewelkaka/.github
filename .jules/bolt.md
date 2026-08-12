@@ -1,5 +1,8 @@
 # Bolt Journal
 
+## 2024-05-24 - Efficient Test Resource Loading
+**Learning:** In a document-heavy repository where tests primarily verify static file content, use the `@classmethod setUpClass` decorator in `unittest.TestCase` to read file contents once per class instead of using the instance-level `setUp` method. This significantly reduces redundant system calls and disk I/O, especially as the number of test methods in a class grows.
+**Action:** Always check if test resources can be loaded once per class or suite rather than per test to minimize overhead.
 ## 2024-05-24 - Redundant file I/O in test suite
 **Learning:** The test suite was reading markdown files from disk in the `setUp` method of every test class, leading to 19 `openat` calls (one per test case) for a small set of files. This is a common performance bottleneck in I/O-heavy test suites.
 **Action:** Use `@classmethod setUpClass` to read the files only once per test class. This reduced the number of `openat` calls for target markdown files from 19 down to 3, achieving a significant reduction in redundant I/O operations while preserving test functionality.
