@@ -52,6 +52,11 @@ class TestSupportUX(TrackingTestCase):
     def test_community_forum_link(self):
         self.assertIn("[ask on our community forum](https://github.com/skills/.github/discussions)", self.content)
 
+    def test_direct_active_links(self):
+        self.assertIn("[GitHub issues](https://github.com/skills/.github/issues)", self.content)
+        self.assertIn("[existing issues](https://github.com/skills/.github/issues)", self.content)
+        self.assertIn("[new issue](https://github.com/skills/.github/issues/new/choose)", self.content)
+
 class TestPullRequestTemplateUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):
@@ -62,6 +67,9 @@ class TestPullRequestTemplateUX(TrackingTestCase):
     def test_alert_block_present(self):
         self.assertIn("> [!NOTE]", self.content)
 
+    def test_direct_active_links(self):
+        self.assertIn("[open one first](https://github.com/skills/.github/issues/new/choose)", self.content)
+
 class TestBugReportUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):
@@ -70,7 +78,7 @@ class TestBugReportUX(TrackingTestCase):
 
     def test_alert_block_present(self):
         self.assertIn("> [!TIP]", self.content)
-        self.assertIn("Please search existing issues and discussions", self.content)
+        self.assertIn("Please search [existing issues](https://github.com/skills/.github/issues) and [discussions](https://github.com/skills/.github/discussions)", self.content)
 
 class TestFeatureRequestUX(TrackingTestCase):
     @classmethod
@@ -80,7 +88,7 @@ class TestFeatureRequestUX(TrackingTestCase):
 
     def test_alert_block_present(self):
         self.assertIn("> [!TIP]", self.content)
-        self.assertIn("Please search existing feature requests and discussions", self.content)
+        self.assertIn("Please search [existing feature requests](https://github.com/skills/.github/issues?q=is%3Aissue+label%3Afeature) and [discussions](https://github.com/skills/.github/discussions)", self.content)
 
 class TestSecurityUX(TrackingTestCase):
     @classmethod

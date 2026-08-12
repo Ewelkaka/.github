@@ -1,3 +1,7 @@
+## 2026-08-13 - Enhance community docs and templates with direct, active, and descriptive links
+**Learning:** Plain-text references to issues, bug templates, and discussions in support pages and templates add unnecessary friction for contributors trying to report issues or ask questions. Providing direct, active, and descriptive links to these destinations simplifies the contribution flow, encouraging structured feedback while minimizing duplicate submissions.
+**Action:** Always audit templates and support documentation to ensure generic text or plain-text references pointing to repository workflows (like filing issues or bug reports) are replaced with direct, actionable, and descriptive Markdown links.
+
 ## 2026-08-12 - Descriptive anchor text for accessible legal and policy links
 **Learning:** Generic or un-descriptive link text like "released" or "click here" fails Web Content Accessibility Guidelines (WCAG) for link purpose. Providing descriptive link text (e.g., "released under the GitHub Terms of Service") ensures that screen reader users listing links out of context can understand the purpose and destination of each hyperlink without parsing surrounding text.
 **Action:** Always audit documentation files for generic link texts and rewrite them to describe the destination or purpose of the link, improving raw scannability and screen-reader context.
