@@ -3,6 +3,8 @@ import unittest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 README_PATH = os.path.join(REPO_ROOT, "README.md")
+COC_PATH = os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md")
+CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 SUPPORT_PATH = os.path.join(REPO_ROOT, "SUPPORT.md")
 COC_PATH = os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md")
 CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
@@ -80,6 +82,9 @@ class TestReadmeUX(TrackingTestCase):
             self.content,
             "Expected descriptive anchor text 'discussion in our community forum' for the feedback link in README.md."
         )
+
+    def test_localized_coc_link(self):
+        self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", self.content)
 
     def test_copyright_year(self):
         self.assertIn("&copy; 2026 GitHub", self.readme_content)
@@ -273,6 +278,18 @@ class TestCodeOfConductUX(unittest.TestCase):
         self.assertIn("> [!IMPORTANT]", self.content)
         self.assertIn("[opensource-security@github.com](mailto:opensource-security@github.com)", self.content)
         self.assertNotIn("[INSERT CONTACT METHOD]", self.content)
+
+class TestCoCUX(unittest.TestCase):
+    def test_coc_alert_and_mailto(self):
+        with open(COC_PATH, "r", encoding="utf-8") as f:
+            content = f.read()
+        self.assertIn("> [!IMPORTANT]", content)
+        self.assertIn("[opensource-security@github.com](mailto:opensource-security@github.com)", content)
+
+    def test_contributing_coc_link(self):
+        with open(CONTRIBUTING_PATH, "r", encoding="utf-8") as f:
+            content = f.read()
+        self.assertIn("[Contributor Code of Conduct](CODE_OF_CONDUCT.md)", content)
 
 if __name__ == "__main__":
     unittest.main()
