@@ -1,3 +1,6 @@
+## 2026-08-14 - Descriptive anchor text for feedback discussion links in README
+**Learning:** Having a generic link text like "discussion" in README files lacks the necessary context for users using screen readers, which often list hyperlinks out of context. Elevating generic feedback links to descriptive phrases like "discussion in our community forum" ensures clear, accessible, and intuitive navigation.
+**Action:** Audit and replace generic hyperlink words such as "discussion" or "forum" with descriptive, context-specific phrases to provide a seamless screen-reader navigation experience.
 ## 2026-08-13 - Enhance user journey with direct and descriptive interactive links
 **Learning:** Static "search existing" and "file an issue" instructions can be friction-prone for contributors. Adding active, descriptive, and localized Markdown links directly to the target URLs (e.g., issues list, discussion forum, issue templates, issue creation screens) within templates and support docs dramatically improves workflow efficiency and user delightful interaction.
 **Action:** Always identify key instruction-level target URLs in files like `SUPPORT.md`, `PULL_REQUEST_TEMPLATE.md`, and issue templates, and wrap those instructional phrases in descriptive Markdown hyperlinks rather than leaving them as plain text.

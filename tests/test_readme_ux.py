@@ -24,6 +24,16 @@ class TestReadmeUX(TrackingTestCase):
         self.assertIn("[skills.github.com](https://skills.github.com)", self.content)
         self.assertIn("[organization profile](profile/README.md)", self.content)
         self.assertIn("[GitHub Skills content model](https://skills.github.com/content-model)", self.content)
+        self.assertNotIn(
+            "[discussion](https://github.com",
+            self.content,
+            "Expected 'discussion' link text in README.md to be updated with descriptive anchor text for accessibility."
+        )
+        self.assertIn(
+            "[discussion in our community forum](https://github.com/orgs/skills/discussions)",
+            self.content,
+            "Expected descriptive anchor text 'discussion in our community forum' for the feedback link in README.md."
+        )
 
     def test_copyright_year(self):
         self.assertIn("&copy; 2026 GitHub", self.content)
