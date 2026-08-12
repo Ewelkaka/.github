@@ -74,6 +74,8 @@ reported to the community leaders responsible for enforcement.
 
 > [!IMPORTANT]
 > To report an incident, please send an email to [opensource-security@github.com](mailto:opensource-security@github.com).
+>
+> All complaints will be reviewed and investigated promptly and fairly.
 reported to the community leaders responsible for enforcement:
 
 > [!IMPORTANT]
