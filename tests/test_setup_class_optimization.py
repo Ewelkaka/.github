@@ -145,6 +145,13 @@ class TestSetUpClassOptimization(unittest.TestCase):
                 self.assertEqual(cls.content, expected)
 
     def test_meta_suite_loads_suites_in_setUpClass(self):
+        """Verify that the meta-test suite preloads its test suites in setUpClass()."""
+        # Call setUpClass on TestRefactoredSuitesStillPass to ensure the suites are loaded.
+        TestRefactoredSuitesStillPass.setUpClass()
+        self.assertTrue(hasattr(TestRefactoredSuitesStillPass, "pr_accessibility_suite"))
+        self.assertTrue(hasattr(TestRefactoredSuitesStillPass, "readme_ux_suite"))
+        self.assertIsInstance(TestRefactoredSuitesStillPass.pr_accessibility_suite, unittest.TestSuite)
+        self.assertIsInstance(TestRefactoredSuitesStillPass.readme_ux_suite, unittest.TestSuite)
         """TestRefactoredSuitesStillPass must load test suites during setUpClass
         and expose them as class-level attributes, avoiding overhead of on-demand loading."""
         suite_cls = TestRefactoredSuitesStillPass
@@ -172,6 +179,8 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Optimization: Preload the test suites once at the class level to avoid
+        # loading them dynamically during test execution.
         # Optimization: Preload the test suites once at class-level using setUpClass.
         # This prevents redundant loading overhead of modules during individual test case execution.
         # Optimization: Preload the test suites once at class-level
@@ -189,6 +198,7 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         # set to avoid high memory allocations of set construction.
         from test_pr_accessibility import _PASSED_TESTS
 
+        # O(1) space generator expression with all() against the global _PASSED_TESTS set.
         # Generator-based traversal with all() bypasses set/list construction entirely, achieving O(1) space complexity.
         # Optimization: Use an O(1) space generator expression with all() against
         # the global _PASSED_TESTS set to avoid intermediate list/set allocations.
