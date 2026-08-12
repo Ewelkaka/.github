@@ -1,12 +1,16 @@
-# Support 
+# Support
 
 ## How to file issues and get help
 
 This project uses GitHub issues to track bugs and feature requests. Please search the existing issues before filing new issues to avoid duplicates. For new issues, file your bug or feature request as a new issue.
+This project uses [GitHub issues](https://github.com/skills/.github/issues) to track bugs and feature requests. Please [search the existing issues](https://github.com/skills/.github/issues) before filing new issues to avoid duplicates. For new issues, file your bug or feature request as a [new issue](https://github.com/skills/.github/issues/new/choose).
+This project uses [GitHub issues](https://github.com/skills/.github/issues) to track bugs and feature requests. Please search the [existing issues](https://github.com/skills/.github/issues) before filing new issues to avoid duplicates. For new issues, file your bug or feature request as a [new issue](https://github.com/skills/.github/issues/new/choose).
 
-For help or questions about using this project, please [ask on our community forum](https://github.com/skills/.github/discussions).
+> [!TIP]
+> For help or questions about using this project, please [ask on our community forum](https://github.com/orgs/skills/discussions).
 
-GitHub Skills is under active development and maintained by GitHub staff **AND THE COMMUNITY**. We will do our best to respond to support, feature requests, and community questions in a timely manner.
+> [!NOTE]
+> GitHub Skills is under active development and maintained by GitHub staff **AND THE COMMUNITY**. We will do our best to respond to support, feature requests, and community questions in a timely manner.
 
 ## GitHub Support Policy
 
