@@ -3,6 +3,9 @@ import unittest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 README_PATH = os.path.join(REPO_ROOT, "README.md")
+SUPPORT_PATH = os.path.join(REPO_ROOT, "SUPPORT.md")
+COC_PATH = os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md")
+CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 COC_PATH = os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md")
 SUPPORT_PATH = os.path.join(REPO_ROOT, "SUPPORT.md")
@@ -175,6 +178,28 @@ class TestSecurityUX(TrackingTestCase):
             self.content.startswith("# Security Policy\n"),
             "SECURITY.md must start with a level-1 heading '# Security Policy' for screen reader accessibility."
         )
+
+    def test_local_coc_link(self):
+        self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", self.content)
+
+class TestOtherDocsUX(unittest.TestCase):
+    def test_support_typo_fixed(self):
+        with open(SUPPORT_PATH, "r", encoding="utf-8") as f:
+            content = f.read()
+        self.assertIn("feature request", content)
+        self.assertNotIn("feaure request", content)
+
+    def test_coc_alert_and_email(self):
+        with open(COC_PATH, "r", encoding="utf-8") as f:
+            content = f.read()
+        self.assertIn("> [!IMPORTANT]", content)
+        self.assertIn("[opensource-security@github.com](mailto:opensource-security@github.com)", content)
+        self.assertNotIn("[INSERT CONTACT METHOD]", content)
+
+    def test_contributing_coc_link(self):
+        with open(CONTRIBUTING_PATH, "r", encoding="utf-8") as f:
+            content = f.read()
+        self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", content)
 
 if __name__ == "__main__":
     unittest.main()
