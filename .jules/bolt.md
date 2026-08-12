@@ -1,5 +1,8 @@
 # Bolt's Journal - Critical Learnings Only
 
+## 2026-02-21 - Test Suite I/O Optimization
+**Learning:** Redundant file I/O in test suites can be easily avoided by using `setUpClass` instead of `setUp` when test data is static and used in a read-only manner.
+**Action:** Always prefer `@classmethod setUpClass(cls)` for loading static resources or reading files that are shared across all test methods in a class to minimize system calls.
 ## 2024-05-24 - Test Suite I/O Optimization
 **Learning:** In Python `unittest`, using `setUp()` for file operations causes the file to be re-opened for every single test method in the class. For a documentation-heavy test suite, this results in significant redundant system calls.
 **Action:** Use `@classmethod setUpClass(cls)` to read static test data once per test class. This reduced `openat()` calls from 19 to 3 in the current suite.
