@@ -41,6 +41,12 @@ class TestReadmeUX(TrackingTestCase):
     def test_localized_coc_link(self):
         self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", self.content)
 
+    def test_localized_security_link(self):
+        self.assertIn("[Security Policy](SECURITY.md)", self.content)
+
+    def test_localized_support_link(self):
+        self.assertIn("[Support](SUPPORT.md)", self.content)
+
     def test_localized_license_link(self):
         self.assertIn("[MIT License](LICENSE)", self.content)
 

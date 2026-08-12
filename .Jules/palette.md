@@ -1,3 +1,6 @@
+## 2026-08-13 - Consolidate localized policy and support pathways in README footer
+**Learning:** Navigating to auxiliary files like `SECURITY.md` and `SUPPORT.md` can be difficult if they are not linked in the main repository landing page (`README.md`). Localizing and consolidating these project hygiene links directly in the footer next to standard links (Code of Conduct and License) ensures high discoverability and clear paths for users seeking help or wishing to report vulnerabilities.
+**Action:** Always include localized, descriptive links to `SECURITY.md` and `SUPPORT.md` in the README footer to make standard help and security procedures immediately accessible.
 ## 2026-08-13 - Standardize support pathways and centralize community forums
 **Learning:** Having disparate or fragmented communication links (e.g., repository-level vs. organization-level discussions) across documentation causes UX friction and confusion. Aligning all support links to point to a centralized organization forum ensures consistency, builds trust, and helps users get answers more quickly.
 **Action:** Always audit support pages (`SUPPORT.md`) and project guides to ensure all discussion, question, and feedback links point to the centralized organization-level forum rather than fragmented or inactive repository-level pages.
