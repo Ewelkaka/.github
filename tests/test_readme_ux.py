@@ -259,5 +259,17 @@ class TestCodeOfConductUX(unittest.TestCase):
     def test_contributing_local_coc_link(self):
         self.assertIn("[Contributor Code of Conduct](CODE_OF_CONDUCT.md)", self.contributing_content)
 
+class TestCodeOfConductUX(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        coc_path = os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md")
+        with open(coc_path, "r", encoding="utf-8") as f:
+            cls.content = f.read()
+
+    def test_coc_reporting_instructions(self):
+        self.assertIn("> [!IMPORTANT]", self.content)
+        self.assertIn("[opensource-security@github.com](mailto:opensource-security@github.com)", self.content)
+        self.assertNotIn("[INSERT CONTACT METHOD]", self.content)
+
 if __name__ == "__main__":
     unittest.main()
