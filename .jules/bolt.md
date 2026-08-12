@@ -1,5 +1,8 @@
 # Bolt's Journal - Critical Learnings Only
 
+## 2026-07-17 - Optimize meta-test execution with class-level caching and O(1) generators
+**Learning:** Programmatic test suite execution under `unittest` can be optimized by caching loaded TestSuites at the class level inside `setUpClass()` rather than dynamically reloading them for every assertion method. Additionally, checking if all tests have already passed can be done in O(1) space with a generator expression passed directly to `all()`, completely avoiding intermediate set or list allocations.
+**Action:** Preload programmatic test suites at the class level via `setUpClass()`, and use generator-based traversal with `all()` instead of set comprehension to minimize memory churn.
 ## 2026-07-17 - Preloading suites and O(1) space tracking in meta-test runners
 **Learning:** When building programmatic meta-test runners or regression guards in Python unittest, loading test suites repeatedly inside test methods creates redundant objects and re-evaluation overhead. Furthermore, using subset checks on dynamically-created sets can introduce extra memory allocations. Preloading suites inside `setUpClass` and validating already executed tests using a generator expression with `all()` on the global cache maintains O(1) space complexity.
 **Action:** Always preload suites in class-level `setUpClass` and verify completed test execution status using lightweight O(1) generator expressions over sets.

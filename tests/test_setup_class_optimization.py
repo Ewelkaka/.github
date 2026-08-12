@@ -147,6 +147,14 @@ class TestSetUpClassOptimization(unittest.TestCase):
                 self.assertEqual(cls.content, expected)
 
     def test_meta_suite_loads_suites_in_setUpClass(self):
+        """TestRefactoredSuitesStillPass should define setUpClass and preload suites as class attributes."""
+        cls = TestRefactoredSuitesStillPass
+        self.assertIn("setUpClass", cls.__dict__)
+        cls.setUpClass()
+        self.assertTrue(hasattr(cls, "pr_suite"))
+        self.assertTrue(hasattr(cls, "readme_suite"))
+        self.assertIsInstance(cls.pr_suite, unittest.TestSuite)
+        self.assertIsInstance(cls.readme_suite, unittest.TestSuite)
         """Assert that the meta-test suite preloads its test suites correctly in setUpClass."""
         self.assertTrue(hasattr(TestRefactoredSuitesStillPass, "pr_suite"))
         self.assertTrue(hasattr(TestRefactoredSuitesStillPass, "readme_suite"))
@@ -186,6 +194,14 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Optimization: Preload the test suites once at the class level instead
+        # of reloading them on demand for each test method. This prevents redundant
+        # loader instantiation and suite rebuilding overhead.
+        loader = unittest.TestLoader()
+        cls.pr_suite = loader.loadTestsFromModule(pr_accessibility_module)
+        cls.readme_suite = loader.loadTestsFromModule(readme_ux_module)
+
+    def _run_module_suite(self, suite):
         # Optimization: Pre-load the test suites at the class level to avoid
         # redundant module loading and test suite allocation during individual test execution.
         loader = unittest.TestLoader()
@@ -218,6 +234,9 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         # set to avoid high memory allocations of set construction.
         from test_pr_accessibility import _PASSED_TESTS
 
+        # Optimization: Use an O(1) space generator expression with all() against
+        # the global _PASSED_TESTS set to avoid creating an intermediate set of IDs.
+        # This reduces memory allocation overhead.
         # O(1) space generator expression with all() against the global _PASSED_TESTS set.
         # Generator-based traversal with all() bypasses set/list construction entirely, achieving O(1) space complexity.
         # Optimization: Use an O(1) space generator expression with all() against
