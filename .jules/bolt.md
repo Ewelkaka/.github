@@ -1,3 +1,6 @@
+## 2025-05-14 - Optimized Test Suite File I/O
+**Learning:** Python's unittest `setUp` method runs before every test case, leading to redundant file I/O when reading static documentation files. Refactoring to `@classmethod setUpClass` reduces redundant `openat` calls.
+**Action:** Always prefer `setUpClass` for immutable test fixtures to minimize system call overhead as the test suite grows.
 ## 2025-05-15 - Redundant I/O in Python Test Suites
 **Learning:** Using `setUp()` in `unittest.TestCase` for static file reading causes the file to be re-opened for every single test method in the class, leading to O(N) file I/O where N is the number of tests.
 **Action:** Use `@classmethod setUpClass` to read static files once per test class, reducing I/O to O(1) per class and significantly improving efficiency in documentation-heavy test suites.
