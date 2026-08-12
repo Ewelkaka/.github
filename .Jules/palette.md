@@ -47,6 +47,9 @@
 **Learning:** Security reporting instructions are high-priority but can be overlooked in plain Markdown. Using a `> [!WARNING]` alert block improves visual hierarchy and urgency. Furthermore, providing a direct `mailto:` link for security email addresses reduces friction for reporters, making the process more accessible and intuitive.
 **Action:** In `SECURITY.md` or similar sensitive files, wrap critical reporting instructions in a prominent alert block and ensure email addresses are interactive via `mailto:` links.
 
+## 2026-05-28 - Use tip alert blocks for high-value resource links
+**Learning:** In documentation, resource lists or "next steps" can blend into the background when presented as standard bulleted lists. Wrapping these in a `> [!TIP]` alert block with a clear call-to-action improves scannability and guides the user toward high-value links, making the contribution process feel more guided and accessible.
+**Action:** Identify lists of high-value external resources or guidance in documentation and consider wrapping them in a `> [!TIP]` alert block to enhance their prominence and scannability.
 ## 2026-06-12 - Actionable reporting instructions reduce friction in Code of Conduct
 **Learning:** Placeholder text in Code of Conduct files (like `[INSERT CONTACT METHOD]`) creates significant friction and uncertainty for potential reporters. Replacing these placeholders with direct, interactive contact methods such as `mailto:` links, especially when highlighted with `> [!IMPORTANT]` alert blocks, ensures that reporting instructions are immediately actionable, visually prominent, and accessible to all users.
 **Action:** Always identify and replace placeholders in community governance documents with specific, interactive contact details and use semantic alert blocks to ensure they are the most visible part of the enforcement section.

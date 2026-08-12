@@ -51,6 +51,7 @@ __pycache__/
 # OS generated files #
 ######################
 __pycache__/
+*.py[cod]
 *.pyc
 .DS_Store
 .DS_Store?
