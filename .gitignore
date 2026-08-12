@@ -29,6 +29,12 @@ __pycache__/
 *.sql
 *.sqlite
 
+# Python #
+##########
+__pycache__/
+*.py[cod]
+*$py.class
+
 # OS generated files #
 ######################
 .DS_Store
@@ -38,3 +44,8 @@ __pycache__/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Python #
+##########
+__pycache__/
+*.pyc
