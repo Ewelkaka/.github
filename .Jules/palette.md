@@ -1,3 +1,6 @@
+## 2026-08-13 - Enhance main README footer with localized policy and support links
+**Learning:** Highlighting localized links for critical support paths and safety guidelines (such as `SECURITY.md` and `SUPPORT.md`) directly in the main repository entry point (`README.md`) footer vastly improves the user journey and navigation discoverability, especially for developers looking for help or reporting issues offline.
+**Action:** Always localize and elevate key policy, license, and support links directly in the footer of the central `README.md` to establish a safe and highly discoverable navigation baseline.
 ## 2026-08-13 - Consolidate localized policy and support pathways in README footer
 **Learning:** Navigating to auxiliary files like `SECURITY.md` and `SUPPORT.md` can be difficult if they are not linked in the main repository landing page (`README.md`). Localizing and consolidating these project hygiene links directly in the footer next to standard links (Code of Conduct and License) ensures high discoverability and clear paths for users seeking help or wishing to report vulnerabilities.
 **Action:** Always include localized, descriptive links to `SECURITY.md` and `SUPPORT.md` in the README footer to make standard help and security procedures immediately accessible.
