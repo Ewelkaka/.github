@@ -1,5 +1,8 @@
 # Compiled source #
 ###################
+__pycache__/
+*.py[cod]
+*$py.class
 *.com
 *.class
 *.dll
@@ -41,3 +44,8 @@ __pycache__/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Python #
+##########
+__pycache__/
+*.pyc
