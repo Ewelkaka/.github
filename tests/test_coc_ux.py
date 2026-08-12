@@ -33,6 +33,16 @@ if __name__ == "__main__":
         with open(README_PATH, "r", encoding="utf-8") as f:
             cls.readme_content = f.read()
 
+    def test_coc_contact_email_present(self):
+        """Verify the security email is present as a mailto link in CODE_OF_CONDUCT.md"""
+        self.assertIn("[opensource-security@github.com](mailto:opensource-security@github.com)", self.coc_content)
+
+    def test_coc_alert_block_present(self):
+        """Verify the Enforcement section in CODE_OF_CONDUCT.md uses an [!IMPORTANT] alert block"""
+        self.assertIn("> [!IMPORTANT]", self.coc_content)
+
+    def test_readme_local_coc_link(self):
+        """Verify README.md links to the local CODE_OF_CONDUCT.md"""
     def test_coc_alert_block_present(self):
         self.assertIn("> [!IMPORTANT]", self.coc_content)
 
