@@ -55,6 +55,9 @@ class TestSupportUX(TrackingTestCase):
     def test_interactive_issue_links(self):
         self.assertIn("[GitHub issues](https://github.com/skills/.github/issues)", self.content)
         self.assertIn("[search the existing issues](https://github.com/skills/.github/issues)", self.content)
+    def test_direct_active_links(self):
+        self.assertIn("[GitHub issues](https://github.com/skills/.github/issues)", self.content)
+        self.assertIn("[existing issues](https://github.com/skills/.github/issues)", self.content)
         self.assertIn("[new issue](https://github.com/skills/.github/issues/new/choose)", self.content)
 
 class TestPullRequestTemplateUX(TrackingTestCase):
@@ -69,6 +72,8 @@ class TestPullRequestTemplateUX(TrackingTestCase):
 
     def test_interactive_issue_link(self):
         self.assertIn("[open a new issue](https://github.com/skills/.github/issues/new/choose)", self.content)
+    def test_direct_active_links(self):
+        self.assertIn("[open one first](https://github.com/skills/.github/issues/new/choose)", self.content)
 
 class TestBugReportUX(TrackingTestCase):
     @classmethod
@@ -80,6 +85,7 @@ class TestBugReportUX(TrackingTestCase):
         self.assertIn("> [!TIP]", self.content)
         self.assertIn("[search existing issues](https://github.com/skills/.github/issues)", self.content)
         self.assertIn("[discussions](https://github.com/skills/.github/discussions)", self.content)
+        self.assertIn("Please search [existing issues](https://github.com/skills/.github/issues) and [discussions](https://github.com/skills/.github/discussions)", self.content)
 
 class TestFeatureRequestUX(TrackingTestCase):
     @classmethod
@@ -91,6 +97,7 @@ class TestFeatureRequestUX(TrackingTestCase):
         self.assertIn("> [!TIP]", self.content)
         self.assertIn("[search existing feature requests](https://github.com/skills/.github/issues?q=is%3Aissue+label%3Afeature)", self.content)
         self.assertIn("[discussions](https://github.com/skills/.github/discussions)", self.content)
+        self.assertIn("Please search [existing feature requests](https://github.com/skills/.github/issues?q=is%3Aissue+label%3Afeature) and [discussions](https://github.com/skills/.github/discussions)", self.content)
 
 class TestSecurityUX(TrackingTestCase):
     @classmethod
