@@ -1,4 +1,8 @@
 # Bolt's Journal - Critical Learnings Only
+
+## 2024-05-24 - Test Suite File I/O Optimization
+**Learning:** In Python `unittest`, using `setUpClass` instead of `setUp` for reading static test data (like Markdown files) significantly reduces redundant syscalls.
+**Action:** Always prefer `setUpClass` for shared, immutable test fixtures to keep the test suite lightning fast as it scales.
 ## 2026-07-08 - Avoiding bytecode pollution in PRs
 **Learning:** Running Python tests locally generates __pycache__ directories and .pyc files, which can accidentally be included in the PR if .gitignore is not properly configured. This was flagged during code review.
 **Action:** Always include Python bytecode patterns in .gitignore and run a cleanup command (find . -name "__pycache__" -type d -exec rm -rf {} +) before staging changes for a PR.
