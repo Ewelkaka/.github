@@ -63,6 +63,40 @@ representative at an online or offline event.
 > Instances of abusive, harassing, or otherwise unacceptable behavior may be
 > reported to the community leaders responsible for enforcement at
 > [opensource-security@github.com](mailto:opensource-security@github.com).
+> All complaints will be reviewed and investigated promptly and fairly.
+>
+> All complaints will be reviewed and investigated promptly and fairly.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be
+reported to the community leaders responsible for enforcement:
+
+> [!IMPORTANT]
+> Please send an email to [opensource-security@github.com](mailto:opensource-security@github.com).
+reported to the community leaders responsible for enforcement.
+
+> [!IMPORTANT]
+> To report an incident, please send an email to [opensource-security@github.com](mailto:opensource-security@github.com).
+>
+> All complaints will be reviewed and investigated promptly and fairly.
+reported to the community leaders responsible for enforcement:
+
+> [!IMPORTANT]
+> Please report any incidents to [opensource-security@github.com](mailto:opensource-security@github.com).
+reported to the community leaders responsible for enforcement.
+
+> [!IMPORTANT]
+> To report an incident, please email community leaders at
+> [opensource-security@github.com](mailto:opensource-security@github.com).
+reported to the community leaders responsible for enforcement:
+
+> [!IMPORTANT]
+> Please report any incidents to [opensource-security@github.com](mailto:opensource-security@github.com).
+>
+> All complaints will be reviewed and investigated promptly and fairly.
+reported to the community leaders responsible for enforcement at:
+
+> [!IMPORTANT]
+> [opensource-security@github.com](mailto:opensource-security@github.com)
+
 All complaints will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the
