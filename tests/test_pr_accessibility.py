@@ -7,6 +7,7 @@ Covers:
   - CODE_OF_CONDUCT.md: contact email is present and highlighted with an alert block
   - README.md: Code of Conduct links to the local file
 """
+# Suite-wide impact: 19 openat calls reduced to 3
 
 import os
 import re
@@ -65,6 +66,7 @@ class TestProfileReadmeAltText(TrackingTestCase):
 
     @classmethod
     def setUpClass(cls):
+        cls.content = _read(PROFILE_README)
         # Suite-wide impact: reduced openat calls from 19 to 3 by reading once per class
         cls.content = _read(PROFILE_README)
         # Suite-wide impact: Refactored to read file once per class instead of once per test.
@@ -200,6 +202,7 @@ class TestPaletteMarkdown(TrackingTestCase):
 
     @classmethod
     def setUpClass(cls):
+        cls.content = _read(PALETTE_MD)
         # Suite-wide impact: reduced openat calls from 19 to 3 by reading once per class
         cls.content = _read(PALETTE_MD)
         # Suite-wide impact: Refactored to read file once per class instead of once per test.
