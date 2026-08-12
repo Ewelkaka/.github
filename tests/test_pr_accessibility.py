@@ -439,5 +439,38 @@ class TestCodeOfConductAccessibility(unittest.TestCase):
         )
 
 
+class TestCodeOfConductAccessibility(unittest.TestCase):
+    """Tests for Code of Conduct accessibility improvements."""
+
+    def setUp(self):
+        self.content = _read(COC_MD)
+
+    def test_coc_has_mailto_link(self):
+        """The Code of Conduct must contain the interactive security mailto link."""
+        self.assertIn(
+            "[opensource-security@github.com](mailto:opensource-security@github.com)",
+            self.content,
+        )
+
+    def test_coc_has_important_alert(self):
+        """The reporting method must be highlighted with an [!IMPORTANT] alert."""
+        self.assertIn("> [!IMPORTANT]", self.content)
+
+    def test_coc_placeholder_removed(self):
+        """The placeholder [INSERT CONTACT METHOD] must be removed."""
+        self.assertNotIn("[INSERT CONTACT METHOD]", self.content)
+
+
+class TestContributingDiscoverability(unittest.TestCase):
+    """Tests for CONTRIBUTING.md UX improvements."""
+
+    def setUp(self):
+        self.content = _read(CONTRIBUTING_MD)
+
+    def test_contributing_links_to_coc(self):
+        """CONTRIBUTING.md should link to the local CODE_OF_CONDUCT.md."""
+        self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", self.content)
+
+
 if __name__ == "__main__":
     unittest.main()
