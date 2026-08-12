@@ -7,6 +7,12 @@ SUPPORT_PATH = os.path.join(REPO_ROOT, "SUPPORT.md")
 PULL_REQUEST_TEMPLATE_PATH = os.path.join(REPO_ROOT, "PULL_REQUEST_TEMPLATE.md")
 SECURITY_PATH = os.path.join(REPO_ROOT, "SECURITY.md")
 
+class TestReadmeUX(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        # Optimization: Read file content once at the class level to reduce openat() syscalls
+        with open(README_PATH, "r", encoding="utf-8") as f:
+            cls.content = f.read()
 from test_pr_accessibility import _read_cached, TrackingTestCase
 
 class TestReadmeUX(TrackingTestCase):
