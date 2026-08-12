@@ -1,3 +1,8 @@
+# Bolt Journal
+
+## 2024-06-03 - Redundant File I/O in Test Suite
+**Learning:** Using `setUp` to read static test data from disk causes redundant `openat` calls for every test method, which scales poorly as the test suite grows.
+**Action:** Use `@classmethod setUpClass` to read static fixtures once per test class.
 # Bolt's Journal - Critical Learnings Only
 ## 2024-06-05 - Reducing redundant file I/O in Python test suite
 **Learning:** Python's `unittest` framework calls `setUp` before every individual test method. For tests that only read static files, this leads to redundant `openat` calls (O(n) where n is the number of tests). Using `@classmethod setUpClass` allows reading the file once per class (O(m) where m is the number of test classes), significantly reducing file system overhead.
