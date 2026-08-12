@@ -227,6 +227,10 @@ class TestCodeOfConductUX(TrackingTestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Optimization: Read files once per class to avoid redundant on-demand reads.
+        cls.coc_content = _read(COC_MD)
+        cls.readme_content = _read(README_MD)
+        cls.contributing_content = _read(CONTRIBUTING_MD)
         # Optimization: Cache all static test files at the class level via setUpClass()
         # using the centralized cache _read_cached(). This avoids repeated, redundant dictionary
         # lookups or on-demand file reading across individual test cases in this class.
@@ -238,6 +242,7 @@ class TestCodeOfConductUX(TrackingTestCase):
         """CODE_OF_CONDUCT.md should contain the official reporting email."""
         self.assertIn(
             "[opensource-security@github.com](mailto:opensource-security@github.com)",
+            self.coc_content,
             self.content,
             "Official reporting email not found in CODE_OF_CONDUCT.md.",
         )
@@ -245,6 +250,8 @@ class TestCodeOfConductUX(TrackingTestCase):
     def test_coc_contains_alert_block(self):
         """The reporting email in CODE_OF_CONDUCT.md should be in an alert block."""
         self.assertRegex(
+            self.coc_content,
+            r"> \[!IMPORTANT\]\s*\n>\s*\[opensource-security@github.com\]",
             self.content,
             RE_COC_ALERT_BLOCK,
             "Reporting email should be wrapped in a > [!IMPORTANT] alert block in CODE_OF_CONDUCT.md.",
@@ -267,6 +274,11 @@ class TestCodeOfConductUX(TrackingTestCase):
         )
 
     def test_contributing_coc_alert_block(self):
+        """CONTRIBUTING.md should have the Code of Conduct notice highlighted with an alert block."""
+        self.assertRegex(
+            self.contributing_content,
+            r"> \[!IMPORTANT\]\s*\n>\s*Please note that this project is released with a \[Contributor Code of Conduct\]\(CODE_OF_CONDUCT.md\)\. By participating in this project you agree to abide by its terms\.",
+            "Code of Conduct notice in CONTRIBUTING.md should be highlighted with a > [!IMPORTANT] alert block.",
         """CONTRIBUTING.md should wrap the Code of Conduct disclaimer inside a [!IMPORTANT] alert block."""
         content = _read(CONTRIBUTING_MD)
         self.assertIn(
