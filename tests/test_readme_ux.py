@@ -17,6 +17,10 @@ SECURITY_PATH = os.path.join(REPO_ROOT, "SECURITY.md")
 class TestReadmeUX(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        # Optimization: Read file once per class to reduce disk I/O.
+        # Reduces openat() calls from 3 to 1 for this class.
+        with open(README_PATH, "r", encoding="utf-8") as f:
+            cls.content = f.read()
         # PERFORMANCE: Read README.md once for the entire class instead of per test method.
         # This reduces openat() calls for README.md from 3 to 1.
         with open(README_PATH, "r", encoding="utf-8") as f:
