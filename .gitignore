@@ -29,6 +29,9 @@ __pycache__/
 *.sql
 *.sqlite
 
+# Python cache #
+################
+__pycache__/
 # Python bytecode #
 ###################
 __pycache__/
