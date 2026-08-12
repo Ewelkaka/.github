@@ -65,6 +65,8 @@ class TestProfileReadmeAltText(TrackingTestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Suite-wide impact: Redundant openat calls reduced by reading once per class
+        cls.content = _read(PROFILE_README)
         # BOLT OPTIMIZATION: Read the file once for the entire class to avoid O(N) I/O.
         # This reduces openat() calls from 6 to 1 for this class.
         cls.content = _read(PROFILE_README)
@@ -186,6 +188,8 @@ class TestPaletteMarkdown(TrackingTestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Suite-wide impact: Redundant openat calls reduced by reading once per class
+        cls.content = _read(PALETTE_MD)
         # BOLT OPTIMIZATION: Read the file once for the entire class to avoid O(N) I/O.
         # This reduces openat() calls from 9 to 1 for this class.
         cls.content = _read(PALETTE_MD)

@@ -17,6 +17,9 @@ SECURITY_PATH = os.path.join(REPO_ROOT, "SECURITY.md")
 class TestReadmeUX(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        # Suite-wide impact: Redundant openat calls reduced by reading once per class
+        with open(README_PATH, "r", encoding="utf-8") as f:
+            cls.content = f.read()
         # BOLT OPTIMIZATION: Read the file once for the entire class to avoid O(N) I/O.
         # This reduces openat() calls from 4 to 1 for this class.
         with open(README_PATH, "r", encoding="utf-8") as f:

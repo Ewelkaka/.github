@@ -1,3 +1,6 @@
+## 2025-05-14 - Redundant File I/O in Test Suite
+**Learning:** In Python's `unittest` framework, using `setUp` to read static files causes a disk read for every single test method. For large test suites or files, this adds up to significant redundant I/O.
+**Action:** Use `@classmethod setUpClass` to read static files once per test class and store them as class attributes.
 ## 2025-01-24 - Reducing redundant file I/O in Python test suites
 **Learning:** Using `setUp` in `unittest.TestCase` causes the setup logic (like reading a file) to run before EVERY test method. For static files, this results in O(N) `openat` calls where N is the number of test methods, which is inefficient for large test suites.
 **Action:** Use `@classmethod setUpClass` to perform expensive, one-time setup (like reading static documentation files) and store the result in a class attribute. This reduces file I/O to O(1) per test class and significantly decreases the number of `openat` system calls.
