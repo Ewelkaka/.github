@@ -514,5 +514,22 @@ class TestPullRequestTemplateUX(unittest.TestCase):
             self.content
         )
 
+class TestPullRequestTemplateUX(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        # Optimization: Use the centralized in-memory cache _read_cached
+        # to ensure the file is read from disk exactly once across the whole suite.
+        cls.content = _read_cached(PR_TEMPLATE_PATH)
+
+    def test_alert_block_present(self):
+        """The pull request template should contain a visible > [!NOTE] alert block about issue linking."""
+        self.assertIn("> [!NOTE]", self.content)
+        self.assertIn("If there's an existing issue for your change", self.content)
+
+    def test_task_list_present(self):
+        """The pull request template should contain the task list checkboxes."""
+        self.assertIn("- [ ] For workflow changes", self.content)
+        self.assertIn("- [ ] For content changes", self.content)
+
 if __name__ == "__main__":
     unittest.main()
