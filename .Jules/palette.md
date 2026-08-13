@@ -74,6 +74,9 @@
 **Learning:** Security reporting instructions are high-priority but can be overlooked in plain Markdown. Using a `> [!WARNING]` alert block improves visual hierarchy and urgency. Furthermore, providing a direct `mailto:` link for security email addresses reduces friction for reporters, making the process more accessible and intuitive.
 **Action:** In `SECURITY.md` or similar sensitive files, wrap critical reporting instructions in a prominent alert block and ensure email addresses are interactive via `mailto:` links.
 
+## 2026-06-12 - Localize documentation links and keep PRs minimal
+**Learning:** Localizing documentation links (e.g., to the Code of Conduct) within the repository ensures users maintain context and don't get bounced to external sites unnecessarily. Additionally, for documentation-heavy repos, reviewers prefer minimal changes that avoid introducing new, language-mismatched testing dependencies for simple content verification.
+**Action:** Prioritize relative internal links for repository-specific policies and use temporary local scripts for verification instead of committing new test suites for documentation strings.
 ## 2026-06-15 - Improve visibility of reporting instructions with semantic alert blocks
 **Learning:** High-priority instructions, such as how to report Code of Conduct violations, can be lost in long documents. Wrapping these instructions in a > [!IMPORTANT] alert block provides a clear visual signal and better scannability, ensuring users can quickly find critical safety information.
 **Action:** Use prominent alert blocks for key procedural instructions in documentation to enhance visibility and user safety.
