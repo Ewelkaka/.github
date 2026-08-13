@@ -1,5 +1,8 @@
 # Bolt's Journal - Critical Learnings Only
 
+## 2025-01-24 - Test Suite File I/O Anti-pattern
+**Learning:** The test suite was re-reading static Markdown files for every test method in `setUp()`, causing O(N) `openat()` calls. Since these files don't change during test execution, this was unnecessary overhead.
+**Action:** Use `@classmethod setUpClass(cls)` to cache static file content at the class level in Python `unittest` to reduce I/O to O(1) per class.
 ## 2025-05-24 - Efficient Test Data Loading with setUpClass
 **Learning:** In Python's `unittest`, using `setUp()` to read static files for every test method creates O(N) I/O overhead. In this repository, 19 tests were performing 19 separate `openat` calls for just 3 Markdown files.
 **Action:** Use `@classmethod setUpClass(cls)` to load read-only test data once per class, reducing I/O from O(N_tests) to O(1) per file. Measured a reduction from 19 to 3 `openat` calls across the suite.
