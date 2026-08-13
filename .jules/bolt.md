@@ -1,3 +1,6 @@
+## 2025-01-24 - Reducing redundant file I/O in test suite
+**Learning:** Python's `unittest.TestCase.setUp` runs before every single test method. When tests read static files (like READMEs or metadata) for assertion, this leads to O(n) file I/O operations where n is the number of test methods. Using `@classmethod setUpClass` reduces this to O(1) per test class.
+**Action:** Always prefer `setUpClass` for expensive or static resource initialization in test suites to minimize system calls and improve execution speed.
 ## 2024-06-06 - Optimized test suite I/O performance
 **Learning:** In Python's `unittest` framework, reading static files in `setUp()` causes the file to be re-opened for every single test method in the class. Using `@classmethod setUpClass` instead ensures the file is read only once per test class.
 **Action:** Always prefer `setUpClass` over `setUp` for static file I/O in test suites to reduce system call overhead and improve execution speed.
