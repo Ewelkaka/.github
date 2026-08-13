@@ -9,6 +9,11 @@ class TestReadmeUX(unittest.TestCase):
     def setUpClass(cls):
         # Optimization: Read file once per class instead of once per test method.
         # Reduces openat() system calls from O(N_tests) to O(1).
+        """
+        Load the repository README content once for the test class.
+        
+        The content is stored on the class for reuse by all test methods.
+        """
         with open(README_PATH, "r", encoding="utf-8") as f:
             cls.content = f.read()
 

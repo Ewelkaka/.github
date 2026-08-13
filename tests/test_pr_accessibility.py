@@ -27,6 +27,12 @@ class TestProfileReadmeAltText(unittest.TestCase):
     def setUpClass(cls):
         # Optimization: Read file once per class instead of once per test method.
         # Reduces openat() system calls from O(N_tests) to O(1).
+        """
+        Load the profile README content once for the test class.
+        
+        Parameters:
+        	cls (type): The test class receiving the shared file content.
+        """
         cls.content = _read(PROFILE_README)
 
     def test_img_alt_is_not_empty(self):
@@ -106,6 +112,7 @@ class TestPaletteMarkdown(unittest.TestCase):
     def setUpClass(cls):
         # Optimization: Read file once per class instead of once per test method.
         # Reduces openat() system calls from O(N_tests) to O(1).
+        """Load the palette file contents once for all tests in the class."""
         cls.content = _read(PALETTE_MD)
 
     def test_file_exists(self):
