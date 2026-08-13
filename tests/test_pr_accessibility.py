@@ -533,6 +533,15 @@ class TestCodeOfConductUX(TrackingTestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Optimization: Read and cache file contents at the class level
+        # to avoid redundant helper calls and memory dictionary lookups.
+        cls.content = _read(COC_MD)
+        cls.readme_content = _read(README_MD)
+        cls.contributing_content = _read(CONTRIBUTING_MD)
+
+    def test_coc_contains_correct_email(self):
+        """CODE_OF_CONDUCT.md should contain the official reporting email."""
+        content = self.content
         # Optimization: Read files once per class instead of once per test method.
         # Reduces openat() system calls from O(N_tests) to O(1).
         cls.coc_content = _read(COC_MD)
@@ -587,6 +596,7 @@ class TestCodeOfConductUX(TrackingTestCase):
 
     def test_coc_contains_alert_block(self):
         """The reporting email in CODE_OF_CONDUCT.md should be in an alert block."""
+        content = self.content
         self.assertRegex(
             self.content,
             self.coc_content,
@@ -598,6 +608,7 @@ class TestCodeOfConductUX(TrackingTestCase):
 
     def test_readme_localized_coc_link(self):
         """README.md should have a localized link to CODE_OF_CONDUCT.md."""
+        content = self.readme_content
         self.assertIn(
             "[Code of Conduct](CODE_OF_CONDUCT.md)",
             self.readme_content,
@@ -606,6 +617,7 @@ class TestCodeOfConductUX(TrackingTestCase):
 
     def test_contributing_localized_coc_link(self):
         """CONTRIBUTING.md should have a localized link to CODE_OF_CONDUCT.md."""
+        content = self.contributing_content
         self.assertIn(
             "[Contributor Code of Conduct](CODE_OF_CONDUCT.md)",
             self.contributing_content,
@@ -614,6 +626,7 @@ class TestCodeOfConductUX(TrackingTestCase):
 
     def test_contributing_coc_alert_block(self):
         """CONTRIBUTING.md should wrap the Code of Conduct disclaimer in an IMPORTANT alert block."""
+        content = self.contributing_content
         self.assertIn(
             "> [!IMPORTANT]\n> Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.",
         """CONTRIBUTING.md should have the Code of Conduct disclaimer wrapped in an alert block."""
@@ -717,6 +730,8 @@ class TestCodeOfConductUX(TrackingTestCase):
 
     def test_contributing_secure_links(self):
         """CONTRIBUTING.md should not contain unencrypted http:// links."""
+        content = self.contributing_content
+        self.assertNotIn("http://", content)
         self.assertNotIn("http://", self.contributing_content)
 
     def test_contributing_top_level_heading(self):
