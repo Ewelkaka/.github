@@ -14,9 +14,7 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BOLT_MD = os.path.join(REPO_ROOT, ".jules", "bolt.md")
 
 
-def _read(path: str) -> str:
-    with open(path, encoding="utf-8") as fh:
-        return fh.read()
+from test_pr_accessibility import _read_cached
 
 
 class TestBoltJournal(unittest.TestCase):
@@ -24,9 +22,9 @@ class TestBoltJournal(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        # Read once per class, mirroring the exact optimization this file
-        # documents (see .jules/bolt.md itself).
-        cls.content = _read(BOLT_MD)
+        # Optimization: Use the centralized in-memory cache _read_cached
+        # to ensure the file is read from disk exactly once across the whole suite.
+        cls.content = _read_cached(BOLT_MD)
 
     def test_file_exists(self):
         """.jules/bolt.md must exist in the repository."""
