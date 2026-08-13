@@ -588,6 +588,7 @@ class TestCodeOfConductUX(TrackingTestCase):
         )
 
     def test_contributing_coc_alert_block(self):
+        """The Code of Conduct disclaimer in CONTRIBUTING.md should be highlighted in an alert block."""
         """The Code of Conduct notice in CONTRIBUTING.md should be wrapped in an alert block."""
         content = _read(CONTRIBUTING_MD)
         self.assertIn(
@@ -609,6 +610,9 @@ class TestCodeOfConductUX(TrackingTestCase):
         self.assertRegex(
             content,
             r"> \[!IMPORTANT\]\s*\n>\s*Please note that this project is released with a \[Contributor Code of Conduct\]\(CODE_OF_CONDUCT\.md\)\.",
+            "The Code of Conduct disclaimer in CONTRIBUTING.md must be highlighted in a > [!IMPORTANT] alert block.",
+        )
+
             "The Code of Conduct warning in CONTRIBUTING.md should be wrapped in a > [!IMPORTANT] alert block.",
             "Code of Conduct disclaimer should be wrapped in a > [!IMPORTANT] alert block in CONTRIBUTING.md.",
         )
