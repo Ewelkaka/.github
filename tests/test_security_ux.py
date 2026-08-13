@@ -19,6 +19,8 @@ class TestSecurityUX(unittest.TestCase):
         with open(SECURITY_PATH, "r", encoding="utf-8") as f:
             cls.content = f.read()
 
+    def test_alert_block_present(self):
+        """Verify that the security warning is formatted as a GitHub alert block."""
     def test_warning_alert_present(self):
         """Verify the semantic warning alert block is present."""
         self.assertIn("> [!WARNING]", self.content)
@@ -36,6 +38,9 @@ class TestSecurityUX(unittest.TestCase):
         self.assertIn("> Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.", self.content)
 
     def test_no_bold_warning(self):
+        """Ensure the old bolded warning is removed."""
+        self.assertNotIn("**Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.**", self.content)
+
         """Verify that the warning is no longer just bold text, ensuring the alert block is used instead."""
         self.assertNotIn("**Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.**", self.content)
 
