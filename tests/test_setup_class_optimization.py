@@ -185,6 +185,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
         path_by_class = {
             pr_accessibility_module.TestProfileReadmeAltText: pr_accessibility_module.PROFILE_README,
             pr_accessibility_module.TestPaletteMarkdown: pr_accessibility_module.PALETTE_MD,
+            pr_accessibility_module.TestCodeOfConductUX: pr_accessibility_module.COC_MD,
             readme_ux_module.TestReadmeUX: readme_ux_module.README_PATH,
             readme_ux_module.TestSupportUX: readme_ux_module.SUPPORT_PATH,
             pr_accessibility_module.TestCodeOfConductUX: pr_accessibility_module.COC_MD,

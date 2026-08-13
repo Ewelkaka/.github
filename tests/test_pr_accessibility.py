@@ -14,6 +14,7 @@ Covers:
 import os
 import re
 import unittest
+from functools import lru_cache
 import functools
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,6 +27,7 @@ CONTRIBUTING_MD = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 README_MD = os.path.join(REPO_ROOT, "README.md")
 
 
+@lru_cache(maxsize=None)
 def _read(path: str) -> str:
     with open(path, encoding="utf-8") as fh:
         return fh.read()
@@ -519,6 +521,11 @@ class TestCodeOfConductUX(TrackingTestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Optimization: Read and cache multiple referenced static files once per class
+        # to prevent redundant reads on every test execution.
+        cls.content = _read(COC_MD)
+        cls.readme_content = _read(README_MD)
+        cls.contributing_content = _read(CONTRIBUTING_MD)
         # Optimization: Read static data files once per class instead of once per test method.
         # Reduces redundant file openat() system calls from O(N_tests) to O(1).
         cls.coc_content = _read(COC_MD)

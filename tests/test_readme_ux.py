@@ -5,6 +5,7 @@
 
 import os
 import unittest
+from test_pr_accessibility import _read
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 README_PATH = os.path.join(REPO_ROOT, "README.md")
@@ -245,6 +246,8 @@ class TestSupportUX(unittest.TestCase):
 class TestSupportUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):
+        # Optimization: Use the cached _read helper to prevent duplicate file I/O
+        cls.content = _read(SUPPORT_PATH)
         # Optimization: Use the centralized in-memory cache _read_cached
         # to ensure the file is read from disk exactly once across the whole suite.
         cls.content = _read_cached(SUPPORT_PATH)
