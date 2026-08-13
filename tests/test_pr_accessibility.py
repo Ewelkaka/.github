@@ -68,6 +68,8 @@ class TestProfileReadmeAltText(TrackingTestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Optimization: Read file once per class to reduce I/O (Bolt ⚡)
+        cls.content = _read(PROFILE_README)
         # Optimization: Read file once for all tests in this class
         cls.content = _read(PROFILE_README)
         # Optimization: Read file once per class instead of once per test method.
@@ -232,6 +234,8 @@ class TestPaletteMarkdown(TrackingTestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Optimization: Read file once per class to reduce I/O (Bolt ⚡)
+        cls.content = _read(PALETTE_MD)
         # Optimization: Read file once for all tests in this class
         cls.content = _read(PALETTE_MD)
         # Optimization: Read file once per class instead of once per test method.
