@@ -20,6 +20,14 @@ class TestSecurityUX(unittest.TestCase):
             cls.content = f.read()
 
     def test_alert_block_present(self):
+        """Verify that SECURITY.md contains the [!WARNING] alert block."""
+        self.assertIn("> [!WARNING]", self.content)
+        self.assertIn("> Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.", self.content)
+
+    def test_bold_warning_removed(self):
+        """Verify that the old bold warning is removed."""
+        self.assertNotIn("**Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.**", self.content)
+
         """Verify that the security warning is formatted as a GitHub alert block."""
     def test_warning_alert_present(self):
         """Verify the semantic warning alert block is present."""
