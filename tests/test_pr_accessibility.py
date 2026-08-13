@@ -533,6 +533,9 @@ class TestCodeOfConductUX(TrackingTestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Optimization: Read and cache files at the class level instead of on-demand per test method.
+        # Reduces redundant openat() system calls across tests.
+        cls.content = _read_cached(COC_MD)
         # Optimization: Use the centralized caching function _read_cached directly
         cls.coc_content = _read_cached(COC_MD)
         cls.readme_content = _read_cached(README_MD)
@@ -614,6 +617,7 @@ class TestCodeOfConductUX(TrackingTestCase):
     def test_coc_contains_alert_block(self):
         """The reporting email in CODE_OF_CONDUCT.md should be in an alert block."""
         self.assertRegex(
+            self.content,
         content = self.content
         self.assertRegex(
         content = self.content
@@ -646,6 +650,8 @@ class TestCodeOfConductUX(TrackingTestCase):
 
     def test_contributing_coc_alert_block(self):
         """CONTRIBUTING.md should wrap the Code of Conduct disclaimer in an IMPORTANT alert block."""
+        self.assertIn(
+            "> [!IMPORTANT]\n> Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.",
         self.assertIn(
             "> [!IMPORTANT]\n> Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.",
         content = self.contributing_content

@@ -13,6 +13,7 @@ README_PATH = os.path.join(REPO_ROOT, "README.md")
 COC_PATH = os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md")
 CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 SUPPORT_PATH = os.path.join(REPO_ROOT, "SUPPORT.md")
+TEMPLATE_PATH = os.path.join(REPO_ROOT, "PULL_REQUEST_TEMPLATE.md")
 PR_TEMPLATE_PATH = os.path.join(REPO_ROOT, "PULL_REQUEST_TEMPLATE.md")
 
 from test_pr_accessibility import _read_cached
@@ -530,6 +531,22 @@ class TestPullRequestTemplateUX(unittest.TestCase):
         """The pull request template should contain the task list checkboxes."""
         self.assertIn("- [ ] For workflow changes", self.content)
         self.assertIn("- [ ] For content changes", self.content)
+
+class TestPullRequestTemplateUX(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        # Optimization: Use the centralized in-memory cache _read_cached
+        # to ensure the file is read from disk exactly once across the whole suite.
+        cls.content = _read_cached(TEMPLATE_PATH)
+
+    def test_summary_section_present(self):
+        self.assertIn("### Summary", self.content)
+
+    def test_changes_section_present(self):
+        self.assertIn("### Changes", self.content)
+
+    def test_task_list_present(self):
+        self.assertIn("### Task list", self.content)
 
 if __name__ == "__main__":
     unittest.main()
