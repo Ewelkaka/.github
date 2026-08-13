@@ -1,5 +1,8 @@
 # Bolt Journal
 
+## 2026-05-20 - Redundant file I/O in document-heavy test suite
+**Learning:** In a documentation-focused repository where tests primarily verify static file content, using the instance-level `setUp` method leads to excessive `openat` calls (e.g., 19 vs 3) as files are re-read for every test method.
+**Action:** Use `@classmethod setUpClass` to read static files once per test class and store them as class attributes.
 ## 2024-05-24 - Optimization of Redundant File I/O in Tests
 **Learning:** In test suites that verify static documentation, reading the same files in `setUp()` for every test case introduces significant, unnecessary disk I/O and system call overhead. Using `@classmethod setUpClass` to read the file once per class reduces `openat` calls by an order of magnitude (from 19 to 3 in this suite).
 **Action:** Always prefer `@classmethod setUpClass` for reading immutable test data or files that are shared across all test methods in a class to minimize I/O overhead.
