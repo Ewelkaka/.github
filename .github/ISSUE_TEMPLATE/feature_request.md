@@ -7,6 +7,10 @@ assignees: ''
 
 ---
 
+> [!TIP]
+> **Please [search existing feature requests](https://github.com/skills/.github/issues?q=is%3Aissue+label%3Afeature) and [discussions](https://github.com/skills/.github/discussions) before suggesting a new feature to avoid duplicates.**
+> **Please search [existing feature requests](https://github.com/skills/.github/issues?q=is%3Aissue+label%3Afeature) and [discussions](https://github.com/skills/.github/discussions) before suggesting a new feature to avoid duplicates.**
+
 ### Summary
 
 A clear and concise description of what the problem is, and what you solution you want.
