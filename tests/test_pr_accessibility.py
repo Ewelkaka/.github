@@ -587,6 +587,20 @@ class TestCodeOfConductUX(TrackingTestCase):
             "Localized Code of Conduct link not found in CONTRIBUTING.md.",
         )
 
+    def test_contributing_coc_alert_block(self):
+        """The Code of Conduct notice in CONTRIBUTING.md should be wrapped in an alert block."""
+        content = _read(CONTRIBUTING_MD)
+        self.assertIn(
+            "> [!IMPORTANT]",
+            content,
+            "Code of Conduct notice should be wrapped in a > [!IMPORTANT] alert block in CONTRIBUTING.md.",
+        )
+        self.assertIn(
+            "> This project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).",
+            content,
+            "Expected alert block content not found in CONTRIBUTING.md.",
+        )
+
     def test_contributing_has_alert_block(self):
         """The Code of Conduct disclaimer in CONTRIBUTING.md should be highlighted in an alert block."""
     def test_contributing_contains_alert_block(self):
