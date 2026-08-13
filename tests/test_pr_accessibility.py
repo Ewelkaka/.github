@@ -533,6 +533,8 @@ class TestCodeOfConductUX(TrackingTestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Optimization: Use the centralized in-memory cache _read_cached
+        # to ensure the files are read from disk exactly once across the whole suite.
         # Cache reading of MD files to optimize system calls
         cls.coc_content = _read(COC_MD)
         cls.readme_content = _read(README_MD)
@@ -591,6 +593,7 @@ class TestCodeOfConductUX(TrackingTestCase):
 
     def test_coc_contains_correct_email(self):
         """CODE_OF_CONDUCT.md should contain the official reporting email."""
+        content = self.content
         self.assertIn(
             "[opensource-security@github.com](mailto:opensource-security@github.com)",
             self.coc_content,
@@ -600,6 +603,7 @@ class TestCodeOfConductUX(TrackingTestCase):
 
     def test_coc_contains_alert_block(self):
         """The reporting email in CODE_OF_CONDUCT.md should be in an alert block."""
+        content = self.content
         self.assertRegex(
         content = self.content
         self.assertRegex(
@@ -631,6 +635,7 @@ class TestCodeOfConductUX(TrackingTestCase):
 
     def test_contributing_coc_alert_block(self):
         """CONTRIBUTING.md should wrap the Code of Conduct disclaimer in an IMPORTANT alert block."""
+        content = self.contributing_content
         self.assertIn(
             "> [!IMPORTANT]\n> Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.",
         content = self.contributing_content

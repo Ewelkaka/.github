@@ -499,5 +499,20 @@ class TestPullRequestTemplateUX(unittest.TestCase):
         self.assertIn("If there's _not_ an existing issue", self.content)
 
 
+class TestPullRequestTemplateUX(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        # Optimization: Use the centralized in-memory cache _read_cached
+        # to ensure the file is read from disk exactly once across the whole suite.
+        cls.content = _read_cached(PR_TEMPLATE_PATH)
+
+    def test_note_alert_block_present(self):
+        """PULL_REQUEST_TEMPLATE.md should contain the > [!NOTE] alert block for issue guidelines."""
+        self.assertIn("> [!NOTE]", self.content)
+        self.assertIn(
+            "If there's an existing issue for your change, please link to it below next to \"Closes\".",
+            self.content
+        )
+
 if __name__ == "__main__":
     unittest.main()

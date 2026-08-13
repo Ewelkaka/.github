@@ -225,6 +225,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
             pr_accessibility_module.TestCodeOfConductUX: pr_accessibility_module.COC_MD,
             readme_ux_module.TestReadmeUX: readme_ux_module.README_PATH,
             readme_ux_module.TestSupportUX: readme_ux_module.SUPPORT_PATH,
+            readme_ux_module.TestPullRequestTemplateUX: readme_ux_module.PR_TEMPLATE_PATH,
             readme_ux_module.TestPullRequestTemplateUX: os.path.join(pr_accessibility_module.REPO_ROOT, "PULL_REQUEST_TEMPLATE.md"),
             readme_ux_module.TestPullRequestTemplateUX: readme_ux_module.PR_TEMPLATE_PATH,
             readme_ux_module.TestPullRequestTemplateUX: readme_ux_module.PR_TEMPLATE_PATH,
