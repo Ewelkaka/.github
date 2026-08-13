@@ -16,6 +16,8 @@ If you believe you have found a security vulnerability in any GitHub-owned repos
 > Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.
 
 Instead, please send an email to [opensource-security@github.com](mailto:opensource-security@github.com).
+
+Instead, please send an email to [opensource-security@github.com](mailto:opensource-security@github.com).
 > **Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.**
 > Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.
 
