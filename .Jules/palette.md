@@ -43,6 +43,9 @@
 **Learning:** Plain-text disclaimers in documentation can be easily overlooked. Converting these to semantic GitHub-native alert blocks (e.g., `> [!IMPORTANT]`) significantly improves visual hierarchy, scannability, and ensures that critical context is immediately apparent to all users, including those using assistive technologies.
 **Action:** Identify plain-text call-to-actions or disclaimers in Markdown files and wrap them in the appropriate semantic alert block to enhance visibility and accessibility.
 
+## 2026-05-12 - Enhance security warnings with native alert blocks
+**Learning:** Security warnings are often embedded as bold text within documentation, which can be easily skipped by users scanning for information. Using GitHub-native `> [!WARNING]` alert blocks not only makes these critical instructions stand out visually but also provides semantic meaning that assistive technologies can use to convey the importance of the message.
+**Action:** Replace critical bold-text warnings in documentation with `> [!WARNING]` blocks to improve both scannability and accessibility.
 ## 2026-04-03 - Use warning alert blocks for critical security reporting disclaimers
 **Learning:** Security reporting instructions are among the most critical pieces of documentation. Using a semantic warning alert block (`> [!WARNING]`) for the "do not report publicly" disclaimer ensures it is not missed by well-intentioned researchers, reducing the risk of accidental public disclosure of vulnerabilities.
 **Action:** Convert critical security-related warnings from bold text to GitHub-native `> [!WARNING]` blocks to maximize visibility and researcher compliance.
