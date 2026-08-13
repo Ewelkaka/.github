@@ -1,3 +1,6 @@
+## 2026-06-26 - Excessive file I/O in Python test suite
+**Learning:** Using `setUp` to read static test data (like Markdown files) causes a redundant `openat()` syscall for every single test method. For large test suites, this significantly increases overhead.
+**Action:** Refactor static file reading into `@classmethod setUpClass` to load data once per test class, ensuring it's inherited by all test instances and reducing total file I/O operations.
 ## 2025-05-14 - Redundant File I/O in Test Suite
 **Learning:** Refactoring static file reading from `setUp` to `@classmethod setUpClass` significantly reduces the number of `openat` system calls during test execution.
 **Action:** Always check if files being read in `setUp` are modified by tests; if not, move them to `setUpClass`.
