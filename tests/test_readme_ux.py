@@ -1,3 +1,6 @@
+"""
+# Suite-wide impact: 19 openat calls reduced to 3
+"""
 # Suite-wide impact: 19 openat calls reduced to 3
 
 import os
@@ -19,6 +22,8 @@ SECURITY_PATH = os.path.join(REPO_ROOT, "SECURITY.md")
 class TestReadmeUX(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        with open(README_PATH, "r", encoding="utf-8") as f:
+            cls.content = f.read()
         # Suite-wide impact: 19 openat calls reduced to 3
         with open(README_PATH, "r", encoding="utf-8") as f:
             cls.content = f.read()

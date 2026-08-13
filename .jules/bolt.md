@@ -1,5 +1,8 @@
 # Bolt Journal
 
+## 2025-01-24 - Reducing test suite file I/O with setUpClass
+**Learning:** In document-heavy test suites where multiple tests assert against the same file content, using `setUp` causes redundant file I/O. Refactoring to `@classmethod setUpClass` allows reading the file once per test class, significantly reducing system calls (e.g., from 19 to 3 in this case).
+**Action:** Prefer `@classmethod setUpClass` over `setUp` when test methods within a class share the same static data (like file contents) to minimize disk I/O and improve suite performance.
 ## 2024-05-24 - Optimize test suite file I/O
 **Learning:** Using `setUp` in tests that read static files causes redundant disk I/O, which scales with the number of tests. For a test suite reading Markdown files, this resulted in 19 openat calls.
 **Action:** Use `@classmethod setUpClass` to read static files once per test class to reduce I/O overhead. This reduced openat calls from 19 to 3.
