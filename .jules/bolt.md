@@ -1,4 +1,7 @@
 # Bolt Journal
+## 2025-05-15 - Optimizing File I/O in Test Suites
+**Learning:** In document-heavy repositories where tests primarily verify static file content, reading the same file in every test method's `setUp` creates unnecessary system call overhead.
+**Action:** Use `@classmethod setUpClass` to read file contents once per test class instead of once per test instance.
 
 ## 2025-01-24 - Reducing test suite file I/O with setUpClass
 **Learning:** In document-heavy test suites where multiple tests assert against the same file content, using `setUp` causes redundant file I/O. Refactoring to `@classmethod setUpClass` allows reading the file once per test class, significantly reducing system calls (e.g., from 19 to 3 in this case).
