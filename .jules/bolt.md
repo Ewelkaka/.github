@@ -1,5 +1,8 @@
 # Bolt's Journal - Critical Learnings Only
 
+## 2026-07-06 - Optimized test suite file I/O
+**Learning:** The test suite was redundant, reading Markdown files for every test method. Using `@classmethod setUpClass(cls)` allows caching file contents at the class level, reducing redundant `openat()` calls.
+**Action:** When working with Python `unittest` for static file assertions, always use `setUpClass` to read static data once per class.
 ## 2024-05-24 - Redundant File I/O in Test Suite
 **Learning:** In Python `unittest`, using `setUp()` to read static files for every test method causes O(N) `openat()` syscalls. Using `@classmethod setUpClass(cls)` reduces this to O(1) per class, significantly decreasing disk I/O for large test suites.
 **Action:** Always prefer `setUpClass` for immutable, shared test data and document the performance impact with inline comments to satisfy review standards.

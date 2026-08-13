@@ -68,6 +68,8 @@ class TestProfileReadmeAltText(TrackingTestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Optimization: Read file once for all tests in this class
+        cls.content = _read(PROFILE_README)
         # Optimization: Read file once per class instead of once per test method.
         # Reduces openat() calls from 19 to 3 across the test suite.
         cls.content = _read(PROFILE_README)
@@ -230,6 +232,8 @@ class TestPaletteMarkdown(TrackingTestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Optimization: Read file once for all tests in this class
+        cls.content = _read(PALETTE_MD)
         # Optimization: Read file once per class instead of once per test method.
         # Reduces openat() calls from 19 to 3 across the test suite.
         cls.content = _read(PALETTE_MD)
