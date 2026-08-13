@@ -91,6 +91,7 @@ Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement.
 
 > [!IMPORTANT]
+> To report an incident, please email [opensource-security@github.com](mailto:opensource-security@github.com).
 > **Please report any Code of Conduct violations via email.**
 >
 > You can reach the enforcement team at [opensource-security@github.com](mailto:opensource-security@github.com).
