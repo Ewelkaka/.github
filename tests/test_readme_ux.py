@@ -13,6 +13,9 @@ README_PATH = os.path.join(REPO_ROOT, "README.md")
 COC_PATH = os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md")
 CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 SUPPORT_PATH = os.path.join(REPO_ROOT, "SUPPORT.md")
+PR_TEMPLATE_PATH = os.path.join(REPO_ROOT, "PULL_REQUEST_TEMPLATE.md")
+
+from test_pr_accessibility import _read_cached
 COC_PATH = os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md")
 CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
@@ -447,6 +450,20 @@ class TestCoCUX(unittest.TestCase):
             len(self.content),
             0,
             "cls.content must not be empty after setUpClass reads README.md.",
+        )
+
+class TestPullRequestTemplateUX(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        # Optimization: Use the centralized in-memory cache _read_cached
+        # to ensure the file is read from disk exactly once across the whole suite.
+        cls.content = _read_cached(PR_TEMPLATE_PATH)
+
+    def test_alert_block_present(self):
+        self.assertIn("> [!NOTE]", self.content)
+        self.assertIn(
+            "> If there's an existing issue for your change, please link to it below next to \"Closes\". If there's *not* an existing issue, please open one first to make it more likely that this update will be accepted.",
+            self.content,
         )
 
 if __name__ == "__main__":
