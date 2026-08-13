@@ -1,11 +1,18 @@
 # Compiled source #
 ###################
+__pycache__/
+*.py[cod]
+*$py.class
 *.com
 *.class
 *.dll
 *.exe
 *.o
 *.so
+__pycache__/
+*.pyc
+*.py[cod]
+*$py.class
 
 # Packages #
 ############
@@ -26,8 +33,31 @@
 *.sql
 *.sqlite
 
+# Python #
+##########
+__pycache__/
+*.py[cod]
+# Python cache #
+################
+__pycache__/
+# Python bytecode #
+###################
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+# Python #
+##########
+__pycache__/
+*.pyc
+*.py[cod]
+*$py.class
+
 # OS generated files #
 ######################
+__pycache__/
+*.py[cod]
+*.pyc
 .DS_Store
 .DS_Store?
 ._*
@@ -35,3 +65,13 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Python #
+##########
+__pycache__/
+*.py[cod]
+*.class
+*$py.class
+*.class
+*$py.class
+*.pyc
