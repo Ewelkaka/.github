@@ -534,6 +534,10 @@ class TestCodeOfConductUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):
         # Optimization: Read files once per class instead of once per test method.
+        # Reduces openat() system calls from O(N_tests) to O(1).
+        cls.coc_content = _read(COC_MD)
+        cls.contributing_content = _read(CONTRIBUTING_MD)
+        cls.readme_content = _read(README_MD)
         # Optimization: Read static files once per class instead of once per test method.
         # Optimization: Read files once per class instead of once per test method.
         # Optimization: Read and cache multiple referenced static files once per class
@@ -609,6 +613,9 @@ class TestCodeOfConductUX(TrackingTestCase):
         )
 
     def test_contributing_coc_alert_block(self):
+        """CONTRIBUTING.md should wrap the Code of Conduct disclaimer in an IMPORTANT alert block."""
+        self.assertIn(
+            "> [!IMPORTANT]\n> Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.",
         """CONTRIBUTING.md should have the Code of Conduct disclaimer wrapped in an alert block."""
         """The Code of Conduct disclaimer in CONTRIBUTING.md should be highlighted in an alert block."""
         """The Code of Conduct notice in CONTRIBUTING.md should be wrapped in an alert block."""
