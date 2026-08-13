@@ -51,6 +51,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
         pr_accessibility_module.TestCodeOfConductUX,
         readme_ux_module.TestReadmeUX,
         readme_ux_module.TestSupportUX,
+        pr_accessibility_module.TestCodeOfConductUX,
     ]
 
     def test_coc_ux_class_uses_setup_class(self):

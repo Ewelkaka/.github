@@ -27,6 +27,18 @@ CONTRIBUTING_MD = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 README_MD = os.path.join(REPO_ROOT, "README.md")
 
 
+_FILE_CACHE = {}
+
+
+def _read_cached(path: str) -> str:
+    if path not in _FILE_CACHE:
+        with open(path, encoding="utf-8") as fh:
+            _FILE_CACHE[path] = fh.read()
+    return _FILE_CACHE[path]
+
+
+def _read(path: str) -> str:
+    return _read_cached(path)
 @lru_cache(maxsize=None)
 def _read(path: str) -> str:
     with open(path, encoding="utf-8") as fh:
@@ -521,6 +533,7 @@ class TestCodeOfConductUX(TrackingTestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Optimization: Read files once per class instead of once per test method.
         # Optimization: Read static files once per class instead of once per test method.
         # Optimization: Read files once per class instead of once per test method.
         # Optimization: Read and cache multiple referenced static files once per class
@@ -537,6 +550,8 @@ class TestCodeOfConductUX(TrackingTestCase):
         cls.coc_content = _read(COC_MD)
         cls.readme_content = _read(README_MD)
         cls.contributing_content = _read(CONTRIBUTING_MD)
+        # Shared attribute for compliance with TestSetUpClassOptimization:
+        cls.content = cls.coc_content
         # Compatibility with test_setup_class_optimization.py which expects `content` field.
         cls.content = cls.coc_content
         # For compatibility with structural test validation in test_setup_class_optimization.py

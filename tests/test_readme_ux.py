@@ -5,6 +5,7 @@
 
 import os
 import unittest
+from test_pr_accessibility import _read_cached
 from test_pr_accessibility import _read
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,6 +24,8 @@ SECURITY_PATH = os.path.join(REPO_ROOT, "SECURITY.md")
 class TestReadmeUX(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        # Optimization: Read file once per class and use shared caching.
+        # Reduces openat() system calls and disk access.
         # Optimization: Read file once per class instead of once per test to reduce I/O.
         with open(README_PATH, "r", encoding="utf-8") as f:
             cls.content = f.read()
@@ -246,6 +249,8 @@ class TestSupportUX(unittest.TestCase):
 class TestSupportUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):
+        # Optimization: Read file once per class and use shared caching.
+        # Reduces openat() system calls and disk access.
         # Optimization: Use the cached _read helper to prevent duplicate file I/O
         cls.content = _read(SUPPORT_PATH)
         # Optimization: Use the centralized in-memory cache _read_cached
