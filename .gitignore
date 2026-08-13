@@ -10,6 +10,7 @@ __pycache__/
 *.o
 *.so
 __pycache__/
+*.pyc
 *.py[cod]
 *$py.class
 

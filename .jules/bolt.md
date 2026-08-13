@@ -1,3 +1,6 @@
+## 2025-05-15 - Optimizing Test Suite I/O with setUpClass
+**Learning:** In Python's `unittest` framework, using `setUp()` triggers for every single test method, leading to redundant I/O (e.g., re-reading the same Markdown files). Switching to `@classmethod setUpClass()` allows expensive setup like file reading to happen once per test class, significantly reducing system calls.
+**Action:** Always prefer `setUpClass()` for reading static test data or performing expensive initialization that is shared across all tests in a class.
 ## 2024-05-24 - Optimized test suite file I/O
 **Learning:** In the 'GitHub Skills' test suite, refactoring test classes to use '@classmethod setUpClass(cls)' for reading static Markdown data reduces redundant 'openat()' system calls from O(N_tests) to O(1) per class.
 **Action:** Use '@classmethod setUpClass(cls)' to load shared, immutable test data once per class instead of using 'setUp(self)' to load it for every test method.

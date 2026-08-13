@@ -22,6 +22,8 @@ SECURITY_PATH = os.path.join(REPO_ROOT, "SECURITY.md")
 class TestReadmeUX(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        with open(README_PATH, "r", encoding="utf-8") as f:
+            cls.content = f.read()
         # Optimization: Read file once per class instead of once per test method.
         # Reduces openat() calls from O(N_tests) to O(1).
         with open(README_PATH, "r", encoding="utf-8") as f:
