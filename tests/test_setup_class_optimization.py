@@ -1,6 +1,6 @@
 """
 Tests for the setUp() -> setUpClass() refactor applied to:
-  - tests/test_pr_accessibility.py (TestProfileReadmeAltText, TestPaletteMarkdown)
+  - tests/test_pr_accessibility.py (TestProfileReadmeAltText, TestPaletteMarkdown, TestCodeOfConductUX)
   - tests/test_readme_ux.py (TestReadmeUX)
 
 This refactor (see .jules/bolt.md) reads static test-data files once per
