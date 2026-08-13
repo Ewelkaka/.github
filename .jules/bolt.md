@@ -1,3 +1,6 @@
+## 2025-05-15 - Redundant openat() calls in test suite
+**Learning:** The Python test suite was performing redundant file I/O by reading the same documentation files in the `setUp` method of multiple test classes, leading to 19 `openat` calls for just 3 files.
+**Action:** Refactor test classes to use `@classmethod setUpClass` to read static documentation files once per class, significantly reducing system calls and improving test execution efficiency.
 ## 2025-01-24 - Reducing redundant file I/O in test suite
 **Learning:** Python's `unittest.TestCase.setUp` runs before every single test method. When tests read static files (like READMEs or metadata) for assertion, this leads to O(n) file I/O operations where n is the number of test methods. Using `@classmethod setUpClass` reduces this to O(1) per test class.
 **Action:** Always prefer `setUpClass` for expensive or static resource initialization in test suites to minimize system calls and improve execution speed.
