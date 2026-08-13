@@ -1,4 +1,8 @@
 # Bolt Journal
+
+## 2024-05-24 - Optimization of Redundant File I/O in Test Suite
+**Learning:** In document-heavy repositories, tests often verify static file content. Using the `@classmethod setUpClass` decorator in `unittest.TestCase` allows reading file contents once per class instead of once per test method.
+**Action:** Always prefer `setUpClass` for immutable setup data (like static files) to reduce redundant system calls and disk I/O, especially in larger test suites.
 ## 2025-05-15 - Optimizing File I/O in Test Suites
 **Learning:** In document-heavy repositories where tests primarily verify static file content, reading the same file in every test method's `setUp` creates unnecessary system call overhead.
 **Action:** Use `@classmethod setUpClass` to read file contents once per test class instead of once per test instance.
