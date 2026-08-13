@@ -7,6 +7,8 @@
 
 
 > [!NOTE]
+> If there's an existing issue for your change, please link to it below next to "Closes".
+> If there's _not_ an existing issue, please open one first to make it more likely that this update will be accepted.
 > If there's an existing issue for your change, please link to it below next to "Closes". If there's _not_ an existing issue, please open one first to make it more likely that this update will be accepted.
 > If there's an existing issue for your change, please link to it below next to "Closes". If there's *not* an existing issue, please open one first to make it more likely that this update will be accepted.
 > If there's an existing issue for your change, please link to it below next to "Closes".

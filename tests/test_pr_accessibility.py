@@ -533,6 +533,10 @@ class TestCodeOfConductUX(TrackingTestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Cache reading of MD files to optimize system calls
+        cls.coc_content = _read(COC_MD)
+        cls.readme_content = _read(README_MD)
+        cls.contributing_content = _read(CONTRIBUTING_MD)
         # Optimization: Read and cache file contents at the class level
         # to avoid redundant helper calls and memory dictionary lookups.
         cls.content = _read(COC_MD)
@@ -596,6 +600,7 @@ class TestCodeOfConductUX(TrackingTestCase):
 
     def test_coc_contains_alert_block(self):
         """The reporting email in CODE_OF_CONDUCT.md should be in an alert block."""
+        self.assertRegex(
         content = self.content
         self.assertRegex(
             self.content,
@@ -626,6 +631,8 @@ class TestCodeOfConductUX(TrackingTestCase):
 
     def test_contributing_coc_alert_block(self):
         """CONTRIBUTING.md should wrap the Code of Conduct disclaimer in an IMPORTANT alert block."""
+        self.assertIn(
+            "> [!IMPORTANT]\n> Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.",
         content = self.contributing_content
         self.assertIn(
             "> [!IMPORTANT]\n> Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.",
@@ -730,6 +737,7 @@ class TestCodeOfConductUX(TrackingTestCase):
 
     def test_contributing_secure_links(self):
         """CONTRIBUTING.md should not contain unencrypted http:// links."""
+        self.assertNotIn("http://", self.contributing_content)
         content = self.contributing_content
         self.assertNotIn("http://", content)
         self.assertNotIn("http://", self.contributing_content)

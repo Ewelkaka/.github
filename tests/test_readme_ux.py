@@ -482,5 +482,22 @@ class TestPullRequestTemplateUX(unittest.TestCase):
         )
 
 
+
+class TestPullRequestTemplateUX(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        # Optimization: Use the centralized in-memory cache _read_cached
+        # to ensure the file is read from disk exactly once across the whole suite.
+        cls.pr_template_path = os.path.join(REPO_ROOT, "PULL_REQUEST_TEMPLATE.md")
+        cls.content = _read_cached(cls.pr_template_path)
+
+    def test_alert_block_present(self):
+        self.assertIn("> [!NOTE]", self.content)
+
+    def test_alert_block_content(self):
+        self.assertIn("If there's an existing issue for your change", self.content)
+        self.assertIn("If there's _not_ an existing issue", self.content)
+
+
 if __name__ == "__main__":
     unittest.main()
