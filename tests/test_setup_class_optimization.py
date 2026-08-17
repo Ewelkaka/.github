@@ -13,6 +13,7 @@ if TESTS_DIR not in sys.path:
 
 import test_pr_accessibility as pr_accessibility_module  # noqa: E402
 import test_readme_ux as readme_ux_module  # noqa: E402
+import test_palette_ux as palette_ux_module  # noqa: E402
 
 
 def _get_test_cases(suite):
@@ -44,6 +45,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
         readme_ux_module.TestBugReportUX,
         readme_ux_module.TestFeatureRequestUX,
         readme_ux_module.TestSecurityUX,
+        palette_ux_module.TestPaletteUX,
     ]
 
     PATH_BY_CLASS = {
@@ -56,6 +58,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
         readme_ux_module.TestBugReportUX: os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "bug_report.md"),
         readme_ux_module.TestFeatureRequestUX: os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "feature_request.md"),
         readme_ux_module.TestSecurityUX: readme_ux_module.SECURITY_PATH,
+        palette_ux_module.TestPaletteUX: palette_ux_module.COC_PATH,
     }
 
     def test_classes_do_not_define_instance_setUp(self):
@@ -98,7 +101,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
                 instance_a = cls(method_name)
                 instance_b = cls(method_name)
 
-                attr_name = "coc_content" if cls == pr_accessibility_module.TestCodeOfConductUX else "content"
+                attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX) else "content"
                 self.assertTrue(hasattr(instance_a, attr_name))
                 self.assertIs(
                     getattr(instance_a, attr_name),
@@ -111,7 +114,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
         for cls in self.CLASSES_UNDER_TEST:
             with self.subTest(cls=cls.__name__):
                 cls.setUpClass()
-                attr_name = "coc_content" if cls == pr_accessibility_module.TestCodeOfConductUX else "content"
+                attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX) else "content"
                 val = getattr(cls, attr_name)
                 self.assertIsInstance(val, str)
                 self.assertGreater(len(val), 0)
@@ -123,7 +126,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
                 cls.setUpClass()
                 with open(path, encoding="utf-8") as fh:
                     expected = fh.read()
-                attr_name = "coc_content" if cls == pr_accessibility_module.TestCodeOfConductUX else "content"
+                attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX) else "content"
                 self.assertEqual(getattr(cls, attr_name), expected)
 
 
@@ -135,6 +138,7 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         loader = unittest.TestLoader()
         cls.pr_accessibility_suite = loader.loadTestsFromModule(pr_accessibility_module)
         cls.readme_ux_suite = loader.loadTestsFromModule(readme_ux_module)
+        cls.palette_ux_suite = loader.loadTestsFromModule(palette_ux_module)
 
     def _run_module_suite(self, suite):
         from test_pr_accessibility import _PASSED_TESTS
@@ -168,6 +172,13 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         self.assertTrue(
             result.wasSuccessful(),
             f"readme_ux suite failed: failures={result.failures}, errors={result.errors}",
+        )
+
+    def test_palette_ux_suite_passes(self):
+        result = self._run_module_suite(self.palette_ux_suite)
+        self.assertTrue(
+            result.wasSuccessful(),
+            f"palette_ux suite failed: failures={result.failures}, errors={result.errors}",
         )
 
 
