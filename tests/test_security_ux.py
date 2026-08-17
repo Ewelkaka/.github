@@ -1,153 +1,35 @@
 import os
 import unittest
 import re
+from test_pr_accessibility import _read_cached
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECURITY_PATH = os.path.join(REPO_ROOT, "SECURITY.md")
 
-REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECURITY_MD_PATH = os.path.join(REPO_ROOT, "SECURITY.md")
-import re
+# Module-level pre-compiled regex objects for efficient search operations.
+RE_WARNING_ALERT = re.compile(r"> \[!WARNING\]", re.IGNORECASE)
+RE_MAILTO_LINK = re.compile(r"\[opensource-security@github\.com\]\(mailto:opensource-security@github\.com\)")
 
-REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECURITY_PATH = os.path.join(REPO_ROOT, "SECURITY.md")
-import re
-
-REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECURITY_MD_PATH = os.path.join(REPO_ROOT, "SECURITY.md")
-
-REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECURITY_PATH = os.path.join(REPO_ROOT, "SECURITY.md")
-SECURITY_MD_PATH = os.path.join(REPO_ROOT, "SECURITY.md")
-SECURITY_MD = os.path.join(REPO_ROOT, "SECURITY.md")
 
 class TestSecurityUX(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        with open(SECURITY_PATH, "r", encoding="utf-8") as f:
-            cls.content = f.read()
+        # Optimization: Read file once per class via centralized _read_cached helper
+        cls.content = _read_cached(SECURITY_PATH)
 
     def test_warning_alert_block_present(self):
         """Verify that the warning alert block is present in SECURITY.md."""
-        self.assertIn("> [!WARNING]", self.content)
+        self.assertIsNotNone(RE_WARNING_ALERT.search(self.content))
         self.assertIn("Please do not report security vulnerabilities through public GitHub issues", self.content)
 
     def test_mailto_link_present(self):
         """Verify that the security email is a mailto: link."""
-        self.assertIn("[opensource-security@github.com](mailto:opensource-security@github.com)", self.content)
+        self.assertIsNotNone(RE_MAILTO_LINK.search(self.content))
 
     def test_no_bold_warning(self):
         """Verify that the old bold warning is removed."""
         self.assertNotIn("**Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.**", self.content)
 
-        with open(SECURITY_MD_PATH, "r", encoding="utf-8") as f:
-            cls.content = f.read()
-
-    def test_alert_block_present(self):
-        with open(SECURITY_MD, "r", encoding="utf-8") as f:
-            cls.content = f.read()
-
-    def test_warning_alert_block_present(self):
-        """Verify that the critical security warning is in a GitHub-native alert block."""
-        self.assertIn("> [!WARNING]", self.content)
-        self.assertIn("Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.", self.content)
-
-    def test_mailto_link_present(self):
-        self.assertIn("[opensource-security@github.com](mailto:opensource-security@github.com)", self.content)
-
-    def test_old_bold_warning_removed(self):
-        self.assertNotIn("**Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.**", self.content)
-
-        """Verify that the security email is a mailto: link for better UX."""
-        self.assertIn("[opensource-security@github.com](mailto:opensource-security@github.com)", self.content)
-
-    def test_no_plain_bold_warning(self):
-        """Verify that the warning is not just bold text anymore (improved visual hierarchy)."""
-        # The original was **Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.**
-        self.assertNotIn("**Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.**", self.content)
-
-        with open(SECURITY_PATH, "r", encoding="utf-8") as f:
-            cls.content = f.read()
-
-    def test_alert_block_present(self):
-        """Ensure the security warning is using the GitHub-native alert block syntax."""
-    def test_security_warning_alert_block(self):
-        """Verify that the security report warning is in a [!WARNING] alert block."""
-        self.assertIn("> [!WARNING]", self.content)
-        self.assertIn("> Please do not report security vulnerabilities through public GitHub issues", self.content)
-
-    def test_no_bold_warning(self):
-        """Verify that the old bold warning is removed."""
-        self.assertNotIn("**Please do not report security vulnerabilities through public GitHub issues", self.content)
-    def test_alert_block_present(self):
-        """Verify that SECURITY.md contains the [!WARNING] alert block."""
-        self.assertIn("> [!WARNING]", self.content)
-        self.assertIn("> Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.", self.content)
-
-    def test_bold_warning_removed(self):
-        """Verify that the old bold warning is removed."""
-        self.assertNotIn("**Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.**", self.content)
-
-        """Verify that the security warning is formatted as a GitHub alert block."""
-    def test_warning_alert_present(self):
-        """Verify the semantic warning alert block is present."""
-        self.assertIn("> [!WARNING]", self.content)
-        self.assertIn("> **Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.**", self.content)
-
-    def test_security_email_present(self):
-        """Verify the security reporting email is present."""
-        self.assertIn("opensource-security@github.com", self.content)
-        with open(SECURITY_MD_PATH, "r", encoding="utf-8") as f:
-            cls.content = f.read()
-
-    def test_security_warning_alert_block(self):
-        """Verify that the security reporting warning uses a GitHub-native alert block."""
-        self.assertIn("> [!WARNING]", self.content)
-        self.assertIn("> Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.", self.content)
-
-    def test_no_bold_warning(self):
-        """Ensure the old bold warning is removed."""
-        self.assertNotIn("**Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.**", self.content)
-
-        """Ensure the old bolded warning is removed."""
-        self.assertNotIn("**Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.**", self.content)
-
-        """Verify that the warning is no longer just bold text, ensuring the alert block is used instead."""
-        self.assertNotIn("**Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.**", self.content)
-
-    def test_security_email_present(self):
-        """Verify that the security email is still present in the document."""
-        self.assertIn("opensource-security@github.com", self.content)
-        with open(SECURITY_PATH, "r", encoding="utf-8") as f:
-            cls.content = f.read()
-
-    def test_alert_block_present(self):
-    def test_warning_alert_present(self):
-        """Verify that the security reporting warning is in a [!WARNING] alert block."""
-        with open(SECURITY_MD_PATH, "r", encoding="utf-8") as f:
-            cls.content = f.read()
-
-    def test_warning_alert_present(self):
-        """The security reporting section should use a [!WARNING] alert block."""
-        self.assertIn("> [!WARNING]", self.content)
-        self.assertIn("Please do not report security vulnerabilities through public GitHub issues", self.content)
-
-    def test_mailto_link_present(self):
-        """The security email should be a mailto: link for better UX."""
-        with open(SECURITY_MD, "r", encoding="utf-8") as f:
-            cls.content = f.read()
-
-    def test_warning_alert_present(self):
-        """Verify that the security warning is wrapped in a [!WARNING] alert block."""
-        self.assertIn("> [!WARNING]", self.content)
-        self.assertIn("> **Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.**", self.content)
-
-    def test_mailto_link_present(self):
-        """Verify that the security email is a clickable mailto: link."""
-        """Verify that the security email is converted to a mailto: link."""
-        self.assertIn("[opensource-security@github.com](mailto:opensource-security@github.com)", self.content)
 
 if __name__ == "__main__":
     unittest.main()
