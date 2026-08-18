@@ -184,3 +184,7 @@
 ## 2026-07-16 - Expand setUpClass I/O caching to multi-file assertions
 **Learning:** When a single test class asserts against multiple distinct static files (such as CODE_OF_CONDUCT.md, README.md, and CONTRIBUTING.md in TestCodeOfConductUX), performing `_read()` calls on-demand inside each test method leads to multiple redundant `openat()` calls. Caching all required static files at class creation time via `@classmethod setUpClass(cls)` completely eliminates redundant system-level disk reads.
 **Action:** Identify all test methods performing raw direct file reads within a single class, and hoist all of them into a unified `@classmethod setUpClass(cls)` block.
+
+## 2026-07-18 - Ensure complete test class tracking for meta-test suite bypass
+**Learning:** Meta-test runners that verify pre-passed test suites via a global tracking set (`_PASSED_TESTS`) fail to short-circuit if even a single test class in a module inherits from `unittest.TestCase` instead of `TrackingTestCase`. This triggers full redundant re-executions of entire module test suites (36 extra test runs in this suite).
+**Action:** Always ensure ALL test classes in target modules inherit from `TrackingTestCase` so every executed test case records its completion ID in `_PASSED_TESTS`.
