@@ -50,8 +50,7 @@
 **Learning:** Security warnings in plain bold text can blend into the surrounding content, potentially leading to unsafe disclosures. Converting these to GitHub-native `> [!WARNING]` alert blocks creates a high-contrast visual signal that is universally recognized and prioritized by both sighted and screen reader users.
 **Action:** Proactively audit security-related documentation for plain-text warnings and elevate them to semantic alert blocks to ensure critical safety information is never missed.
 ## 2026-05-12 - Enhance security warnings with native alert blocks
-**Learning:** Security warnings are often embedded as bold text within documentation, which can be easily skipped by users scanning for information. Using GitHub-native `> [!WARNING]` alert blocks not only makes these critical instructions stand out visually but also provides semantic meaning that assistive technologies can use to convey the importance of the message.
-**Action:** Replace critical bold-text warnings in documentation with `> [!WARNING]` blocks to improve both scannability and accessibility.
+**Learning:** Replace critical bold-text warnings in documentation with `> [!WARNING]` blocks to improve both scannability and accessibility.
 ## 2026-04-03 - Use warning alert blocks for critical security reporting disclaimers
 **Learning:** Security reporting instructions are among the most critical pieces of documentation. Using a semantic warning alert block (`> [!WARNING]`) for the "do not report publicly" disclaimer ensures it is not missed by well-intentioned researchers, reducing the risk of accidental public disclosure of vulnerabilities.
 **Action:** Convert critical security-related warnings from bold text to GitHub-native `> [!WARNING]` blocks to maximize visibility and researcher compliance.
@@ -139,3 +138,7 @@
 ## 2026-08-05 - Enhance PR guidelines scannability using visible native alert blocks
 **Learning:** Relying on developer comments (`<!-- ... -->`) inside templates (like `PULL_REQUEST_TEMPLATE.md`) to guide contributors hides critical context during preview or rendered states. Replacing these with native, prominent alert blocks (e.g. `> [!NOTE]`) with appropriate spacing and non-hard-wrapped text makes the instructions scannable, visible, and accessible throughout the PR creation process.
 **Action:** Identify hidden instructions or guide comments in templates and promote them to appropriate semantic alert blocks to elevate usability and readability.
+
+## 2026-08-14 - Clean duplicate footer links in README for screen reader clarity
+**Learning:** Accumulated duplicate copyright and policy footer lines in a repository's main README create repetitive speech output for screen reader users and visual clutter. Keeping a single canonical footer line cleans up the landing page experience and respects screen reader flow.
+**Action:** Ensure project footers contain exactly one clean line of essential policy and copyright links.
