@@ -139,6 +139,10 @@
 **Learning:** Relying on developer comments (`<!-- ... -->`) inside templates (like `PULL_REQUEST_TEMPLATE.md`) to guide contributors hides critical context during preview or rendered states. Replacing these with native, prominent alert blocks (e.g. `> [!NOTE]`) with appropriate spacing and non-hard-wrapped text makes the instructions scannable, visible, and accessible throughout the PR creation process.
 **Action:** Identify hidden instructions or guide comments in templates and promote them to appropriate semantic alert blocks to elevate usability and readability.
 
-## 2026-08-14 - Clean duplicate footer links in README for screen reader clarity
+## 2026-08-14 - Clean duplicate footer lines in README for screen reader clarity
 **Learning:** Accumulated duplicate copyright and policy footer lines in a repository's main README create repetitive speech output for screen reader users and visual clutter. Keeping a single canonical footer line cleans up the landing page experience and respects screen reader flow.
 **Action:** Ensure project footers contain exactly one clean line of essential policy and copyright links.
+
+## 2026-08-15 - Eliminate redundant text fragments and duplicate alert blocks for screen reader flow
+**Learning:** Accumulated duplicate lines and redundant alert blocks in documentation files (such as `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `SUPPORT.md`, and `PULL_REQUEST_TEMPLATE.md`) create severe auditory clutter for screen reader users and visual noise for sighted contributors. Streamlining these files to single, canonical alert blocks and instructions restores clear document scannability and screen reader navigation flow.
+**Action:** Routinely audit Markdown documentation and template files for duplicate text fragments and redundant alert blocks, consolidating them into single, accessible callout blocks.
