@@ -32,10 +32,6 @@ def _read_cached(path: str) -> str:
         return fh.read()
 
 
-def _read(path: str) -> str:
-    return _read_cached(path)
-
-
 # Pre-compiled regular expression patterns for optimized string search operations.
 RE_EMPTY_ALT = re.compile(r'<img\s[^>]*alt\s*=\s*["\']["\']')
 RE_WHITESPACE_ALT = re.compile(r'<img\s[^>]*alt\s*=\s*["\'](\s+)["\']')
@@ -239,7 +235,7 @@ class TestPaletteMarkdown(TrackingTestCase):
         )
 
 
-class TestProfileReadmeSetupClassBehavior(unittest.TestCase):
+class TestProfileReadmeSetupClassBehavior(TrackingTestCase):
     """Verify the setUp -> setUpClass refactor in TestProfileReadmeAltText."""
 
     @classmethod
@@ -335,7 +331,7 @@ class TestCodeOfConductUX(TrackingTestCase):
         )
 
 
-class TestCodeOfConductAccessibility(unittest.TestCase):
+class TestCodeOfConductAccessibility(TrackingTestCase):
     """Tests for Code of Conduct accessibility improvements."""
 
     @classmethod
@@ -358,7 +354,7 @@ class TestCodeOfConductAccessibility(unittest.TestCase):
         self.assertNotIn("[INSERT CONTACT METHOD]", self.content)
 
 
-class TestContributingDiscoverability(unittest.TestCase):
+class TestContributingDiscoverability(TrackingTestCase):
     """Tests for CONTRIBUTING.md UX improvements."""
 
     @classmethod
