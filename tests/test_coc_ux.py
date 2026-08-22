@@ -1,6 +1,6 @@
 import os
 import unittest
-from test_pr_accessibility import _read_cached
+from test_pr_accessibility import _read_cached, TrackingTestCase
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 README_PATH = os.path.join(REPO_ROOT, "README.md")
@@ -8,7 +8,9 @@ COC_PATH = os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md")
 CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 
 
-class TestCoCUX(unittest.TestCase):
+# Inherit from TrackingTestCase so test IDs are recorded in _PASSED_TESTS,
+# enabling meta-test runners (e.g. TestRefactoredSuitesStillPass) to bypass redundant re-executions.
+class TestCoCUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):
         cls.coc_content = _read_cached(COC_PATH)
