@@ -1,7 +1,7 @@
 import os
 import unittest
 import re
-from test_pr_accessibility import _read_cached
+from test_pr_accessibility import _read_cached, TrackingTestCase
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
@@ -10,7 +10,9 @@ CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 RE_TIP_ALERT = re.compile(r"> \[!TIP\]", re.IGNORECASE)
 
 
-class TestContributingUX(unittest.TestCase):
+# Inherit from TrackingTestCase so test IDs are recorded in _PASSED_TESTS,
+# enabling meta-test runners (e.g. TestRefactoredSuitesStillPass) to bypass redundant re-executions.
+class TestContributingUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):
         # Optimization: Read file once per class using _read_cached to optimize I/O
