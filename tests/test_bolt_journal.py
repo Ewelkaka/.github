@@ -7,13 +7,15 @@ Covers:
 
 import os
 import unittest
-from test_pr_accessibility import _read_cached
+from test_pr_accessibility import _read_cached, TrackingTestCase
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BOLT_MD = os.path.join(REPO_ROOT, ".jules", "bolt.md")
 
 
-class TestBoltJournal(unittest.TestCase):
+# Optimization: Inherit from TrackingTestCase to record passed test IDs in _PASSED_TESTS,
+# ensuring global test tracking and preventing redundant suite re-executions in meta-tests.
+class TestBoltJournal(TrackingTestCase):
     """Tests for the .jules/bolt.md journal file."""
 
     @classmethod
