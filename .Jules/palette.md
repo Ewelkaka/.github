@@ -31,7 +31,7 @@
 **Learning:** Prominent GitHub-native alert blocks (e.g., `> [!TIP]`) inside issue templates are highly effective at guiding contributors to search existing issues/discussions first. Highlighting these instructions visually prevents duplicate issues and improves overall repository maintenance UX.
 **Action:** Embed friendly search instructions in a `> [!TIP]` alert block at the top of issue templates, with proper newline spacing.
 
-## 2026-08-10 - Elevate hidden template comments to visible alert blocks
+## 2026-08-10 - Elevate hidden developer comments to visible alert blocks
 **Learning:** Hidden developer comments in pull request templates can easily be ignored or overlooked during PR creation. Converting these into visible GitHub-native alert blocks (e.g., `> [!NOTE]`) significantly improves the visual experience and scannability of issue linking guidelines.
 **Action:** Identify commented-out instructions inside templates and elevate them to prominent, visible GitHub-native alert blocks with proper newline spacing.
 
@@ -92,7 +92,7 @@
 **Learning:** Linking to external standard policy templates (like the Contributor Covenant) from a README is common but can be a UX dead-end if the user is looking for how to report an issue *here*. Replacing external links with local ones that contain repository-specific contact information (e.g., `opensource-security@github.com`) ensures that the user's journey from "I need help/to report" to "I have sent a report" is as frictionless as possible.
 **Action:** Always prefer linking to local, customized versions of policies (like `CODE_OF_CONDUCT.md`) in project footers and READMEs over generic external URLs, especially when those local versions contain essential contact methods.
 ## 2026-06-15 - Localize policy links and use semantic alerts for reporting friction
-**Learning:** External links to standard policies like the Contributor Covenant can lead users away from the repository, causing loss of context. Localizing these links ensures users stay within the project's ecosystem. Additionally, replacing generic placeholders like `[INSERT CONTACT METHOD]` with high-visibility semantic alert blocks and direct `mailto:` links significantly reduces the friction for reporting violations, making the community safer and more accessible.
+**Learning:** External links to standard policies like the Contributor Covenant can lead users away from the repository, causing loss of context. Localizing these links ensures users stay within the project's environment. Additionally, replacing generic placeholders like `[INSERT CONTACT METHOD]` with high-visibility semantic alert blocks and direct `mailto:` links significantly reduces the friction for reporting violations, making the community safer and more accessible.
 **Action:** Always localize links to files like `CODE_OF_CONDUCT.md` if a local version exists, and ensure all reporting placeholders are replaced with clear, actionable instructions wrapped in `> [!IMPORTANT]` alert blocks.
 ## 2026-06-22 - Localize documentation links and establish clear reporting channels
 **Learning:** In documentation-heavy repositories, "Contributor UX" is just as important as "User UX". Localizing links to the Code of Conduct and providing a direct, interactive reporting channel (via mailto links) reduces friction for community members and ensures they stay within the project context.
@@ -139,6 +139,10 @@
 **Learning:** Relying on developer comments (`<!-- ... -->`) inside templates (like `PULL_REQUEST_TEMPLATE.md`) to guide contributors hides critical context during preview or rendered states. Replacing these with native, prominent alert blocks (e.g. `> [!NOTE]`) with appropriate spacing and non-hard-wrapped text makes the instructions scannable, visible, and accessible throughout the PR creation process.
 **Action:** Identify hidden instructions or guide comments in templates and promote them to appropriate semantic alert blocks to elevate usability and readability.
 
-## 2026-08-14 - Clean duplicate footer links in README for screen reader clarity
+## 2026-08-14 - Clean duplicate footer lines in README for screen reader clarity
 **Learning:** Accumulated duplicate copyright and policy footer lines in a repository's main README create repetitive speech output for screen reader users and visual clutter. Keeping a single canonical footer line cleans up the landing page experience and respects screen reader flow.
 **Action:** Ensure project footers contain exactly one clean line of essential policy and copyright links.
+
+## 2026-08-15 - Remove duplicate disclaimer repetitions in templates for screen reader clarity
+**Learning:** Over time, issue templates and documentation files can accumulate repetitive duplicate lines and blockquote fragments. These duplicate blocks create significant auditory clutter for screen reader users who must listen to repetitive text multiple times. Cleaning up these duplicate lines restores document visual scannability while preserving all active links and required alert structures.
+**Action:** Audit documentation and issue template files for redundant duplicate paragraphs or blockquotes and consolidate them into concise, clear, single-instance alert blocks.
