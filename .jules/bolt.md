@@ -1,5 +1,10 @@
 # Bolt's Journal - Critical Learnings Only
 
+## 2026-07-17 - Complete TrackingTestCase Inheritance Across Multi-Module Meta-Test Suites
+**Learning:** When using a global tracking mechanism (`_PASSED_TESTS`) in a base `TrackingTestCase` class to bypass redundant programmatic re-executions of test suites in meta-test runners (like `TestRefactoredSuitesStillPass`), all test classes across all test files must inherit from `TrackingTestCase`. Any class inheriting directly from `unittest.TestCase` will fail to register its completed test IDs in `_PASSED_TESTS`, triggering redundant programmatic suite re-evaluations.
+**Action:** Inherit `TrackingTestCase` across all test classes in all test modules and include explicit `sys.path` initialization (`sys.path.insert(0, TESTS_DIR)`) to ensure consistent test ID registration and fast module discovery regardless of execution context.
+
+
 ## 2025-01-24 - Test Suite File I/O Anti-pattern
 **Learning:** The test suite was re-reading static Markdown files for every test method in `setUp()`, causing O(N) `openat()` calls. Since these files don't change during test execution, this was unnecessary overhead.
 **Action:** Use `@classmethod setUpClass(cls)` to cache static file content at the class level in Python `unittest` to reduce I/O to O(1) per class.
