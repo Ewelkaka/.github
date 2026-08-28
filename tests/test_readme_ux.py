@@ -84,6 +84,10 @@ class TestPullRequestTemplateUX(TrackingTestCase):
     def test_interactive_issue_link(self):
         self.assertIn("[open a new issue](https://github.com/skills/.github/issues/new/choose)", self.content)
 
+    def test_no_duplicate_note_instructions(self):
+        self.assertEqual(self.content.count("> [!NOTE]"), 1)
+        self.assertEqual(self.content.count('next to "Closes".'), 1)
+
 
 class TestBugReportUX(TrackingTestCase):
     @classmethod
