@@ -184,3 +184,7 @@
 ## 2026-07-16 - Expand setUpClass I/O caching to multi-file assertions
 **Learning:** When a single test class asserts against multiple distinct static files (such as CODE_OF_CONDUCT.md, README.md, and CONTRIBUTING.md in TestCodeOfConductUX), performing `_read()` calls on-demand inside each test method leads to multiple redundant `openat()` calls. Caching all required static files at class creation time via `@classmethod setUpClass(cls)` completely eliminates redundant system-level disk reads.
 **Action:** Identify all test methods performing raw direct file reads within a single class, and hoist all of them into a unified `@classmethod setUpClass(cls)` block.
+
+## 2026-07-18 - Leverage Centralized File Cache in Verification Suites
+**Learning:** Structural verification suites that test other test classes (e.g. `TestSetUpClassOptimization`) can re-open static files directly (`open(path)`), causing unexpected `openat` syscall spikes even when target classes use cached readers. Using the global `_read_cached` helper across all structural verification assertions preserves single-pass I/O for the entire suite.
+**Action:** In structural validation tests, reuse `_read_cached()` instead of `open()` to ensure static content verification doesn't bypass shared in-memory caches.
