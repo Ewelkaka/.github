@@ -28,6 +28,10 @@ class TestCoCUX(unittest.TestCase):
     def test_contributing_coc_link(self):
         self.assertIn("CODE_OF_CONDUCT.md", self.contributing_content)
 
+    def test_no_duplicate_enforcement_notices(self):
+        count = self.coc_content.count("[opensource-security@github.com](mailto:opensource-security@github.com)")
+        self.assertEqual(count, 1, f"Expected 1 email link in CODE_OF_CONDUCT.md, found {count}")
+
 
 if __name__ == "__main__":
     unittest.main()
