@@ -95,6 +95,10 @@ class TestBugReportUX(TrackingTestCase):
         self.assertIn("> [!TIP]", self.content)
         self.assertIn("[search existing issues](https://github.com/skills/.github/issues)", self.content)
 
+    def test_no_duplicate_lines(self):
+        lines = [line.strip() for line in self.content.splitlines() if "before filing a new bug report" in line]
+        self.assertEqual(len(lines), 1, "bug_report.md contains duplicate search advice lines")
+
 
 class TestFeatureRequestUX(TrackingTestCase):
     @classmethod
@@ -104,6 +108,10 @@ class TestFeatureRequestUX(TrackingTestCase):
 
     def test_alert_block_present(self):
         self.assertIn("> [!TIP]", self.content)
+
+    def test_no_duplicate_lines(self):
+        lines = [line.strip() for line in self.content.splitlines() if "before suggesting a new feature" in line]
+        self.assertEqual(len(lines), 1, "feature_request.md contains duplicate search advice lines")
 
 
 class TestSecurityUX(TrackingTestCase):
