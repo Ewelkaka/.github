@@ -32,8 +32,8 @@
 **Action:** Embed friendly search instructions in a `> [!TIP]` alert block at the top of issue templates, with proper newline spacing.
 
 ## 2026-08-10 - Elevate hidden template comments to visible alert blocks
-**Learning:** Hidden developer comments in pull request templates can easily be ignored or overlooked during PR creation. Converting these into visible GitHub-native alert blocks (e.g., `> [!NOTE]`) significantly improves the visual experience and scannability of issue linking guidelines.
-**Action:** Identify commented-out instructions inside templates and elevate them to prominent, visible GitHub-native alert blocks with proper newline spacing.
+**Learning:** Guidelines embedded in issue or pull request templates as HTML comments are invisible to users once rendered, meaning crucial instructions are easily missed during composition. Converting developer comments into a visible, semantic GitHub-native `> [!NOTE]` alert block improves visual experience and guarantees immediate scannability of linking guidelines.
+**Action:** Replace hidden HTML developer comments in issue or PR templates with visible, accessible alert blocks to ensure compliance and readability during document drafting.
 
 ## 2024-05-24 - Informative illustrations require descriptive alt text
 **Learning:** In a repository primarily focused on documentation and organization profiles, the primary UX interactions are visual. Informative illustrations, such as the organization mascot, serve as key brand identifiers and should be accessible to screen reader users via descriptive alt text rather than being treated as purely decorative.
@@ -142,3 +142,7 @@
 ## 2026-08-14 - Clean duplicate footer links in README for screen reader clarity
 **Learning:** Accumulated duplicate copyright and policy footer lines in a repository's main README create repetitive speech output for screen reader users and visual clutter. Keeping a single canonical footer line cleans up the landing page experience and respects screen reader flow.
 **Action:** Ensure project footers contain exactly one clean line of essential policy and copyright links.
+
+## 2026-08-15 - Consolidate duplicate alert blocks and guidance lines across templates
+**Learning:** Accumulated duplicate guidance lines and redundant alert blocks inside Markdown templates and support documents generate repetitive speech for screen-reader users and visual clutter for contributors. Consolidating duplicate blocks into concise, single alert units cleans up contributor interactions during issue/PR submission.
+**Action:** Audit repository templates and documentation files for duplicate alert blocks or repeated lines, and consolidate them into clear, accessible single units.
