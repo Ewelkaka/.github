@@ -1,6 +1,6 @@
 import os
 import unittest
-from test_pr_accessibility import _read_cached
+from test_pr_accessibility import _read_cached, TrackingTestCase
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 COC_PATH = os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md")
@@ -9,7 +9,7 @@ CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 SUPPORT_PATH = os.path.join(REPO_ROOT, "SUPPORT.md")
 
 
-class TestPaletteUX(unittest.TestCase):
+class TestPaletteUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):
         # Optimization: Read static Markdown files once per class using _read_cached
