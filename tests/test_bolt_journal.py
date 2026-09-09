@@ -6,14 +6,20 @@ Covers:
 """
 
 import os
+import sys
 import unittest
-from test_pr_accessibility import _read_cached
+
+TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
+if TESTS_DIR not in sys.path:
+    sys.path.insert(0, TESTS_DIR)
+
+from test_pr_accessibility import _read_cached, TrackingTestCase
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BOLT_MD = os.path.join(REPO_ROOT, ".jules", "bolt.md")
 
 
-class TestBoltJournal(unittest.TestCase):
+class TestBoltJournal(TrackingTestCase):
     """Tests for the .jules/bolt.md journal file."""
 
     @classmethod
