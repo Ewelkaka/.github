@@ -1,7 +1,13 @@
 import os
+import sys
 import unittest
 import re
-from test_pr_accessibility import _read_cached
+
+TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
+if TESTS_DIR not in sys.path:
+    sys.path.insert(0, TESTS_DIR)
+
+from test_pr_accessibility import _read_cached, TrackingTestCase
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
@@ -10,7 +16,7 @@ CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 RE_TIP_ALERT = re.compile(r"> \[!TIP\]", re.IGNORECASE)
 
 
-class TestContributingUX(unittest.TestCase):
+class TestContributingUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):
         # Optimization: Read file once per class using _read_cached to optimize I/O
