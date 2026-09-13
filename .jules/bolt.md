@@ -188,3 +188,7 @@
 ## 2026-09-11 - Eliminate redundant meta-test suite re-executions
 **Learning:** When using meta-test runners (like `TestRefactoredSuitesStillPass`) that verify sub-suites pass, any test class inheriting directly from `unittest.TestCase` instead of `TrackingTestCase` will fail the `all(test.id() in _PASSED_TESTS)` check. This causes the meta-test runner to re-execute the entire sub-suite a second time in an embedded runner.
 **Action:** Ensure all test classes in the test suite inherit from `TrackingTestCase` so that their test IDs are tracked in `_PASSED_TESTS`, eliminating redundant suite re-executions.
+
+## 2026-09-12 - Expand structural meta-test verification across all test classes
+**Learning:** Meta-test verification suites that structurally assert performance patterns (such as `setUpClass` I/O caching) must include all test classes in `CLASSES_UNDER_TEST` and all test modules in `TestRefactoredSuitesStillPass`. Excluding new test modules or test classes from meta-testing leaves performance regressions undetected.
+**Action:** Maintain exhaustive module and test class registries in meta-testing suites to ensure 100% structural verification coverage across the entire test suite.
