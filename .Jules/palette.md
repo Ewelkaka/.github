@@ -146,3 +146,7 @@
 ## 2026-08-15 - Consolidate redundant disclaimers in contributing guidelines for screen reader scannability
 **Learning:** Accumulated duplicate disclaimers and repeated alert blocks in `CONTRIBUTING.md` create repetitive auditory clutter for screen reader users and degrade document scannability. Consolidating disclaimers into a single prominent `> [!IMPORTANT]` alert block preserves compliance clarity while delivering a clean, accessible reading flow.
 **Action:** Audit contribution guidelines and documentation files to ensure disclaimers and policy notices are consolidated into a single semantic alert block.
+
+## 2026-08-16 - Consolidate duplicate instructions in pull request template for screen reader scannability
+**Learning:** Duplicate note instructions inside pull request templates (`PULL_REQUEST_TEMPLATE.md`) create repetitive speech output for screen reader users and visual clutter during pull request creation. Consolidating duplicate callouts into a single, concise `> [!NOTE]` block with direct links improves scannability, reduces cognitive fatigue, and preserves clean screen reader flow.
+**Action:** Audit pull request and issue templates to ensure alert block instructions are consolidated into a single clean notice with actionable Markdown links.
