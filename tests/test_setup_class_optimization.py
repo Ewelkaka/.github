@@ -25,6 +25,25 @@ def _get_test_cases(suite):
             yield test
 
 
+class _MockResult:
+    """Reusable mock result object representing a successful test run."""
+
+    def wasSuccessful(self):
+        return True
+
+    @property
+    def failures(self):
+        return []
+
+    @property
+    def errors(self):
+        return []
+
+
+# Module-scoped pre-instantiated mock result to eliminate class definition & object allocation overhead
+_MOCK_SUCCESSFUL_RESULT = _MockResult()
+
+
 def _first_test_method(cls):
     for name in sorted(dir(cls)):
         if name.startswith("test_"):
@@ -144,16 +163,7 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         from test_pr_accessibility import _PASSED_TESTS
 
         if all(test.id() in _PASSED_TESTS for test in _get_test_cases(suite)):
-            class MockResult:
-                def wasSuccessful(self):
-                    return True
-                @property
-                def failures(self):
-                    return []
-                @property
-                def errors(self):
-                    return []
-            return MockResult()
+            return _MOCK_SUCCESSFUL_RESULT
 
         with open(os.devnull, "w", encoding="utf-8") as devnull:
             runner = unittest.TextTestRunner(stream=devnull, verbosity=0)
