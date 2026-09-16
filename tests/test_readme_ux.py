@@ -84,6 +84,11 @@ class TestPullRequestTemplateUX(TrackingTestCase):
     def test_interactive_issue_link(self):
         self.assertIn("[open a new issue](https://github.com/skills/.github/issues/new/choose)", self.content)
 
+    def test_no_duplicate_note_instructions(self):
+        """PULL_REQUEST_TEMPLATE.md should contain exactly one 'If there's an existing issue' note line."""
+        count = self.content.count("If there's an existing issue")
+        self.assertEqual(count, 1, f"Expected exactly 1 'If there's an existing issue' sentence, found {count}")
+
 
 class TestBugReportUX(TrackingTestCase):
     @classmethod
