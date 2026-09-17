@@ -130,6 +130,24 @@ class TestSetUpClassOptimization(unittest.TestCase):
                 self.assertEqual(getattr(cls, attr_name), expected)
 
 
+class _MockResult:
+    """Pre-instantiated mock result object for bypassed test suite checks."""
+
+    def wasSuccessful(self):
+        return True
+
+    @property
+    def failures(self):
+        return []
+
+    @property
+    def errors(self):
+        return []
+
+
+_MOCK_SUCCESSFUL_RESULT = _MockResult()
+
+
 class TestRefactoredSuitesStillPass(unittest.TestCase):
     """Regression guard: the full test suites must still pass in their entirety."""
 
@@ -140,20 +158,24 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         cls.readme_ux_suite = loader.loadTestsFromModule(readme_ux_module)
         cls.palette_ux_suite = loader.loadTestsFromModule(palette_ux_module)
 
-    def _run_module_suite(self, suite):
+        # Optimization: Precompute test IDs as tuples during setUpClass to eliminate
+        # re-crawling test suite tree structures via _get_test_cases() during test executions.
+        cls.pr_accessibility_test_ids = tuple(
+            test.id() for test in _get_test_cases(cls.pr_accessibility_suite)
+        )
+        cls.readme_ux_test_ids = tuple(
+            test.id() for test in _get_test_cases(cls.readme_ux_suite)
+        )
+        cls.palette_ux_test_ids = tuple(
+            test.id() for test in _get_test_cases(cls.palette_ux_suite)
+        )
+
+    def _run_module_suite(self, suite, test_ids):
         from test_pr_accessibility import _PASSED_TESTS
 
-        if all(test.id() in _PASSED_TESTS for test in _get_test_cases(suite)):
-            class MockResult:
-                def wasSuccessful(self):
-                    return True
-                @property
-                def failures(self):
-                    return []
-                @property
-                def errors(self):
-                    return []
-            return MockResult()
+        # Direct tuple iteration over precomputed test_ids provides an O(1) space, high-speed check.
+        if all(tid in _PASSED_TESTS for tid in test_ids):
+            return _MOCK_SUCCESSFUL_RESULT
 
         with open(os.devnull, "w", encoding="utf-8") as devnull:
             runner = unittest.TextTestRunner(stream=devnull, verbosity=0)
@@ -161,21 +183,21 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         return result
 
     def test_pr_accessibility_suite_passes(self):
-        result = self._run_module_suite(self.pr_accessibility_suite)
+        result = self._run_module_suite(self.pr_accessibility_suite, self.pr_accessibility_test_ids)
         self.assertTrue(
             result.wasSuccessful(),
             f"pr_accessibility suite failed: failures={result.failures}, errors={result.errors}",
         )
 
     def test_readme_ux_suite_passes(self):
-        result = self._run_module_suite(self.readme_ux_suite)
+        result = self._run_module_suite(self.readme_ux_suite, self.readme_ux_test_ids)
         self.assertTrue(
             result.wasSuccessful(),
             f"readme_ux suite failed: failures={result.failures}, errors={result.errors}",
         )
 
     def test_palette_ux_suite_passes(self):
-        result = self._run_module_suite(self.palette_ux_suite)
+        result = self._run_module_suite(self.palette_ux_suite, self.palette_ux_test_ids)
         self.assertTrue(
             result.wasSuccessful(),
             f"palette_ux suite failed: failures={result.failures}, errors={result.errors}",
