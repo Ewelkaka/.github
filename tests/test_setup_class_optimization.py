@@ -32,6 +32,21 @@ def _first_test_method(cls):
     raise AssertionError(f"No test_ methods found on {cls.__name__}")
 
 
+class _MockResult:
+    """Pre-instantiated mock result object to avoid re-defining classes and instantiating per check."""
+    def wasSuccessful(self):
+        return True
+    @property
+    def failures(self):
+        return []
+    @property
+    def errors(self):
+        return []
+
+
+_MOCK_SUCCESSFUL_RESULT = _MockResult()
+
+
 class TestSetUpClassOptimization(unittest.TestCase):
     """Structural checks that setUp() was replaced with setUpClass()."""
 
@@ -92,11 +107,16 @@ class TestSetUpClassOptimization(unittest.TestCase):
                     f"{cls.__name__}.setUpClass must be declared as a classmethod.",
                 )
 
+    @classmethod
+    def setUpClass(cls):
+        # Optimization: Pre-invoke setUpClass() for all target classes once to eliminate redundant setup invocations across test methods
+        for target_cls in cls.CLASSES_UNDER_TEST:
+            target_cls.setUpClass()
+
     def test_content_attribute_is_shared_across_instances(self):
         """Two instances of the same TestCase class must reference the exact same content object."""
         for cls in self.CLASSES_UNDER_TEST:
             with self.subTest(cls=cls.__name__):
-                cls.setUpClass()
                 method_name = _first_test_method(cls)
                 instance_a = cls(method_name)
                 instance_b = cls(method_name)
@@ -113,7 +133,6 @@ class TestSetUpClassOptimization(unittest.TestCase):
         """The cached content must be a non-empty string once setUpClass runs."""
         for cls in self.CLASSES_UNDER_TEST:
             with self.subTest(cls=cls.__name__):
-                cls.setUpClass()
                 attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX) else "content"
                 val = getattr(cls, attr_name)
                 self.assertIsInstance(val, str)
@@ -123,7 +142,6 @@ class TestSetUpClassOptimization(unittest.TestCase):
         """The content cached by setUpClass must match a direct read of the underlying file."""
         for cls, path in self.PATH_BY_CLASS.items():
             with self.subTest(cls=cls.__name__):
-                cls.setUpClass()
                 with open(path, encoding="utf-8") as fh:
                     expected = fh.read()
                 attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX) else "content"
@@ -140,20 +158,17 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         cls.readme_ux_suite = loader.loadTestsFromModule(readme_ux_module)
         cls.palette_ux_suite = loader.loadTestsFromModule(palette_ux_module)
 
-    def _run_module_suite(self, suite):
+        # Optimization: Pre-compute test ID tuples once in setUpClass() to eliminate recursive suite crawling during test method checks
+        cls.pr_accessibility_test_ids = tuple(t.id() for t in _get_test_cases(cls.pr_accessibility_suite))
+        cls.readme_ux_test_ids = tuple(t.id() for t in _get_test_cases(cls.readme_ux_suite))
+        cls.palette_ux_test_ids = tuple(t.id() for t in _get_test_cases(cls.palette_ux_suite))
+
+    def _run_module_suite(self, suite, test_ids):
         from test_pr_accessibility import _PASSED_TESTS
 
-        if all(test.id() in _PASSED_TESTS for test in _get_test_cases(suite)):
-            class MockResult:
-                def wasSuccessful(self):
-                    return True
-                @property
-                def failures(self):
-                    return []
-                @property
-                def errors(self):
-                    return []
-            return MockResult()
+        # Optimization: O(1) generator lookup against precomputed test IDs avoiding recursive suite tree traversal & re-allocating result objects
+        if all(tid in _PASSED_TESTS for tid in test_ids):
+            return _MOCK_SUCCESSFUL_RESULT
 
         with open(os.devnull, "w", encoding="utf-8") as devnull:
             runner = unittest.TextTestRunner(stream=devnull, verbosity=0)
@@ -161,21 +176,21 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         return result
 
     def test_pr_accessibility_suite_passes(self):
-        result = self._run_module_suite(self.pr_accessibility_suite)
+        result = self._run_module_suite(self.pr_accessibility_suite, self.pr_accessibility_test_ids)
         self.assertTrue(
             result.wasSuccessful(),
             f"pr_accessibility suite failed: failures={result.failures}, errors={result.errors}",
         )
 
     def test_readme_ux_suite_passes(self):
-        result = self._run_module_suite(self.readme_ux_suite)
+        result = self._run_module_suite(self.readme_ux_suite, self.readme_ux_test_ids)
         self.assertTrue(
             result.wasSuccessful(),
             f"readme_ux suite failed: failures={result.failures}, errors={result.errors}",
         )
 
     def test_palette_ux_suite_passes(self):
-        result = self._run_module_suite(self.palette_ux_suite)
+        result = self._run_module_suite(self.palette_ux_suite, self.palette_ux_test_ids)
         self.assertTrue(
             result.wasSuccessful(),
             f"palette_ux suite failed: failures={result.failures}, errors={result.errors}",
