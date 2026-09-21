@@ -146,3 +146,7 @@
 ## 2026-08-15 - Consolidate redundant disclaimers in contributing guidelines for screen reader scannability
 **Learning:** Accumulated duplicate disclaimers and repeated alert blocks in `CONTRIBUTING.md` create repetitive auditory clutter for screen reader users and degrade document scannability. Consolidating disclaimers into a single prominent `> [!IMPORTANT]` alert block preserves compliance clarity while delivering a clean, accessible reading flow.
 **Action:** Audit contribution guidelines and documentation files to ensure disclaimers and policy notices are consolidated into a single semantic alert block.
+
+## 2026-08-16 - Consolidate duplicate support instructions to reduce cognitive load and auditory clutter
+**Learning:** Repeated paragraph blocks and duplicate alert callouts in `SUPPORT.md` create auditory friction for screen reader users and clutter document scannability. Consolidating support instructions into a single clean section with active, descriptive hyperlinks ensures seamless screen-reader navigation and effortless cognitive scanning.
+**Action:** Audit support documentation to remove duplicate content blocks and maintain clean, accessible instruction flows.
