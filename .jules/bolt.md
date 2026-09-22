@@ -1,5 +1,9 @@
 # Bolt's Journal - Critical Learnings Only
 
+## 2026-09-12 - Pre-computing test ID tuples and pre-invoking setup in meta-test suites
+**Learning:** In meta-test suites or structural check runners (e.g. `TestSetUpClassOptimization` and `TestRefactoredSuitesStillPass`), recursively traversing test suite trees with generator crawlers (`_get_test_cases`) or calling target class setup methods (`cls.setUpClass()`) per test method introduces redundant object creation and loop iterations. Pre-computing test ID tuples and pre-invoking target setups once in `setUpClass()` reduces checks to O(1) attribute lookups and eliminates object churn.
+**Action:** In structural test runners and meta-test checks, pre-compute test ID sequences and invoke setup logic once in `setUpClass()` rather than repeating suite traversals or class setup calls per method iteration.
+
 ## 2025-01-24 - Test Suite File I/O Anti-pattern
 **Learning:** The test suite was re-reading static Markdown files for every test method in `setUp()`, causing O(N) `openat()` calls. Since these files don't change during test execution, this was unnecessary overhead.
 **Action:** Use `@classmethod setUpClass(cls)` to cache static file content at the class level in Python `unittest` to reduce I/O to O(1) per class.
