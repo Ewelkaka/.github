@@ -192,3 +192,6 @@
 ## 2026-09-12 - Module-scope mock result pre-instantiation
 **Learning:** Defining inline classes and instantiating mock result objects repeatedly inside hot execution paths (such as `_run_module_suite` in meta-test suites) creates unnecessary class creation and object allocation churn. Pre-instantiating a singleton mock result at module scope eliminates this allocation overhead entirely.
 **Action:** Define reusable mock result classes and instances at module scope rather than defining classes inline inside test helper functions.
+## 2026-09-12 - Pre-instantiating mock result objects and precomputing test IDs
+**Learning:** In Python `unittest` meta-test runners, re-defining classes or re-traversing `TestSuite` hierarchies inside helper methods called per test method creates unnecessary object allocations and search overhead. Pre-instantiating singleton result objects at module scope and precomputing test ID tuples in `setUpClass()` eliminates redundant allocations and traversals during suite verification.
+**Action:** Module-scope pre-instantiate static mock objects and precompute test ID collections inside `setUpClass()` for meta-test runner methods.
