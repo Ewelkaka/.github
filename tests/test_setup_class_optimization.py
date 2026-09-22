@@ -18,6 +18,24 @@ import test_coc_ux as coc_ux_module  # noqa: E402
 import test_contributing_ux as contributing_ux_module  # noqa: E402
 import test_security_ux as security_ux_module  # noqa: E402
 import test_bolt_journal as bolt_journal_module  # noqa: E402
+from test_pr_accessibility import _PASSED_TESTS  # noqa: E402
+
+
+# Optimization: Singleton mock result to avoid re-defining class and instantiating objects per suite check
+class _MockResult:
+    def wasSuccessful(self):
+        return True
+
+    @property
+    def failures(self):
+        return []
+
+    @property
+    def errors(self):
+        return []
+
+
+_MOCK_SUCCESSFUL_RESULT = _MockResult()
 
 
 def _get_test_cases(suite):
@@ -42,6 +60,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
     CLASSES_UNDER_TEST = [
         pr_accessibility_module.TestProfileReadmeAltText,
         pr_accessibility_module.TestPaletteMarkdown,
+        pr_accessibility_module.TestProfileReadmeSetupClassBehavior,
         pr_accessibility_module.TestCodeOfConductUX,
         pr_accessibility_module.TestCodeOfConductAccessibility,
         pr_accessibility_module.TestContributingDiscoverability,
@@ -61,6 +80,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
     PATH_BY_CLASS = {
         pr_accessibility_module.TestProfileReadmeAltText: pr_accessibility_module.PROFILE_README,
         pr_accessibility_module.TestPaletteMarkdown: pr_accessibility_module.PALETTE_MD,
+        pr_accessibility_module.TestProfileReadmeSetupClassBehavior: pr_accessibility_module.PROFILE_README,
         pr_accessibility_module.TestCodeOfConductUX: pr_accessibility_module.COC_MD,
         pr_accessibility_module.TestCodeOfConductAccessibility: pr_accessibility_module.COC_MD,
         pr_accessibility_module.TestContributingDiscoverability: pr_accessibility_module.CONTRIBUTING_MD,
@@ -76,6 +96,12 @@ class TestSetUpClassOptimization(unittest.TestCase):
         security_ux_module.TestSecurityUX: security_ux_module.SECURITY_PATH,
         bolt_journal_module.TestBoltJournal: bolt_journal_module.BOLT_MD,
     }
+
+    @classmethod
+    def setUpClass(cls):
+        # Optimization: Pre-initialize target class setup once per class instead of re-running inside every test method
+        for target_cls in cls.CLASSES_UNDER_TEST:
+            target_cls.setUpClass()
 
     def test_classes_do_not_define_instance_setUp(self):
         """None of the refactored classes should define their own setUp()."""
@@ -112,7 +138,6 @@ class TestSetUpClassOptimization(unittest.TestCase):
         """Two instances of the same TestCase class must reference the exact same content object."""
         for cls in self.CLASSES_UNDER_TEST:
             with self.subTest(cls=cls.__name__):
-                cls.setUpClass()
                 method_name = _first_test_method(cls)
                 instance_a = cls(method_name)
                 instance_b = cls(method_name)
@@ -129,7 +154,6 @@ class TestSetUpClassOptimization(unittest.TestCase):
         """The cached content must be a non-empty string once setUpClass runs."""
         for cls in self.CLASSES_UNDER_TEST:
             with self.subTest(cls=cls.__name__):
-                cls.setUpClass()
                 attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX) else "content"
                 val = getattr(cls, attr_name)
                 self.assertIsInstance(val, str)
@@ -139,7 +163,6 @@ class TestSetUpClassOptimization(unittest.TestCase):
         """The content cached by setUpClass must match a direct read of the underlying file."""
         for cls, path in self.PATH_BY_CLASS.items():
             with self.subTest(cls=cls.__name__):
-                cls.setUpClass()
                 with open(path, encoding="utf-8") as fh:
                     expected = fh.read()
                 attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX) else "content"
@@ -179,8 +202,7 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         cls.bolt_journal_suite = loader.loadTestsFromModule(bolt_journal_module)
 
     def _run_module_suite(self, suite):
-        from test_pr_accessibility import _PASSED_TESTS
-
+        # Optimization: Re-use singleton result object and global _PASSED_TESTS to eliminate class creation and import overhead
         if all(test.id() in _PASSED_TESTS for test in _get_test_cases(suite)):
             return _MOCK_SUCCESSFUL_RESULT
 
