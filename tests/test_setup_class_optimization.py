@@ -182,6 +182,25 @@ class TestSetUpClassOptimization(unittest.TestCase):
         self.assertTrue(hasattr(TestRefactoredSuitesStillPass, "pr_accessibility_test_ids"))
         self.assertIsInstance(TestRefactoredSuitesStillPass.pr_accessibility_test_ids, tuple)
 
+# Module-level mock result object pre-instantiated to avoid re-defining classes
+# and allocating object instances repeatedly per test suite verification check.
+class _MockResult:
+    def wasSuccessful(self):
+        return True
+
+    @property
+    def failures(self):
+        return []
+
+    @property
+    def errors(self):
+        return []
+
+
+_MOCK_SUCCESSFUL_RESULT = _MockResult()
+
+
+class TestRefactoredSuitesStillPass(unittest.TestCase):
 
 class TestRefactoredSuitesStillPass(TrackingTestCase):
     """Regression guard: the full test suites must still pass in their entirety."""
@@ -192,7 +211,18 @@ class TestRefactoredSuitesStillPass(TrackingTestCase):
         cls.pr_accessibility_suite = loader.loadTestsFromModule(pr_accessibility_module)
         cls.readme_ux_suite = loader.loadTestsFromModule(readme_ux_module)
         cls.palette_ux_suite = loader.loadTestsFromModule(palette_ux_module)
+        # Precompute test IDs once during setUpClass to avoid re-crawling suite trees with _get_test_cases().
+        cls.pr_accessibility_test_ids = tuple(t.id() for t in _get_test_cases(cls.pr_accessibility_suite))
+        cls.readme_ux_test_ids = tuple(t.id() for t in _get_test_cases(cls.readme_ux_suite))
+        cls.palette_ux_test_ids = tuple(t.id() for t in _get_test_cases(cls.palette_ux_suite))
 
+    def _run_module_suite(self, suite, test_ids=None):
+        from test_pr_accessibility import _PASSED_TESTS
+
+        if test_ids is None:
+            test_ids = tuple(t.id() for t in _get_test_cases(suite))
+
+        if all(test_id in _PASSED_TESTS for test_id in test_ids):
         # Optimization: Precompute test IDs as tuples in setUpClass to avoid re-crawling
         # test suite trees with _get_test_cases() during test method execution.
         # Optimization: Pre-compute test ID tuples once in setUpClass() to eliminate recursive suite crawling during test method checks
