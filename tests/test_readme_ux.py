@@ -73,6 +73,9 @@ class TestSupportUX(TrackingTestCase):
         self.assertIn("[GitHub issues](https://github.com/skills/.github/issues)", self.content)
 
     def test_no_duplicate_content(self):
+        self.assertEqual(self.content.count("This project uses [GitHub issues]"), 1)
+        self.assertEqual(self.content.count("> [!TIP]"), 1)
+        self.assertEqual(self.content.count("> [!NOTE]"), 1)
         self.assertEqual(
             self.content.count("This project uses [GitHub issues]"),
             1,
