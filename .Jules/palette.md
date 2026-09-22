@@ -146,6 +146,3 @@
 ## 2026-08-15 - Consolidate duplicate disclaimers in contribution guidelines
 **Learning:** Duplicate or repeated disclaimer lines in documentation files like `CONTRIBUTING.md` create visual noise and repetitive speech output for screen readers. Consolidating repeated notices into a single GitHub-native `> [!IMPORTANT]` block maintains visual clarity, improves document scannability, and preserves screen reader flow while ensuring compliance policies are prominently communicated.
 **Action:** Audit community documentation files for duplicate disclaimer lines or redundant notices and consolidate them into a single, high-visibility alert block.
-## 2026-08-15 - Consolidate redundant disclaimers in contributing guidelines for screen reader scannability
-**Learning:** Accumulated duplicate disclaimers and repeated alert blocks in `CONTRIBUTING.md` create repetitive auditory clutter for screen reader users and degrade document scannability. Consolidating disclaimers into a single prominent `> [!IMPORTANT]` alert block preserves compliance clarity while delivering a clean, accessible reading flow.
-**Action:** Audit contribution guidelines and documentation files to ensure disclaimers and policy notices are consolidated into a single semantic alert block.

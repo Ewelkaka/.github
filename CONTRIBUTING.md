@@ -6,7 +6,6 @@ Contributions to this project are [released under the GitHub Terms of Service](h
 
 > [!IMPORTANT]
 > Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms. See our [Code of Conduct](CODE_OF_CONDUCT.md) for details.
-> Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms. See our [Code of Conduct](CODE_OF_CONDUCT.md) for more information.
 
 ## Submitting a pull request
 

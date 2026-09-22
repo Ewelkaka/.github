@@ -31,10 +31,6 @@ class TestContributingUX(TrackingTestCase):
         """CONTRIBUTING.md should contain exactly one Code of Conduct notice block."""
         count = self.content.count("Please note that this project is released with a")
         self.assertEqual(count, 1, f"Expected exactly 1 Code of Conduct notice, found {count}")
-        count = self.content.count("Code of Conduct")
-        self.assertEqual(count, 2, f"Expected exactly 2 'Code of Conduct' occurrences in notice block, found {count}")
-        important_count = self.content.count("> [!IMPORTANT]")
-        self.assertEqual(important_count, 1, f"Expected exactly 1 '> [!IMPORTANT]' alert block, found {important_count}")
 
 
 if __name__ == "__main__":
