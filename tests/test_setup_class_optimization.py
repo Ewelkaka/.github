@@ -17,8 +17,9 @@ import test_palette_ux as palette_ux_module  # noqa: E402
 from test_pr_accessibility import TrackingTestCase  # noqa: E402
 
 
+# Module-level mock result object pre-instantiated to avoid re-defining classes
+# and allocating object instances repeatedly per test suite verification check.
 class _MockResult:
-    """Pre-instantiated result object representing a successful test execution."""
     def wasSuccessful(self):
         return True
 
@@ -31,8 +32,6 @@ class _MockResult:
         return []
 
 
-# Pre-instantiate mock result object at module scope to avoid re-defining
-# classes and instantiating objects repeatedly per test suite check.
 _MOCK_SUCCESSFUL_RESULT = _MockResult()
 
 
@@ -53,22 +52,6 @@ def _first_test_method(cls):
 
 
 class TestSetUpClassOptimization(TrackingTestCase):
-class _MockResult:
-    """Pre-instantiated mock result object to avoid re-defining classes and instantiating per check."""
-    def wasSuccessful(self):
-        return True
-    @property
-    def failures(self):
-        return []
-    @property
-    def errors(self):
-        return []
-
-
-_MOCK_SUCCESSFUL_RESULT = _MockResult()
-
-
-class TestSetUpClassOptimization(unittest.TestCase):
     """Structural checks that setUp() was replaced with setUpClass()."""
 
     CLASSES_UNDER_TEST = [
@@ -99,8 +82,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        # Optimization: Pre-invoke setUpClass() once for all target classes to eliminate
-        # redundant setup invocations across individual test methods.
+        # Optimization: Pre-invoke setUpClass() for all target classes once to eliminate redundant setup invocations across test methods
         for target_cls in cls.CLASSES_UNDER_TEST:
             target_cls.setUpClass()
 
@@ -134,12 +116,6 @@ class TestSetUpClassOptimization(unittest.TestCase):
                     classmethod,
                     f"{cls.__name__}.setUpClass must be declared as a classmethod.",
                 )
-
-    @classmethod
-    def setUpClass(cls):
-        # Optimization: Pre-invoke setUpClass() for all target classes once to eliminate redundant setup invocations across test methods
-        for target_cls in cls.CLASSES_UNDER_TEST:
-            target_cls.setUpClass()
 
     def test_content_attribute_is_shared_across_instances(self):
         """Two instances of the same TestCase class must reference the exact same content object."""
@@ -182,25 +158,6 @@ class TestSetUpClassOptimization(unittest.TestCase):
         self.assertTrue(hasattr(TestRefactoredSuitesStillPass, "pr_accessibility_test_ids"))
         self.assertIsInstance(TestRefactoredSuitesStillPass.pr_accessibility_test_ids, tuple)
 
-# Module-level mock result object pre-instantiated to avoid re-defining classes
-# and allocating object instances repeatedly per test suite verification check.
-class _MockResult:
-    def wasSuccessful(self):
-        return True
-
-    @property
-    def failures(self):
-        return []
-
-    @property
-    def errors(self):
-        return []
-
-
-_MOCK_SUCCESSFUL_RESULT = _MockResult()
-
-
-class TestRefactoredSuitesStillPass(unittest.TestCase):
 
 class TestRefactoredSuitesStillPass(TrackingTestCase):
     """Regression guard: the full test suites must still pass in their entirety."""
@@ -223,18 +180,6 @@ class TestRefactoredSuitesStillPass(TrackingTestCase):
             test_ids = tuple(t.id() for t in _get_test_cases(suite))
 
         if all(test_id in _PASSED_TESTS for test_id in test_ids):
-        # Optimization: Precompute test IDs as tuples in setUpClass to avoid re-crawling
-        # test suite trees with _get_test_cases() during test method execution.
-        # Optimization: Pre-compute test ID tuples once in setUpClass() to eliminate recursive suite crawling during test method checks
-        cls.pr_accessibility_test_ids = tuple(t.id() for t in _get_test_cases(cls.pr_accessibility_suite))
-        cls.readme_ux_test_ids = tuple(t.id() for t in _get_test_cases(cls.readme_ux_suite))
-        cls.palette_ux_test_ids = tuple(t.id() for t in _get_test_cases(cls.palette_ux_suite))
-
-    def _run_module_suite(self, suite, test_ids):
-        from test_pr_accessibility import _PASSED_TESTS
-
-        # Optimization: O(1) generator lookup against precomputed test IDs avoiding recursive suite tree traversal & re-allocating result objects
-        if all(tid in _PASSED_TESTS for tid in test_ids):
             return _MOCK_SUCCESSFUL_RESULT
 
         with open(os.devnull, "w", encoding="utf-8") as devnull:
