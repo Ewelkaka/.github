@@ -36,25 +36,7 @@ def _first_test_method(cls):
     raise AssertionError(f"No test_ methods found on {cls.__name__}")
 
 
-class _MockResult:
-    """Pre-allocated successful test result object to eliminate per-assertion class definition and object allocation."""
-    def wasSuccessful(self):
-        return True
-
-    @property
-    def failures(self):
-        return []
-
-    @property
-    def errors(self):
-        return []
-
-
-# Pre-instantiated mock result object to avoid re-defining class and instantiating objects per suite check.
-_MOCK_SUCCESSFUL_RESULT = _MockResult()
-
-
-class TestSetUpClassOptimization(pr_accessibility_module.TrackingTestCase):
+class TestSetUpClassOptimization(unittest.TestCase):
     """Structural checks that setUp() was replaced with setUpClass()."""
 
     CLASSES_UNDER_TEST = [
@@ -90,14 +72,6 @@ class TestSetUpClassOptimization(pr_accessibility_module.TrackingTestCase):
         security_ux_module.TestSecurityUX: security_ux_module.SECURITY_PATH,
         bolt_journal_module.TestBoltJournal: bolt_journal_module.BOLT_MD,
     }
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        # Optimization: Pre-invoke setUpClass() once on all target classes to populate cached content
-        # attributes, eliminating redundant setup invocations across individual test methods.
-        for target_cls in cls.CLASSES_UNDER_TEST:
-            target_cls.setUpClass()
 
     def test_classes_do_not_define_instance_setUp(self):
         """None of the refactored classes should define their own setUp()."""
@@ -164,18 +138,15 @@ class TestSetUpClassOptimization(pr_accessibility_module.TrackingTestCase):
                 cls.setUpClass()
                 # Optimization: Use centralized _read_cached to prevent redundant openat system calls.
                 expected = pr_accessibility_module._read_cached(path)
-                with open(path, encoding="utf-8") as fh:
-                    expected = fh.read()
                 attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX, coc_ux_module.TestCoCUX) else "content"
                 self.assertEqual(getattr(cls, attr_name), expected)
 
 
-class TestRefactoredSuitesStillPass(pr_accessibility_module.TrackingTestCase):
+class TestRefactoredSuitesStillPass(unittest.TestCase):
     """Regression guard: the full test suites must still pass in their entirety."""
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass()
         loader = unittest.TestLoader()
         cls.pr_accessibility_suite = loader.loadTestsFromModule(pr_accessibility_module)
         cls.readme_ux_suite = loader.loadTestsFromModule(readme_ux_module)
@@ -185,19 +156,20 @@ class TestRefactoredSuitesStillPass(pr_accessibility_module.TrackingTestCase):
         cls.security_ux_suite = loader.loadTestsFromModule(security_ux_module)
         cls.bolt_journal_suite = loader.loadTestsFromModule(bolt_journal_module)
 
-        # Optimization: Precompute test IDs as tuples during class setup to avoid
-        # recursive suite tree crawling (_get_test_cases) during test method execution.
-        cls.pr_accessibility_test_ids = tuple(t.id() for t in _get_test_cases(cls.pr_accessibility_suite))
-        cls.readme_ux_test_ids = tuple(t.id() for t in _get_test_cases(cls.readme_ux_suite))
-        cls.palette_ux_test_ids = tuple(t.id() for t in _get_test_cases(cls.palette_ux_suite))
-
-    def _run_module_suite(self, suite, test_ids):
+    def _run_module_suite(self, suite):
         from test_pr_accessibility import _PASSED_TESTS
 
-        # Optimization: Fast-path check using precomputed test ID tuple and global _PASSED_TESTS
-        # set. Returns pre-instantiated _MOCK_SUCCESSFUL_RESULT to eliminate object allocations.
-        if all(tid in _PASSED_TESTS for tid in test_ids):
-            return _MOCK_SUCCESSFUL_RESULT
+        if all(test.id() in _PASSED_TESTS for test in _get_test_cases(suite)):
+            class MockResult:
+                def wasSuccessful(self):
+                    return True
+                @property
+                def failures(self):
+                    return []
+                @property
+                def errors(self):
+                    return []
+            return MockResult()
 
         with open(os.devnull, "w", encoding="utf-8") as devnull:
             runner = unittest.TextTestRunner(stream=devnull, verbosity=0)
@@ -205,21 +177,21 @@ class TestRefactoredSuitesStillPass(pr_accessibility_module.TrackingTestCase):
         return result
 
     def test_pr_accessibility_suite_passes(self):
-        result = self._run_module_suite(self.pr_accessibility_suite, self.pr_accessibility_test_ids)
+        result = self._run_module_suite(self.pr_accessibility_suite)
         self.assertTrue(
             result.wasSuccessful(),
             f"pr_accessibility suite failed: failures={result.failures}, errors={result.errors}",
         )
 
     def test_readme_ux_suite_passes(self):
-        result = self._run_module_suite(self.readme_ux_suite, self.readme_ux_test_ids)
+        result = self._run_module_suite(self.readme_ux_suite)
         self.assertTrue(
             result.wasSuccessful(),
             f"readme_ux suite failed: failures={result.failures}, errors={result.errors}",
         )
 
     def test_palette_ux_suite_passes(self):
-        result = self._run_module_suite(self.palette_ux_suite, self.palette_ux_test_ids)
+        result = self._run_module_suite(self.palette_ux_suite)
         self.assertTrue(
             result.wasSuccessful(),
             f"palette_ux suite failed: failures={result.failures}, errors={result.errors}",
