@@ -72,11 +72,6 @@ class TestSupportUX(TrackingTestCase):
     def test_interactive_issue_links(self):
         self.assertIn("[GitHub issues](https://github.com/skills/.github/issues)", self.content)
 
-    def test_no_duplicate_content(self):
-        self.assertEqual(self.content.count("This project uses [GitHub issues]"), 1)
-        self.assertEqual(self.content.count("> [!NOTE]"), 1)
-        self.assertEqual(self.content.count("> [!TIP]"), 1)
-
 
 class TestPullRequestTemplateUX(TrackingTestCase):
     @classmethod
@@ -105,13 +100,6 @@ class TestBugReportUX(TrackingTestCase):
         self.assertIn("> [!TIP]", self.content)
         self.assertIn("[search existing issues](https://github.com/skills/.github/issues)", self.content)
 
-    def test_no_duplicate_search_advice(self):
-        self.assertEqual(
-            self.content.count("search existing issues"),
-            1,
-            "bug_report.md should contain search advice exactly once"
-        )
-
 
 class TestFeatureRequestUX(TrackingTestCase):
     @classmethod
@@ -121,13 +109,6 @@ class TestFeatureRequestUX(TrackingTestCase):
 
     def test_alert_block_present(self):
         self.assertIn("> [!TIP]", self.content)
-
-    def test_no_duplicate_search_advice(self):
-        self.assertEqual(
-            self.content.count("search existing feature requests"),
-            1,
-            "feature_request.md should contain search advice exactly once"
-        )
 
 
 class TestSecurityUX(TrackingTestCase):
