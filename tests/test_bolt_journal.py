@@ -6,13 +6,7 @@ Covers:
 """
 
 import os
-import sys
 import unittest
-
-TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
-if TESTS_DIR not in sys.path:
-    sys.path.insert(0, TESTS_DIR)
-
 from test_pr_accessibility import _read_cached, TrackingTestCase
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
