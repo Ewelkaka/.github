@@ -142,3 +142,7 @@
 ## 2026-08-14 - Clean duplicate footer links in README for screen reader clarity
 **Learning:** Accumulated duplicate copyright and policy footer lines in a repository's main README create repetitive speech output for screen reader users and visual clutter. Keeping a single canonical footer line cleans up the landing page experience and respects screen reader flow.
 **Action:** Ensure project footers contain exactly one clean line of essential policy and copyright links.
+
+## 2026-08-15 - Consolidate duplicate enforcement notices in Code of Conduct
+**Learning:** Repetitive, duplicated alert blocks and disclaimer lines in governance files like `CODE_OF_CONDUCT.md` create repetitive speech output for screen reader users and visual noise for sighted readers. Consolidating enforcement instructions into a single, canonical `> [!IMPORTANT]` block restores document scannability and provides a clear, frictionless pathway for reporting incidents.
+**Action:** Audit governance and policy files for repeated or fragmented disclaimer blocks and consolidate them into a single high-contrast alert block.
