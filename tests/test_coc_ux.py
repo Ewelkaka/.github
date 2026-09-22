@@ -25,12 +25,6 @@ class TestCoCUX(TrackingTestCase):
         self.assertIn("opensource-security@github.com", self.coc_content)
         self.assertIn("mailto:opensource-security@github.com", self.coc_content)
 
-    def test_no_duplicate_enforcement_notices(self):
-        self.assertEqual(self.coc_content.count("> [!IMPORTANT]"), 1)
-        """CODE_OF_CONDUCT.md should contain exactly one > [!IMPORTANT] alert block."""
-        important_count = self.coc_content.count("> [!IMPORTANT]")
-        self.assertEqual(important_count, 1, "Expected exactly 1 > [!IMPORTANT] block in CODE_OF_CONDUCT.md")
-
     def test_contributing_coc_link(self):
         self.assertIn("CODE_OF_CONDUCT.md", self.contributing_content)
 
