@@ -150,9 +150,3 @@
 ## 2026-08-16 - Consolidate duplicate enforcement notices in Code of Conduct for screen reader scannability
 **Learning:** Accumulated duplicate enforcement disclaimers and repeated alert blocks in `CODE_OF_CONDUCT.md` create repetitive auditory clutter for screen reader users and degrade document scannability. Consolidating disclaimers into a single prominent `> [!IMPORTANT]` alert block containing the contact email preserves compliance clarity while delivering a clean, accessible reading flow.
 **Action:** Audit Code of Conduct and governance documentation to ensure enforcement disclaimers are consolidated into a single semantic alert block.
-## 2026-08-16 - Consolidate duplicate support instructions to reduce cognitive load and auditory clutter
-**Learning:** Repeated paragraph blocks and duplicate alert callouts in `SUPPORT.md` create auditory friction for screen reader users and clutter document scannability. Consolidating support instructions into a single clean section with active, descriptive hyperlinks ensures seamless screen-reader navigation and effortless cognitive scanning.
-**Action:** Audit support documentation to remove duplicate content blocks and maintain clean, accessible instruction flows.
-## 2026-08-15 - Enclose HTML image attributes in double quotes for XHTML compliance
-**Learning:** Unquoted HTML attributes (such as `src`, `width`, and `align` on `<img>` tags) in Markdown documents can disrupt strict XHTML/HTML parsers and screen reader tools that parse attributes expecting quoted strings. Enclosing attribute values in double quotes guarantees standard XHTML compliance and clean screen-reader parsing.
-**Action:** Always wrap HTML attributes (e.g. `src`, `width`, `align`) in double quotes in Markdown files to ensure cross-parser compatibility and assistive technology compliance.
