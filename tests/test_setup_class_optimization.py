@@ -169,6 +169,24 @@ class TestSetUpClassOptimization(unittest.TestCase):
                 self.assertEqual(getattr(cls, attr_name), expected)
 
 
+# Module-scope pre-instantiated mock result object to prevent repetitive class definition
+# and object instantiation on every module suite execution check.
+class _MockResult:
+    def wasSuccessful(self):
+        return True
+
+    @property
+    def failures(self):
+        return []
+
+    @property
+    def errors(self):
+        return []
+
+
+_MOCK_SUCCESSFUL_RESULT = _MockResult()
+
+
 class TestRefactoredSuitesStillPass(unittest.TestCase):
     """Regression guard: the full test suites must still pass in their entirety."""
 
