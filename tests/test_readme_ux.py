@@ -76,6 +76,16 @@ class TestSupportUX(TrackingTestCase):
         self.assertEqual(self.content.count("This project uses [GitHub issues]"), 1)
         self.assertEqual(self.content.count("> [!TIP]"), 1)
         self.assertEqual(self.content.count("> [!NOTE]"), 1)
+        self.assertEqual(
+            self.content.count("This project uses [GitHub issues]"),
+            1,
+            "SUPPORT.md should only contain one issue guidance paragraph."
+        )
+        self.assertEqual(
+            self.content.count("> [!TIP]"),
+            1,
+            "SUPPORT.md should only contain one TIP alert block."
+        )
 
 
 class TestPullRequestTemplateUX(TrackingTestCase):
