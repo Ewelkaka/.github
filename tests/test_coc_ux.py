@@ -29,6 +29,7 @@ class TestCoCUX(TrackingTestCase):
         self.assertIn("CODE_OF_CONDUCT.md", self.contributing_content)
 
     def test_no_duplicate_enforcement_notices(self):
+        self.assertEqual(self.coc_content.count("> [!IMPORTANT]"), 1)
         """CODE_OF_CONDUCT.md should contain exactly one IMPORTANT alert block."""
         count = self.coc_content.count("> [!IMPORTANT]")
         self.assertEqual(
