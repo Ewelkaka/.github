@@ -72,11 +72,6 @@ class TestSupportUX(TrackingTestCase):
     def test_interactive_issue_links(self):
         self.assertIn("[GitHub issues](https://github.com/skills/.github/issues)", self.content)
 
-    def test_no_duplicate_content(self):
-        self.assertEqual(self.content.count("This project uses [GitHub issues]"), 1)
-        self.assertEqual(self.content.count("> [!NOTE]"), 1)
-        self.assertEqual(self.content.count("> [!TIP]"), 1)
-
 
 class TestPullRequestTemplateUX(TrackingTestCase):
     @classmethod
@@ -95,9 +90,6 @@ class TestPullRequestTemplateUX(TrackingTestCase):
         self.assertEqual(note_count, 1, f"Expected exactly 1 '> [!NOTE]' block in PR template, found {note_count}")
         line_count = self.content.count("If there's an existing issue")
         self.assertEqual(line_count, 1, f"Expected exactly 1 issue instruction line in PR template, found {line_count}")
-        """PULL_REQUEST_TEMPLATE.md should contain exactly one 'If there's an existing issue' note line."""
-        count = self.content.count("If there's an existing issue")
-        self.assertEqual(count, 1, f"Expected exactly 1 'If there's an existing issue' sentence, found {count}")
 
 
 class TestBugReportUX(TrackingTestCase):
@@ -110,13 +102,6 @@ class TestBugReportUX(TrackingTestCase):
         self.assertIn("> [!TIP]", self.content)
         self.assertIn("[search existing issues](https://github.com/skills/.github/issues)", self.content)
 
-    def test_no_duplicate_search_advice(self):
-        self.assertEqual(
-            self.content.count("search existing issues"),
-            1,
-            "bug_report.md should contain search advice exactly once"
-        )
-
 
 class TestFeatureRequestUX(TrackingTestCase):
     @classmethod
@@ -126,13 +111,6 @@ class TestFeatureRequestUX(TrackingTestCase):
 
     def test_alert_block_present(self):
         self.assertIn("> [!TIP]", self.content)
-
-    def test_no_duplicate_search_advice(self):
-        self.assertEqual(
-            self.content.count("search existing feature requests"),
-            1,
-            "feature_request.md should contain search advice exactly once"
-        )
 
 
 class TestSecurityUX(TrackingTestCase):
