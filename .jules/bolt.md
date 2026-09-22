@@ -188,3 +188,10 @@
 ## 2026-09-11 - Eliminate redundant meta-test suite re-executions
 **Learning:** When using meta-test runners (like `TestRefactoredSuitesStillPass`) that verify sub-suites pass, any test class inheriting directly from `unittest.TestCase` instead of `TrackingTestCase` will fail the `all(test.id() in _PASSED_TESTS)` check. This causes the meta-test runner to re-execute the entire sub-suite a second time in an embedded runner.
 **Action:** Ensure all test classes in the test suite inherit from `TrackingTestCase` so that their test IDs are tracked in `_PASSED_TESTS`, eliminating redundant suite re-executions.
+
+## 2026-09-12 - Module-scope mock result pre-instantiation
+**Learning:** Defining inline classes and instantiating mock result objects repeatedly inside hot execution paths (such as `_run_module_suite` in meta-test suites) creates unnecessary class creation and object allocation churn. Pre-instantiating a singleton mock result at module scope eliminates this allocation overhead entirely.
+**Action:** Define reusable mock result classes and instances at module scope rather than defining classes inline inside test helper functions.
+## 2026-09-12 - Pre-instantiating mock result objects and precomputing test IDs
+**Learning:** In Python `unittest` meta-test runners, re-defining classes or re-traversing `TestSuite` hierarchies inside helper methods called per test method creates unnecessary object allocations and search overhead. Pre-instantiating singleton result objects at module scope and precomputing test ID tuples in `setUpClass()` eliminates redundant allocations and traversals during suite verification.
+**Action:** Module-scope pre-instantiate static mock objects and precompute test ID collections inside `setUpClass()` for meta-test runner methods.
