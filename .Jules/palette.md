@@ -146,3 +146,7 @@
 ## 2026-08-15 - Consolidate redundant disclaimers in contributing guidelines for screen reader scannability
 **Learning:** Accumulated duplicate disclaimers and repeated alert blocks in `CONTRIBUTING.md` create repetitive auditory clutter for screen reader users and degrade document scannability. Consolidating disclaimers into a single prominent `> [!IMPORTANT]` alert block preserves compliance clarity while delivering a clean, accessible reading flow.
 **Action:** Audit contribution guidelines and documentation files to ensure disclaimers and policy notices are consolidated into a single semantic alert block.
+
+## 2026-08-15 - Enclose HTML image attributes in double quotes for XHTML compliance
+**Learning:** Unquoted HTML attributes (such as `src`, `width`, and `align` on `<img>` tags) in Markdown documents can disrupt strict XHTML/HTML parsers and screen reader tools that parse attributes expecting quoted strings. Enclosing attribute values in double quotes guarantees standard XHTML compliance and clean screen-reader parsing.
+**Action:** Always wrap HTML attributes (e.g. `src`, `width`, `align`) in double quotes in Markdown files to ensure cross-parser compatibility and assistive technology compliance.
