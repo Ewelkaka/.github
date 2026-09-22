@@ -146,3 +146,10 @@
 ## 2026-08-15 - Consolidate redundant disclaimers in contributing guidelines for screen reader scannability
 **Learning:** Accumulated duplicate disclaimers and repeated alert blocks in `CONTRIBUTING.md` create repetitive auditory clutter for screen reader users and degrade document scannability. Consolidating disclaimers into a single prominent `> [!IMPORTANT]` alert block preserves compliance clarity while delivering a clean, accessible reading flow.
 **Action:** Audit contribution guidelines and documentation files to ensure disclaimers and policy notices are consolidated into a single semantic alert block.
+
+## 2026-08-16 - Clean duplicate lines and alert blocks in documentation files for scannability
+**Learning:** Over time, merge artifacts or repeated edits can introduce duplicate text lines and multiple redundant alert blocks in documentation files like `SUPPORT.md` and `CODE_OF_CONDUCT.md`. This creates repetitive speech output for screen reader users and visual fatigue for human readers. Consolidating duplicate paragraphs and repeated alert callouts into single, clean blocks improves scannability, reduces screen reader clutter, and restores document clarity.
+**Action:** Routinely audit core documentation files (`SUPPORT.md`, `CODE_OF_CONDUCT.md`, etc.) for duplicate text blocks or repeated callouts, and consolidate them into clear, singular semantic alert blocks.
+## 2026-08-16 - Consolidate duplicate enforcement notices in Code of Conduct for screen reader scannability
+**Learning:** Accumulated duplicate enforcement disclaimers and repeated alert blocks in `CODE_OF_CONDUCT.md` create repetitive auditory clutter for screen reader users and degrade document scannability. Consolidating disclaimers into a single prominent `> [!IMPORTANT]` alert block containing the contact email preserves compliance clarity while delivering a clean, accessible reading flow.
+**Action:** Audit Code of Conduct and governance documentation to ensure enforcement disclaimers are consolidated into a single semantic alert block.
