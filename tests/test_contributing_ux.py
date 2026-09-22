@@ -27,6 +27,11 @@ class TestContributingUX(TrackingTestCase):
         self.assertIn("[Using Pull Requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)", self.content)
         self.assertIn("[GitHub Docs](https://docs.github.com/)", self.content)
 
+    def test_no_duplicate_coc_notices(self):
+        """CONTRIBUTING.md should contain exactly one Code of Conduct notice block."""
+        count = self.content.count("Code of Conduct](CODE_OF_CONDUCT.md)")
+        self.assertEqual(count, 2, "Expected exactly two Code of Conduct links in single notice block in CONTRIBUTING.md")
+
 
 if __name__ == "__main__":
     unittest.main()
