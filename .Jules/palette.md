@@ -146,3 +146,6 @@
 ## 2026-08-15 - Consolidate duplicate alert blocks and guidance lines across templates
 **Learning:** Accumulated duplicate guidance lines and redundant alert blocks inside Markdown templates and support documents generate repetitive speech for screen-reader users and visual clutter for contributors. Consolidating duplicate blocks into concise, single alert units cleans up contributor interactions during issue/PR submission.
 **Action:** Audit repository templates and documentation files for duplicate alert blocks or repeated lines, and consolidate them into clear, accessible single units.
+## 2026-08-15 - Consolidate duplicate enforcement notices in Code of Conduct
+**Learning:** Repetitive, duplicated alert blocks and disclaimer lines in governance files like `CODE_OF_CONDUCT.md` create repetitive speech output for screen reader users and visual noise for sighted readers. Consolidating enforcement instructions into a single, canonical `> [!IMPORTANT]` block restores document scannability and provides a clear, frictionless pathway for reporting incidents.
+**Action:** Audit governance and policy files for repeated or fragmented disclaimer blocks and consolidate them into a single high-contrast alert block.
