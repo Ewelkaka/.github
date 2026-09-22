@@ -33,7 +33,7 @@
 
 ## 2026-08-10 - Elevate hidden template comments to visible alert blocks
 **Learning:** Hidden developer comments in pull request templates can easily be ignored or overlooked during PR creation. Converting these into visible GitHub-native alert blocks (e.g., `> [!NOTE]`) significantly improves the visual experience and scannability of issue linking guidelines.
-**Action:** Identify commented-out instructions inside templates and elevate them to prominent, visible GitHub-native alert blocks with proper newline spacing.
+**Action:** Action: Identify commented-out instructions inside templates and elevate them to prominent, visible GitHub-native alert blocks with proper newline spacing.
 
 ## 2024-05-24 - Informative illustrations require descriptive alt text
 **Learning:** In a repository primarily focused on documentation and organization profiles, the primary UX interactions are visual. Informative illustrations, such as the organization mascot, serve as key brand identifiers and should be accessible to screen reader users via descriptive alt text rather than being treated as purely decorative.
@@ -143,6 +143,6 @@
 **Learning:** Accumulated duplicate copyright and policy footer lines in a repository's main README create repetitive speech output for screen reader users and visual clutter. Keeping a single canonical footer line cleans up the landing page experience and respects screen reader flow.
 **Action:** Ensure project footers contain exactly one clean line of essential policy and copyright links.
 
-## 2026-08-15 - Consolidate redundant disclaimers in contributing guidelines for screen reader scannability
-**Learning:** Accumulated duplicate disclaimers and repeated alert blocks in `CONTRIBUTING.md` create repetitive auditory clutter for screen reader users and degrade document scannability. Consolidating disclaimers into a single prominent `> [!IMPORTANT]` alert block preserves compliance clarity while delivering a clean, accessible reading flow.
-**Action:** Audit contribution guidelines and documentation files to ensure disclaimers and policy notices are consolidated into a single semantic alert block.
+## 2026-08-15 - Consolidate duplicate disclaimers in contribution guidelines
+**Learning:** Duplicate or repeated disclaimer lines in documentation files like `CONTRIBUTING.md` create visual noise and repetitive speech output for screen readers. Consolidating repeated notices into a single GitHub-native `> [!IMPORTANT]` block maintains visual clarity, improves document scannability, and preserves screen reader flow while ensuring compliance policies are prominently communicated.
+**Action:** Audit community documentation files for duplicate disclaimer lines or redundant notices and consolidate them into a single, high-visibility alert block.

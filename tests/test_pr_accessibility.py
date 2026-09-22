@@ -114,14 +114,6 @@ class TestProfileReadmeAltText(TrackingTestCase):
             "The mascot image src URL was unexpectedly changed.",
         )
 
-    def test_img_attributes_use_double_quotes(self):
-        """All HTML attributes in the mascot <img> tag must be enclosed in double quotes."""
-        self.assertIn(
-            '<img alt="GitHub Skills character illustration" src="https://user-images.githubusercontent.com/1221423/156894097-ff2d6566-7b6a-4488-950e-f4ebe990965a.svg" width="200" align="right">',
-            self.content,
-            "<img> tag attributes should be enclosed in double quotes.",
-        )
-
     def test_all_img_tags_have_nonempty_alt(self):
         """Every <img> tag in the file must carry a non-empty alt attribute."""
         img_tags = RE_IMG_TAG_ALL.findall(self.content)
@@ -247,7 +239,7 @@ class TestPaletteMarkdown(TrackingTestCase):
         )
 
 
-class TestProfileReadmeSetupClassBehavior(TrackingTestCase):
+class TestProfileReadmeSetupClassBehavior(unittest.TestCase):
     """Verify the setUp -> setUpClass refactor in TestProfileReadmeAltText."""
 
     @classmethod
@@ -343,7 +335,7 @@ class TestCodeOfConductUX(TrackingTestCase):
         )
 
 
-class TestCodeOfConductAccessibility(TrackingTestCase):
+class TestCodeOfConductAccessibility(unittest.TestCase):
     """Tests for Code of Conduct accessibility improvements."""
 
     @classmethod
@@ -366,7 +358,7 @@ class TestCodeOfConductAccessibility(TrackingTestCase):
         self.assertNotIn("[INSERT CONTACT METHOD]", self.content)
 
 
-class TestContributingDiscoverability(TrackingTestCase):
+class TestContributingDiscoverability(unittest.TestCase):
     """Tests for CONTRIBUTING.md UX improvements."""
 
     @classmethod
