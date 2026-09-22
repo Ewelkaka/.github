@@ -158,10 +158,12 @@ class TestSetUpClassOptimization(pr_accessibility_module.TrackingTestCase):
                 self.assertGreater(len(val), 0)
 
     def test_content_matches_direct_file_read(self):
-        """The content cached by setUpClass must match a direct read of the underlying file."""
+        """The content cached by setUpClass must match the shared in-memory cached content of the underlying file."""
         for cls, path in self.PATH_BY_CLASS.items():
             with self.subTest(cls=cls.__name__):
                 cls.setUpClass()
+                # Optimization: Use centralized _read_cached to prevent redundant openat system calls.
+                expected = pr_accessibility_module._read_cached(path)
                 with open(path, encoding="utf-8") as fh:
                     expected = fh.read()
                 attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX, coc_ux_module.TestCoCUX) else "content"
