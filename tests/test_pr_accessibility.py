@@ -234,7 +234,7 @@ class TestPaletteMarkdown(TrackingTestCase):
         )
 
 
-class TestProfileReadmeSetupClassBehavior(TrackingTestCase):
+class TestProfileReadmeSetupClassBehavior(unittest.TestCase):
     """Verify the setUp -> setUpClass refactor in TestProfileReadmeAltText."""
 
     @classmethod
@@ -330,7 +330,7 @@ class TestCodeOfConductUX(TrackingTestCase):
         )
 
 
-class TestCodeOfConductAccessibility(TrackingTestCase):
+class TestCodeOfConductAccessibility(unittest.TestCase):
     """Tests for Code of Conduct accessibility improvements."""
 
     @classmethod
@@ -353,7 +353,7 @@ class TestCodeOfConductAccessibility(TrackingTestCase):
         self.assertNotIn("[INSERT CONTACT METHOD]", self.content)
 
 
-class TestContributingDiscoverability(TrackingTestCase):
+class TestContributingDiscoverability(unittest.TestCase):
     """Tests for CONTRIBUTING.md UX improvements."""
 
     @classmethod
