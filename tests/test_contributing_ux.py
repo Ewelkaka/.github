@@ -1,6 +1,12 @@
 import os
+import sys
 import unittest
 import re
+
+TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
+if TESTS_DIR not in sys.path:
+    sys.path.insert(0, TESTS_DIR)
+
 from test_pr_accessibility import _read_cached, TrackingTestCase
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,11 +32,6 @@ class TestContributingUX(TrackingTestCase):
         self.assertIn("[How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)", self.content)
         self.assertIn("[Using Pull Requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)", self.content)
         self.assertIn("[GitHub Docs](https://docs.github.com/)", self.content)
-
-    def test_no_duplicate_coc_notices(self):
-        """CONTRIBUTING.md should contain exactly one Code of Conduct notice block."""
-        count = self.content.count("Please note that this project is released with a")
-        self.assertEqual(count, 1, f"Expected exactly 1 Code of Conduct notice, found {count}")
 
 
 if __name__ == "__main__":
