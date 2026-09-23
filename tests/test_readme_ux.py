@@ -72,6 +72,13 @@ class TestSupportUX(TrackingTestCase):
     def test_interactive_issue_links(self):
         self.assertIn("[GitHub issues](https://github.com/skills/.github/issues)", self.content)
 
+    def test_no_duplicate_content(self):
+        self.assertEqual(
+            self.content.count("[GitHub issues](https://github.com/skills/.github/issues)"),
+            1,
+            "SUPPORT.md should not contain duplicate issues link paragraphs.",
+        )
+
 
 class TestPullRequestTemplateUX(TrackingTestCase):
     @classmethod
@@ -83,6 +90,15 @@ class TestPullRequestTemplateUX(TrackingTestCase):
 
     def test_interactive_issue_link(self):
         self.assertIn("[open a new issue](https://github.com/skills/.github/issues/new/choose)", self.content)
+
+    def test_no_duplicate_note_instructions(self):
+        self.assertEqual(self.content.count("> [!NOTE]"), 1)
+        self.assertEqual(self.content.count('next to "Closes".'), 1)
+        self.assertEqual(
+            self.content.count("please [open a new issue]"),
+            1,
+            "PULL_REQUEST_TEMPLATE.md should not contain duplicate note instruction lines.",
+        )
 
 
 class TestBugReportUX(TrackingTestCase):
@@ -100,6 +116,9 @@ class TestBugReportUX(TrackingTestCase):
             self.content.count("search existing issues"),
             1,
             "bug_report.md should not contain duplicate search advice lines.",
+            self.content.count("Please search"),
+            0,
+            "bug_report.md should not contain duplicate unlinked search advice lines.",
         )
 
 
@@ -117,6 +136,9 @@ class TestFeatureRequestUX(TrackingTestCase):
             self.content.count("search existing feature requests"),
             1,
             "feature_request.md should not contain duplicate search advice lines.",
+            self.content.count("Please search"),
+            0,
+            "feature_request.md should not contain duplicate unlinked search advice lines.",
         )
 
 
