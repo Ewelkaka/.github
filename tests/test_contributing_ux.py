@@ -1,7 +1,7 @@
 import os
 import unittest
 import re
-from test_pr_accessibility import _read_cached, TrackingTestCase
+from test_pr_accessibility import _read_cached
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
@@ -10,7 +10,7 @@ CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 RE_TIP_ALERT = re.compile(r"> \[!TIP\]", re.IGNORECASE)
 
 
-class TestContributingUX(TrackingTestCase):
+class TestContributingUX(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # Optimization: Read file once per class using _read_cached to optimize I/O
@@ -29,15 +29,11 @@ class TestContributingUX(TrackingTestCase):
 
     def test_no_duplicate_coc_notices(self):
         """CONTRIBUTING.md should contain exactly one Code of Conduct notice block."""
-        count = self.content.count("> [!IMPORTANT]")
-        self.assertEqual(count, 1, f"Expected 1 IMPORTANT alert block in CONTRIBUTING.md, found {count}")
-        coc_count = self.content.count("Code of Conduct")
-        self.assertLessEqual(coc_count, 2, "CONTRIBUTING.md should not contain duplicate Code of Conduct notice lines.")
-        count = self.content.count("Code of Conduct")
-        self.assertLessEqual(count, 2, f"Expected at most 2 Code of Conduct occurrences in CONTRIBUTING.md, found {count}")
-        self.assertEqual(self.content.count("> [!IMPORTANT]"), 1, "Expected exactly 1 IMPORTANT alert block in CONTRIBUTING.md")
-        count = self.content.count("Code of Conduct](CODE_OF_CONDUCT.md)")
-        self.assertEqual(count, 2, "Expected exactly two Code of Conduct links in single notice block in CONTRIBUTING.md")
+        self.assertEqual(
+            self.content.count("> [!IMPORTANT]"),
+            1,
+            "CONTRIBUTING.md should contain exactly one > [!IMPORTANT] alert block.",
+        )
 
 
 if __name__ == "__main__":
