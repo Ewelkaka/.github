@@ -162,6 +162,9 @@ class TestSetUpClassOptimization(pr_accessibility_module.TrackingTestCase):
         for cls, path in self.PATH_BY_CLASS.items():
             with self.subTest(cls=cls.__name__):
                 cls.setUpClass()
+                # Optimization: reuse centralized _read_cached helper to avoid redundant openat syscalls.
+                expected = pr_accessibility_module._read_cached(path)
+                attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX) else "content"
                 # Optimization: Use centralized _read_cached to prevent redundant openat system calls.
                 expected = pr_accessibility_module._read_cached(path)
                 with open(path, encoding="utf-8") as fh:
