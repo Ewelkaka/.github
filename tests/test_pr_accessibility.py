@@ -32,10 +32,6 @@ def _read_cached(path: str) -> str:
         return fh.read()
 
 
-def _read(path: str) -> str:
-    return _read_cached(path)
-
-
 # Pre-compiled regular expression patterns for optimized string search operations.
 RE_EMPTY_ALT = re.compile(r'<img\s[^>]*alt\s*=\s*["\']["\']')
 RE_WHITESPACE_ALT = re.compile(r'<img\s[^>]*alt\s*=\s*["\'](\s+)["\']')
@@ -367,7 +363,7 @@ class TestContributingDiscoverability(TrackingTestCase):
 
     def test_contributing_links_to_coc(self):
         """CONTRIBUTING.md should link to the local CODE_OF_CONDUCT.md."""
-        self.assertIn("CODE_OF_CONDUCT.md", self.content)
+        self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", self.content)
 
 
 if __name__ == "__main__":
