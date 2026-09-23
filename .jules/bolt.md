@@ -185,6 +185,9 @@
 **Learning:** When a single test class asserts against multiple distinct static files (such as CODE_OF_CONDUCT.md, README.md, and CONTRIBUTING.md in TestCodeOfConductUX), performing `_read()` calls on-demand inside each test method leads to multiple redundant `openat()` calls. Caching all required static files at class creation time via `@classmethod setUpClass(cls)` completely eliminates redundant system-level disk reads.
 **Action:** Identify all test methods performing raw direct file reads within a single class, and hoist all of them into a unified `@classmethod setUpClass(cls)` block.
 
+## 2026-07-18 - Ensure test classes inherit from TrackingTestCase for meta-test suite bypass
+**Learning:** In a meta-test framework that tracks completed test IDs via `_PASSED_TESTS` to avoid re-running test suites, any test class inheriting directly from `unittest.TestCase` instead of `TrackingTestCase` will fail to record its test IDs, causing the meta-test runner to fall back to expensive re-executions of the entire sub-suite.
+**Action:** Ensure all test classes in the test suite inherit from `TrackingTestCase` so their executed test IDs are registered globally, enabling $O(1)$ fast-path bypasses in meta-test suites.
 ## 2026-07-18 - Ensure all test classes inherit from TrackingTestCase to bypass meta-suite re-execution
 **Learning:** In meta-testing architectures that track completed test IDs via `TrackingTestCase` to skip redundant suite executions, any `unittest.TestCase` sub-class that fails to inherit from `TrackingTestCase` will not register its test IDs in `_PASSED_TESTS`. Consequently, `all(test.id() in _PASSED_TESTS ...)` evaluates to `False`, forcing the meta-runner to re-execute the entire test suite a second time.
 **Action:** Always ensure every test class in the suite inherits from `TrackingTestCase` so that all completed tests are registered and meta-test runners can bypass duplicate execution.
