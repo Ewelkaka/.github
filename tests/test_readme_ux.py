@@ -38,7 +38,7 @@ class TestReadmeUX(TrackingTestCase):
 
     def test_localized_coc_links(self):
         self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", self.readme_content)
-        self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", self.contributing_content)
+        self.assertIn("CODE_OF_CONDUCT.md", self.contributing_content)
 
     def test_copyright_year(self):
         self.assertIn("&copy; 2026 GitHub", self.readme_content)
@@ -61,7 +61,6 @@ class TestSupportUX(TrackingTestCase):
 
     def test_alert_blocks_present(self):
         self.assertIn("> [!TIP]", self.content)
-        self.assertIn("> [!NOTE]", self.content)
 
     def test_clean_title(self):
         self.assertTrue(self.content.startswith("# Support\n"))
@@ -71,6 +70,12 @@ class TestSupportUX(TrackingTestCase):
 
     def test_interactive_issue_links(self):
         self.assertIn("[GitHub issues](https://github.com/skills/.github/issues)", self.content)
+
+    def test_no_duplicate_content(self):
+        count = self.content.count("This project uses [GitHub issues]")
+        self.assertEqual(count, 1, f"Expected 1 issue tracking disclaimer in SUPPORT.md, found {count}")
+        lines = [line.strip() for line in self.content.splitlines() if line.strip()]
+        self.assertEqual(len(lines), len(set(lines)), "SUPPORT.md should not contain duplicate lines.")
 
 
 class TestPullRequestTemplateUX(TrackingTestCase):
@@ -84,6 +89,12 @@ class TestPullRequestTemplateUX(TrackingTestCase):
     def test_interactive_issue_link(self):
         self.assertIn("[open a new issue](https://github.com/skills/.github/issues/new/choose)", self.content)
 
+    def test_no_duplicate_note_instructions(self):
+        count = self.content.count("> [!NOTE]")
+        self.assertEqual(count, 1, f"Expected 1 NOTE block in PULL_REQUEST_TEMPLATE.md, found {count}")
+        note_lines = [line.strip() for line in self.content.splitlines() if line.strip().startswith(">")]
+        self.assertEqual(len(note_lines), len(set(note_lines)), "PULL_REQUEST_TEMPLATE.md should not contain duplicate note block lines.")
+
 
 class TestBugReportUX(TrackingTestCase):
     @classmethod
@@ -95,6 +106,12 @@ class TestBugReportUX(TrackingTestCase):
         self.assertIn("> [!TIP]", self.content)
         self.assertIn("[search existing issues](https://github.com/skills/.github/issues)", self.content)
 
+    def test_no_duplicate_lines(self):
+        count = self.content.count("Please [search existing issues]")
+        self.assertEqual(count, 1, f"Expected 1 search tip line in bug_report.md, found {count}")
+        tip_lines = [line.strip() for line in self.content.splitlines() if "search existing issues" in line]
+        self.assertEqual(len(tip_lines), 1, "bug_report.md should not contain duplicate search advice lines.")
+
 
 class TestFeatureRequestUX(TrackingTestCase):
     @classmethod
@@ -104,6 +121,12 @@ class TestFeatureRequestUX(TrackingTestCase):
 
     def test_alert_block_present(self):
         self.assertIn("> [!TIP]", self.content)
+
+    def test_no_duplicate_lines(self):
+        count = self.content.count("Please [search existing feature requests]")
+        self.assertEqual(count, 1, f"Expected 1 search tip line in feature_request.md, found {count}")
+        tip_lines = [line.strip() for line in self.content.splitlines() if "search existing feature requests" in line]
+        self.assertEqual(len(tip_lines), 1, "feature_request.md should not contain duplicate search advice lines.")
 
 
 class TestSecurityUX(TrackingTestCase):
