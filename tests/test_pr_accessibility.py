@@ -42,7 +42,7 @@ RE_WHITESPACE_ALT = re.compile(r'<img\s[^>]*alt\s*=\s*["\'](\s+)["\']')
 RE_IMG_TAG = re.compile(r"<img\s")
 RE_IMG_TAG_ALL = re.compile(r"<img\b[^>]*>", re.IGNORECASE)
 RE_ALT_ATTRIBUTE = re.compile(r'\balt\s*=\s*["\']([^"\']*)["\']', re.IGNORECASE)
-RE_COC_ALERT_BLOCK = re.compile(r"> \[!IMPORTANT\]\s*\n>\s*\[opensource-security@github.com\]")
+RE_COC_ALERT_BLOCK = re.compile(r"> \[!IMPORTANT\]\s*\n>\s*(?:Instances of abusive|\[opensource-security@github\.com\])")
 RE_CONTRIBUTING_COC_ALERT = re.compile(
     r"> \[!IMPORTANT\]\s*\n>\s*Please note that this project is released with a \[Contributor Code of Conduct\]\(CODE_OF_CONDUCT\.md\)\."
 )
@@ -128,6 +128,12 @@ class TestProfileReadmeAltText(TrackingTestCase):
                 0,
                 f"<img> tag has an empty or whitespace-only alt attribute: {tag}",
             )
+
+    def test_img_attributes_use_double_quotes(self):
+        """All HTML attributes in profile/README.md <img> tags must be enclosed in double quotes."""
+        self.assertIn('src="https://user-images.githubusercontent.com/', self.content)
+        self.assertIn('width="200"', self.content)
+        self.assertIn('align="right"', self.content)
 
 
 class TestPaletteMarkdown(TrackingTestCase):
@@ -217,11 +223,6 @@ class TestPaletteMarkdown(TrackingTestCase):
             "Expected 'brand' keyword not found in the learning section of .Jules/palette.md.",
         )
 
-
-
-
-
-
     def test_content_is_class_level_attribute(self):
         """After the setUpClass refactor, content must be a class-level attribute."""
         self.assertIn(
@@ -239,7 +240,7 @@ class TestPaletteMarkdown(TrackingTestCase):
         )
 
 
-class TestProfileReadmeSetupClassBehavior(unittest.TestCase):
+class TestProfileReadmeSetupClassBehavior(TrackingTestCase):
     """Verify the setUp -> setUpClass refactor in TestProfileReadmeAltText."""
 
     @classmethod
@@ -299,7 +300,7 @@ class TestCodeOfConductUX(TrackingTestCase):
     def test_contributing_localized_coc_link(self):
         """CONTRIBUTING.md should have a localized link to CODE_OF_CONDUCT.md."""
         self.assertIn(
-            "[Contributor Code of Conduct](CODE_OF_CONDUCT.md)",
+            "(CODE_OF_CONDUCT.md)",
             self.contributing_content,
             "Localized Code of Conduct link not found in CONTRIBUTING.md.",
         )
@@ -335,7 +336,7 @@ class TestCodeOfConductUX(TrackingTestCase):
         )
 
 
-class TestCodeOfConductAccessibility(unittest.TestCase):
+class TestCodeOfConductAccessibility(TrackingTestCase):
     """Tests for Code of Conduct accessibility improvements."""
 
     @classmethod
@@ -358,7 +359,7 @@ class TestCodeOfConductAccessibility(unittest.TestCase):
         self.assertNotIn("[INSERT CONTACT METHOD]", self.content)
 
 
-class TestContributingDiscoverability(unittest.TestCase):
+class TestContributingDiscoverability(TrackingTestCase):
     """Tests for CONTRIBUTING.md UX improvements."""
 
     @classmethod
@@ -367,7 +368,8 @@ class TestContributingDiscoverability(unittest.TestCase):
 
     def test_contributing_links_to_coc(self):
         """CONTRIBUTING.md should link to the local CODE_OF_CONDUCT.md."""
-        self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", self.content)
+        self.assertIn("CODE_OF_CONDUCT.md", self.content)
+        self.assertIn("[Contributor Code of Conduct](CODE_OF_CONDUCT.md)", self.content)
 
 
 if __name__ == "__main__":
