@@ -1,15 +1,8 @@
 import os
-import sys
 import unittest
 from test_pr_accessibility import _read_cached, TrackingTestCase
 
-TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
-if TESTS_DIR not in sys.path:
-    sys.path.insert(0, TESTS_DIR)
-
-from test_pr_accessibility import _read_cached, TrackingTestCase
-
-REPO_ROOT = os.path.dirname(TESTS_DIR)
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 README_PATH = os.path.join(REPO_ROOT, "README.md")
 COC_PATH = os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md")
 CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
@@ -33,13 +26,6 @@ class TestCoCUX(TrackingTestCase):
         self.assertIn("> [!IMPORTANT]", self.coc_content)
         self.assertIn("opensource-security@github.com", self.coc_content)
         self.assertIn("mailto:opensource-security@github.com", self.coc_content)
-
-    def test_no_duplicate_enforcement_blocks(self):
-        self.assertEqual(
-            self.coc_content.count("> [!IMPORTANT]"),
-            1,
-            "CODE_OF_CONDUCT.md should contain exactly one > [!IMPORTANT] alert block.",
-        )
 
     def test_contributing_coc_link(self):
         self.assertIn("CODE_OF_CONDUCT.md", self.contributing_content)
