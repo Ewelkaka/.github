@@ -1,27 +1,16 @@
 import os
-import sys
 import unittest
 import re
-from test_pr_accessibility import _read_cached, TrackingTestCase
+from test_pr_accessibility import _read_cached
 
-TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
-if TESTS_DIR not in sys.path:
-    sys.path.insert(0, TESTS_DIR)
-
-from test_pr_accessibility import _read_cached, TrackingTestCase
-
-REPO_ROOT = os.path.dirname(TESTS_DIR)
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 
 # Pre-compiled module-level regex objects for fast matching across tests
 RE_TIP_ALERT = re.compile(r"> \[!TIP\]", re.IGNORECASE)
 
 
-# Inherit from TrackingTestCase so test IDs are recorded in _PASSED_TESTS,
-# enabling meta-test runners (e.g. TestRefactoredSuitesStillPass) to bypass redundant re-executions.
-# Optimization: Inherit from TrackingTestCase to record passed test IDs in _PASSED_TESTS,
-# ensuring global test tracking and preventing redundant suite re-executions in meta-tests.
-class TestContributingUX(TrackingTestCase):
+class TestContributingUX(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # Optimization: Read file once per class using _read_cached to optimize I/O
@@ -45,17 +34,6 @@ class TestContributingUX(TrackingTestCase):
             coc_count,
             1,
             f"Expected exactly 1 Code of Conduct reference in CONTRIBUTING.md, but found {coc_count}.",
-        """CONTRIBUTING.md should contain no duplicate Code of Conduct notice blocks."""
-        matches = re.findall(r"Please note that this project is released with a", self.content, re.IGNORECASE)
-        self.assertEqual(len(matches), 1, f"Expected exactly 1 Code of Conduct notice block, found {len(matches)}")
-        """Ensure CONTRIBUTING.md contains exactly one Code of Conduct notice."""
-        coc_occurrences = self.content.count("Code of Conduct")
-        self.assertEqual(coc_occurrences, 1, f"Expected exactly 1 Code of Conduct notice, found {coc_occurrences}")
-        """CONTRIBUTING.md should contain exactly one Code of Conduct notice block."""
-        self.assertEqual(
-            self.content.count("> [!IMPORTANT]"),
-            1,
-            "CONTRIBUTING.md should contain exactly one > [!IMPORTANT] alert block.",
         )
 
 
