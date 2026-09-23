@@ -1,6 +1,7 @@
 import os
 import sys
 import unittest
+from test_pr_accessibility import _read_cached, TrackingTestCase
 
 TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
 if TESTS_DIR not in sys.path:

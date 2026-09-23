@@ -14,6 +14,10 @@ if TESTS_DIR not in sys.path:
 import test_pr_accessibility as pr_accessibility_module  # noqa: E402
 import test_readme_ux as readme_ux_module  # noqa: E402
 import test_palette_ux as palette_ux_module  # noqa: E402
+import test_coc_ux as coc_ux_module  # noqa: E402
+import test_contributing_ux as contributing_ux_module  # noqa: E402
+import test_security_ux as security_ux_module  # noqa: E402
+import test_bolt_journal as bolt_journal_module  # noqa: E402
 import test_contributing_ux as contributing_ux_module  # noqa: E402
 import test_security_ux as security_ux_module  # noqa: E402
 import test_bolt_journal as bolt_journal_module  # noqa: E402
@@ -50,6 +54,10 @@ class TestSetUpClassOptimization(unittest.TestCase):
         readme_ux_module.TestFeatureRequestUX,
         readme_ux_module.TestSecurityUX,
         palette_ux_module.TestPaletteUX,
+        coc_ux_module.TestCoCUX,
+        contributing_ux_module.TestContributingUX,
+        security_ux_module.TestSecurityUX,
+        bolt_journal_module.TestBoltJournal,
         contributing_ux_module.TestContributingUX,
         security_ux_module.TestSecurityUX,
         bolt_journal_module.TestBoltJournal,
@@ -67,6 +75,10 @@ class TestSetUpClassOptimization(unittest.TestCase):
         readme_ux_module.TestFeatureRequestUX: os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "feature_request.md"),
         readme_ux_module.TestSecurityUX: readme_ux_module.SECURITY_PATH,
         palette_ux_module.TestPaletteUX: palette_ux_module.COC_PATH,
+        coc_ux_module.TestCoCUX: coc_ux_module.COC_PATH,
+        contributing_ux_module.TestContributingUX: contributing_ux_module.CONTRIBUTING_PATH,
+        security_ux_module.TestSecurityUX: security_ux_module.SECURITY_PATH,
+        bolt_journal_module.TestBoltJournal: bolt_journal_module.BOLT_MD,
         contributing_ux_module.TestContributingUX: contributing_ux_module.CONTRIBUTING_PATH,
         security_ux_module.TestSecurityUX: security_ux_module.SECURITY_PATH,
         bolt_journal_module.TestBoltJournal: bolt_journal_module.BOLT_MD,
@@ -113,7 +125,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
                 instance_a = cls(method_name)
                 instance_b = cls(method_name)
 
-                attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX) else "content"
+                attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX, coc_ux_module.TestCoCUX) else "content"
                 self.assertTrue(hasattr(instance_a, attr_name))
                 self.assertIs(
                     getattr(instance_a, attr_name),

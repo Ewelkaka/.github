@@ -190,6 +190,9 @@
 **Learning:** When a single test class asserts against multiple distinct static files (such as CODE_OF_CONDUCT.md, README.md, and CONTRIBUTING.md in TestCodeOfConductUX), performing `_read()` calls on-demand inside each test method leads to multiple redundant `openat()` calls. Caching all required static files at class creation time via `@classmethod setUpClass(cls)` completely eliminates redundant system-level disk reads.
 **Action:** Identify all test methods performing raw direct file reads within a single class, and hoist all of them into a unified `@classmethod setUpClass(cls)` block.
 
+## 2026-07-18 - Ensure complete test tracking inheritance across test suite
+**Learning:** In test suites utilizing a global tracking base class (such as `TrackingTestCase`) to bypass redundant meta-test suite executions, any test class inheriting directly from `unittest.TestCase` fails to record its executed test IDs into `_PASSED_TESTS`. This triggers fallback re-executions of entire module suites in meta-test runners. Inheriting `TrackingTestCase` across 100% of test classes guarantees zero redundant suite re-executions.
+**Action:** Always ensure all test classes in the test suite inherit from `TrackingTestCase` rather than `unittest.TestCase` directly.
 ## 2026-07-18 - Leverage Centralized File Cache in Verification Suites
 **Learning:** Structural verification suites that test other test classes (e.g. `TestSetUpClassOptimization`) can re-open static files directly (`open(path)`), causing unexpected `openat` syscall spikes even when target classes use cached readers. Using the global `_read_cached` helper across all structural verification assertions preserves single-pass I/O for the entire suite.
 **Action:** In structural validation tests, reuse `_read_cached()` instead of `open()` to ensure static content verification doesn't bypass shared in-memory caches.
