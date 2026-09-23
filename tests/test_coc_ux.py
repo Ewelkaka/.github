@@ -1,6 +1,6 @@
 import os
 import unittest
-from test_pr_accessibility import _read_cached
+from test_pr_accessibility import _read_cached, TrackingTestCase
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 README_PATH = os.path.join(REPO_ROOT, "README.md")
@@ -8,7 +8,7 @@ COC_PATH = os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md")
 CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 
 
-class TestCoCUX(unittest.TestCase):
+class TestCoCUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):
         cls.coc_content = _read_cached(COC_PATH)
@@ -25,12 +25,20 @@ class TestCoCUX(unittest.TestCase):
         self.assertIn("opensource-security@github.com", self.coc_content)
         self.assertIn("mailto:opensource-security@github.com", self.coc_content)
 
+    def test_no_duplicate_enforcement_notices(self):
+        self.assertEqual(self.coc_content.count("> [!IMPORTANT]"), 1)
+        """CODE_OF_CONDUCT.md should contain exactly one > [!IMPORTANT] alert block."""
+        important_count = self.coc_content.count("> [!IMPORTANT]")
+        self.assertEqual(important_count, 1, "Expected exactly 1 > [!IMPORTANT] block in CODE_OF_CONDUCT.md")
+
     def test_contributing_coc_link(self):
         self.assertIn("CODE_OF_CONDUCT.md", self.contributing_content)
 
     def test_no_duplicate_enforcement_notices(self):
         count = self.coc_content.count("[opensource-security@github.com](mailto:opensource-security@github.com)")
         self.assertEqual(count, 1, f"Expected 1 email link in CODE_OF_CONDUCT.md, found {count}")
+        alert_count = self.coc_content.count("> [!IMPORTANT]")
+        self.assertEqual(alert_count, 1, "CODE_OF_CONDUCT.md should contain exactly one > [!IMPORTANT] alert block.")
 
 
 if __name__ == "__main__":
