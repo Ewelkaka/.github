@@ -1,3 +1,13 @@
+"""
+Tests for PR: Improve accessibility with descriptive alt text for mascot SVG
+
+Covers:
+  - profile/README.md: <img> tag has a non-empty, descriptive alt attribute
+  - .Jules/palette.md: file exists and contains the expected learning/action content
+  - CODE_OF_CONDUCT.md: contact email is present and highlighted with an alert block
+  - README.md: Code of Conduct links to the local file
+"""
+
 import os
 import re
 import unittest
@@ -207,6 +217,11 @@ class TestPaletteMarkdown(TrackingTestCase):
             "Expected 'brand' keyword not found in the learning section of .Jules/palette.md.",
         )
 
+
+
+
+
+
     def test_content_is_class_level_attribute(self):
         """After the setUpClass refactor, content must be a class-level attribute."""
         self.assertIn(
@@ -224,9 +239,7 @@ class TestPaletteMarkdown(TrackingTestCase):
         )
 
 
-# Optimization: Inherit from TrackingTestCase to record passed test IDs in _PASSED_TESTS,
-# enabling meta-test runners (TestRefactoredSuitesStillPass) to bypass redundant suite re-execution.
-class TestProfileReadmeSetupClassBehavior(TrackingTestCase):
+class TestProfileReadmeSetupClassBehavior(unittest.TestCase):
     """Verify the setUp -> setUpClass refactor in TestProfileReadmeAltText."""
 
     @classmethod
@@ -322,9 +335,7 @@ class TestCodeOfConductUX(TrackingTestCase):
         )
 
 
-# Optimization: Inherit from TrackingTestCase to record passed test IDs in _PASSED_TESTS,
-# enabling meta-test runners (TestRefactoredSuitesStillPass) to bypass redundant suite re-execution.
-class TestCodeOfConductAccessibility(TrackingTestCase):
+class TestCodeOfConductAccessibility(unittest.TestCase):
     """Tests for Code of Conduct accessibility improvements."""
 
     @classmethod
@@ -347,9 +358,7 @@ class TestCodeOfConductAccessibility(TrackingTestCase):
         self.assertNotIn("[INSERT CONTACT METHOD]", self.content)
 
 
-# Optimization: Inherit from TrackingTestCase to record passed test IDs in _PASSED_TESTS,
-# enabling meta-test runners (TestRefactoredSuitesStillPass) to bypass redundant suite re-execution.
-class TestContributingDiscoverability(TrackingTestCase):
+class TestContributingDiscoverability(unittest.TestCase):
     """Tests for CONTRIBUTING.md UX improvements."""
 
     @classmethod
