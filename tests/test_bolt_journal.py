@@ -20,6 +20,8 @@ REPO_ROOT = os.path.dirname(TESTS_DIR)
 BOLT_MD = os.path.join(REPO_ROOT, ".jules", "bolt.md")
 
 
+# Inherit from TrackingTestCase so test IDs are recorded in _PASSED_TESTS,
+# enabling meta-test runners (e.g. TestRefactoredSuitesStillPass) to bypass redundant re-executions.
 # Optimization: Inherit from TrackingTestCase to record passed test IDs in _PASSED_TESTS,
 # ensuring global test tracking and preventing redundant suite re-executions in meta-tests.
 class TestBoltJournal(TrackingTestCase):
