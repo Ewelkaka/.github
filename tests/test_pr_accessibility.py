@@ -129,6 +129,12 @@ class TestProfileReadmeAltText(TrackingTestCase):
                 f"<img> tag has an empty or whitespace-only alt attribute: {tag}",
             )
 
+    def test_img_attributes_use_double_quotes(self):
+        """All HTML attributes in profile/README.md <img> tags must be enclosed in double quotes."""
+        self.assertIn('src="https://user-images.githubusercontent.com/', self.content)
+        self.assertIn('width="200"', self.content)
+        self.assertIn('align="right"', self.content)
+
 
 class TestPaletteMarkdown(TrackingTestCase):
     """Tests for the new .Jules/palette.md file."""
