@@ -1,8 +1,15 @@
 import os
+import sys
 import unittest
 from test_pr_accessibility import _read_cached, TrackingTestCase
 
-REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
+if TESTS_DIR not in sys.path:
+    sys.path.insert(0, TESTS_DIR)
+
+from test_pr_accessibility import _read_cached, TrackingTestCase
+
+REPO_ROOT = os.path.dirname(TESTS_DIR)
 COC_PATH = os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md")
 README_PATH = os.path.join(REPO_ROOT, "README.md")
 CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
