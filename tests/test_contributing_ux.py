@@ -29,6 +29,8 @@ class TestContributingUX(TrackingTestCase):
 
     def test_no_duplicate_coc_notices(self):
         """CONTRIBUTING.md should contain exactly one Code of Conduct notice block."""
+        count = self.content.count("> [!IMPORTANT]")
+        self.assertEqual(count, 1, f"Expected 1 IMPORTANT alert block in CONTRIBUTING.md, found {count}")
         coc_count = self.content.count("Code of Conduct")
         self.assertLessEqual(coc_count, 2, "CONTRIBUTING.md should not contain duplicate Code of Conduct notice lines.")
         count = self.content.count("Code of Conduct")

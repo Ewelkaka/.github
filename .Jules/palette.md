@@ -143,6 +143,9 @@
 **Learning:** Accumulated duplicate copyright and policy footer lines in a repository's main README create repetitive speech output for screen reader users and visual clutter. Keeping a single canonical footer line cleans up the landing page experience and respects screen reader flow.
 **Action:** Ensure project footers contain exactly one clean line of essential policy and copyright links.
 
+## 2026-08-15 - Consolidate duplicate disclaimers and alert blocks across documentation
+**Learning:** Duplicate disclaimer lines and repeated alert blocks across Markdown files (like `CONTRIBUTING.md`, `SUPPORT.md`, `PULL_REQUEST_TEMPLATE.md`, `CODE_OF_CONDUCT.md`, and issue templates) create visual noise and severe auditory clutter for screen-reader users, who must listen to repetitive notices multiple times. Consolidating repeated blocks into a single, clean semantic alert block preserves document flow and improves accessibility.
+**Action:** Audit documentation and issue/PR templates to ensure disclaimers, notes, and tips are stated exactly once, wrapping essential notices in standard GitHub-native alert blocks.
 ## 2026-08-15 - Consolidate duplicate alert blocks and guidance lines across templates
 **Learning:** Accumulated duplicate guidance lines and redundant alert blocks inside Markdown templates and support documents generate repetitive speech for screen-reader users and visual clutter for contributors. Consolidating duplicate blocks into concise, single alert units cleans up contributor interactions during issue/PR submission.
 **Action:** Audit repository templates and documentation files for duplicate alert blocks or repeated lines, and consolidate them into clear, accessible single units.
