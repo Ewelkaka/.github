@@ -116,6 +116,8 @@ class TestBugReportUX(TrackingTestCase):
             self.content.count("search existing issues"),
             1,
             "bug_report.md should not contain duplicate search advice lines.",
+        )
+        self.assertEqual(
             self.content.count("Please search"),
             0,
             "bug_report.md should not contain duplicate unlinked search advice lines.",
@@ -136,6 +138,8 @@ class TestFeatureRequestUX(TrackingTestCase):
             self.content.count("search existing feature requests"),
             1,
             "feature_request.md should not contain duplicate search advice lines.",
+        )
+        self.assertEqual(
             self.content.count("Please search"),
             0,
             "feature_request.md should not contain duplicate unlinked search advice lines.",
