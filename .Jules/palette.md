@@ -32,8 +32,8 @@
 **Action:** Embed friendly search instructions in a `> [!TIP]` alert block at the top of issue templates, with proper newline spacing.
 
 ## 2026-08-10 - Elevate hidden template comments to visible alert blocks
-**Learning:** Guidelines embedded in issue or pull request templates as HTML comments are invisible to users once rendered, meaning crucial instructions are easily missed during composition. Converting developer comments into a visible, semantic GitHub-native `> [!NOTE]` alert block improves visual experience and guarantees immediate scannability of linking guidelines.
-**Action:** Replace hidden HTML developer comments in issue or PR templates with visible, accessible alert blocks to ensure compliance and readability during document drafting.
+**Learning:** Hidden developer comments in pull request templates can easily be ignored or overlooked during PR creation. Converting these into visible GitHub-native alert blocks (e.g., `> [!NOTE]`) significantly improves the visual experience and scannability of issue linking guidelines.
+**Action:** Identify commented-out instructions inside templates and elevate them to prominent, visible GitHub-native alert blocks with proper newline spacing.
 
 ## 2024-05-24 - Informative illustrations require descriptive alt text
 **Learning:** In a repository primarily focused on documentation and organization profiles, the primary UX interactions are visual. Informative illustrations, such as the organization mascot, serve as key brand identifiers and should be accessible to screen reader users via descriptive alt text rather than being treated as purely decorative.
@@ -146,9 +146,3 @@
 ## 2026-08-15 - Consolidate duplicate disclaimers and alert blocks across documentation
 **Learning:** Duplicate disclaimer lines and repeated alert blocks across Markdown files (like `CONTRIBUTING.md`, `SUPPORT.md`, `PULL_REQUEST_TEMPLATE.md`, `CODE_OF_CONDUCT.md`, and issue templates) create visual noise and severe auditory clutter for screen-reader users, who must listen to repetitive notices multiple times. Consolidating repeated blocks into a single, clean semantic alert block preserves document flow and improves accessibility.
 **Action:** Audit documentation and issue/PR templates to ensure disclaimers, notes, and tips are stated exactly once, wrapping essential notices in standard GitHub-native alert blocks.
-## 2026-08-15 - Consolidate duplicate alert blocks and guidance lines across templates
-**Learning:** Accumulated duplicate guidance lines and redundant alert blocks inside Markdown templates and support documents generate repetitive speech for screen-reader users and visual clutter for contributors. Consolidating duplicate blocks into concise, single alert units cleans up contributor interactions during issue/PR submission.
-**Action:** Audit repository templates and documentation files for duplicate alert blocks or repeated lines, and consolidate them into clear, accessible single units.
-## 2026-08-15 - Consolidate duplicate enforcement notices in Code of Conduct
-**Learning:** Repetitive, duplicated alert blocks and disclaimer lines in governance files like `CODE_OF_CONDUCT.md` create repetitive speech output for screen reader users and visual noise for sighted readers. Consolidating enforcement instructions into a single, canonical `> [!IMPORTANT]` block restores document scannability and provides a clear, frictionless pathway for reporting incidents.
-**Action:** Audit governance and policy files for repeated or fragmented disclaimer blocks and consolidate them into a single high-contrast alert block.
