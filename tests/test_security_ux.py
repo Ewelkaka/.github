@@ -1,9 +1,16 @@
 import os
+import sys
 import unittest
 import re
 from test_pr_accessibility import _read_cached, TrackingTestCase
 
-REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
+if TESTS_DIR not in sys.path:
+    sys.path.insert(0, TESTS_DIR)
+
+from test_pr_accessibility import _read_cached, TrackingTestCase
+
+REPO_ROOT = os.path.dirname(TESTS_DIR)
 SECURITY_PATH = os.path.join(REPO_ROOT, "SECURITY.md")
 
 # Module-level pre-compiled regex objects for efficient search operations.
@@ -13,6 +20,8 @@ RE_MAILTO_LINK = re.compile(r"\[opensource-security@github\.com\]\(mailto:openso
 
 # Inherit from TrackingTestCase so test IDs are recorded in _PASSED_TESTS,
 # enabling meta-test runners (e.g. TestRefactoredSuitesStillPass) to bypass redundant re-executions.
+# Optimization: Inherit from TrackingTestCase to record passed test IDs in _PASSED_TESTS,
+# ensuring global test tracking and preventing redundant suite re-executions in meta-tests.
 class TestSecurityUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):
