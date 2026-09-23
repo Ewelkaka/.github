@@ -1,13 +1,3 @@
-"""
-Tests for PR: Improve accessibility with descriptive alt text for mascot SVG
-
-Covers:
-  - profile/README.md: <img> tag has a non-empty, descriptive alt attribute
-  - .Jules/palette.md: file exists and contains the expected learning/action content
-  - CODE_OF_CONDUCT.md: contact email is present and highlighted with an alert block
-  - README.md: Code of Conduct links to the local file
-"""
-
 import os
 import re
 import unittest
@@ -217,11 +207,6 @@ class TestPaletteMarkdown(TrackingTestCase):
             "Expected 'brand' keyword not found in the learning section of .Jules/palette.md.",
         )
 
-
-
-
-
-
     def test_content_is_class_level_attribute(self):
         """After the setUpClass refactor, content must be a class-level attribute."""
         self.assertIn(
@@ -373,7 +358,7 @@ class TestContributingDiscoverability(TrackingTestCase):
 
     def test_contributing_links_to_coc(self):
         """CONTRIBUTING.md should link to the local CODE_OF_CONDUCT.md."""
-        self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", self.content)
+        self.assertIn("CODE_OF_CONDUCT.md", self.content)
 
 
 if __name__ == "__main__":

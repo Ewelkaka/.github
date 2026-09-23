@@ -38,7 +38,7 @@ class TestReadmeUX(TrackingTestCase):
 
     def test_localized_coc_links(self):
         self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", self.readme_content)
-        self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", self.contributing_content)
+        self.assertIn("[Contributor Code of Conduct](CODE_OF_CONDUCT.md)", self.contributing_content)
 
     def test_copyright_year(self):
         self.assertIn("&copy; 2026 GitHub", self.readme_content)
@@ -73,6 +73,9 @@ class TestSupportUX(TrackingTestCase):
         self.assertIn("[GitHub issues](https://github.com/skills/.github/issues)", self.content)
 
     def test_no_duplicate_content(self):
+        self.assertEqual(self.content.count("> [!TIP]"), 1)
+        self.assertEqual(self.content.count("> [!NOTE]"), 1)
+        self.assertEqual(self.content.count("This project uses [GitHub issues]"), 1)
         self.assertEqual(
             self.content.count("[GitHub issues](https://github.com/skills/.github/issues)"),
             1,
