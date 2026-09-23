@@ -1,5 +1,10 @@
 # Bolt's Journal - Critical Learnings Only
 
+## 2026-07-17 - Complete TrackingTestCase Inheritance Across Multi-Module Meta-Test Suites
+**Learning:** When using a global tracking mechanism (`_PASSED_TESTS`) in a base `TrackingTestCase` class to bypass redundant programmatic re-executions of test suites in meta-test runners (like `TestRefactoredSuitesStillPass`), all test classes across all test files must inherit from `TrackingTestCase`. Any class inheriting directly from `unittest.TestCase` will fail to register its completed test IDs in `_PASSED_TESTS`, triggering redundant programmatic suite re-evaluations.
+**Action:** Inherit `TrackingTestCase` across all test classes in all test modules and include explicit `sys.path` initialization (`sys.path.insert(0, TESTS_DIR)`) to ensure consistent test ID registration and fast module discovery regardless of execution context.
+
+
 ## 2025-01-24 - Test Suite File I/O Anti-pattern
 **Learning:** The test suite was re-reading static Markdown files for every test method in `setUp()`, causing O(N) `openat()` calls. Since these files don't change during test execution, this was unnecessary overhead.
 **Action:** Use `@classmethod setUpClass(cls)` to cache static file content at the class level in Python `unittest` to reduce I/O to O(1) per class.
@@ -184,3 +189,13 @@
 ## 2026-07-16 - Expand setUpClass I/O caching to multi-file assertions
 **Learning:** When a single test class asserts against multiple distinct static files (such as CODE_OF_CONDUCT.md, README.md, and CONTRIBUTING.md in TestCodeOfConductUX), performing `_read()` calls on-demand inside each test method leads to multiple redundant `openat()` calls. Caching all required static files at class creation time via `@classmethod setUpClass(cls)` completely eliminates redundant system-level disk reads.
 **Action:** Identify all test methods performing raw direct file reads within a single class, and hoist all of them into a unified `@classmethod setUpClass(cls)` block.
+
+## 2026-07-18 - Ensure complete TrackingTestCase coverage to bypass redundant suite executions
+**Learning:** In meta-test runners using global `_PASSED_TESTS` sets, any test class inheriting from `unittest.TestCase` instead of `TrackingTestCase` will not record its test IDs upon completion. This causes short-circuiting checks like `all(test.id() in _PASSED_TESTS ...)` in meta-test suites (e.g., `TestRefactoredSuitesStillPass`) to evaluate to `False`, forcing complete programmatic re-execution of entire test suites.
+**Action:** Inherit all test classes from `TrackingTestCase` across all test files to ensure full test ID recording and enable 100% bypass of redundant test suite re-executions.
+## 2026-07-18 - Ensure complete test tracking inheritance across test suite
+**Learning:** In test suites utilizing a global tracking base class (such as `TrackingTestCase`) to bypass redundant meta-test suite executions, any test class inheriting directly from `unittest.TestCase` fails to record its executed test IDs into `_PASSED_TESTS`. This triggers fallback re-executions of entire module suites in meta-test runners. Inheriting `TrackingTestCase` across 100% of test classes guarantees zero redundant suite re-executions.
+**Action:** Always ensure all test classes in the test suite inherit from `TrackingTestCase` rather than `unittest.TestCase` directly.
+## 2026-07-18 - Leverage Centralized File Cache in Verification Suites
+**Learning:** Structural verification suites that test other test classes (e.g. `TestSetUpClassOptimization`) can re-open static files directly (`open(path)`), causing unexpected `openat` syscall spikes even when target classes use cached readers. Using the global `_read_cached` helper across all structural verification assertions preserves single-pass I/O for the entire suite.
+**Action:** In structural validation tests, reuse `_read_cached()` instead of `open()` to ensure static content verification doesn't bypass shared in-memory caches.
