@@ -17,6 +17,9 @@ import test_palette_ux as palette_ux_module  # noqa: E402
 import test_coc_ux as coc_ux_module  # noqa: E402
 import test_contributing_ux as contributing_ux_module  # noqa: E402
 import test_security_ux as security_ux_module  # noqa: E402
+import test_contributing_ux as contributing_ux_module  # noqa: E402
+import test_security_ux as security_ux_module  # noqa: E402
+import test_coc_ux as coc_ux_module  # noqa: E402
 import test_bolt_journal as bolt_journal_module  # noqa: E402
 
 
@@ -43,6 +46,9 @@ class TestSetUpClassOptimization(unittest.TestCase):
         pr_accessibility_module.TestProfileReadmeAltText,
         pr_accessibility_module.TestPaletteMarkdown,
         pr_accessibility_module.TestCodeOfConductUX,
+        pr_accessibility_module.TestProfileReadmeSetupClassBehavior,
+        pr_accessibility_module.TestCodeOfConductAccessibility,
+        pr_accessibility_module.TestContributingDiscoverability,
         readme_ux_module.TestReadmeUX,
         readme_ux_module.TestSupportUX,
         readme_ux_module.TestPullRequestTemplateUX,
@@ -53,6 +59,9 @@ class TestSetUpClassOptimization(unittest.TestCase):
         coc_ux_module.TestCoCUX,
         contributing_ux_module.TestContributingUX,
         security_ux_module.TestSecurityUX,
+        contributing_ux_module.TestContributingUX,
+        security_ux_module.TestSecurityUX,
+        coc_ux_module.TestCoCUX,
         bolt_journal_module.TestBoltJournal,
     ]
 
@@ -60,6 +69,9 @@ class TestSetUpClassOptimization(unittest.TestCase):
         pr_accessibility_module.TestProfileReadmeAltText: pr_accessibility_module.PROFILE_README,
         pr_accessibility_module.TestPaletteMarkdown: pr_accessibility_module.PALETTE_MD,
         pr_accessibility_module.TestCodeOfConductUX: pr_accessibility_module.COC_MD,
+        pr_accessibility_module.TestProfileReadmeSetupClassBehavior: pr_accessibility_module.PROFILE_README,
+        pr_accessibility_module.TestCodeOfConductAccessibility: pr_accessibility_module.COC_MD,
+        pr_accessibility_module.TestContributingDiscoverability: pr_accessibility_module.CONTRIBUTING_MD,
         readme_ux_module.TestReadmeUX: readme_ux_module.README_PATH,
         readme_ux_module.TestSupportUX: readme_ux_module.SUPPORT_PATH,
         readme_ux_module.TestPullRequestTemplateUX: readme_ux_module.PR_TEMPLATE_PATH,
@@ -70,6 +82,9 @@ class TestSetUpClassOptimization(unittest.TestCase):
         coc_ux_module.TestCoCUX: coc_ux_module.COC_PATH,
         contributing_ux_module.TestContributingUX: contributing_ux_module.CONTRIBUTING_PATH,
         security_ux_module.TestSecurityUX: security_ux_module.SECURITY_PATH,
+        contributing_ux_module.TestContributingUX: contributing_ux_module.CONTRIBUTING_PATH,
+        security_ux_module.TestSecurityUX: security_ux_module.SECURITY_PATH,
+        coc_ux_module.TestCoCUX: coc_ux_module.COC_PATH,
         bolt_journal_module.TestBoltJournal: bolt_journal_module.BOLT_MD,
     }
 
@@ -154,6 +169,9 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         cls.coc_ux_suite = loader.loadTestsFromModule(coc_ux_module)
         cls.contributing_ux_suite = loader.loadTestsFromModule(contributing_ux_module)
         cls.security_ux_suite = loader.loadTestsFromModule(security_ux_module)
+        cls.contributing_ux_suite = loader.loadTestsFromModule(contributing_ux_module)
+        cls.security_ux_suite = loader.loadTestsFromModule(security_ux_module)
+        cls.coc_ux_suite = loader.loadTestsFromModule(coc_ux_module)
         cls.bolt_journal_suite = loader.loadTestsFromModule(bolt_journal_module)
 
     def _run_module_suite(self, suite):
@@ -216,6 +234,13 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         self.assertTrue(
             result.wasSuccessful(),
             f"security_ux suite failed: failures={result.failures}, errors={result.errors}",
+        )
+
+    def test_coc_ux_suite_passes(self):
+        result = self._run_module_suite(self.coc_ux_suite)
+        self.assertTrue(
+            result.wasSuccessful(),
+            f"coc_ux suite failed: failures={result.failures}, errors={result.errors}",
         )
 
     def test_bolt_journal_suite_passes(self):

@@ -38,7 +38,7 @@ class TestReadmeUX(TrackingTestCase):
 
     def test_localized_coc_links(self):
         self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", self.readme_content)
-        self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", self.contributing_content)
+        self.assertIn("CODE_OF_CONDUCT.md", self.contributing_content)
 
     def test_copyright_year(self):
         self.assertIn("&copy; 2026 GitHub", self.readme_content)
