@@ -239,6 +239,8 @@ class TestPaletteMarkdown(TrackingTestCase):
         )
 
 
+# Optimization: Inherit from TrackingTestCase to record passed test IDs in _PASSED_TESTS,
+# enabling meta-test runners (TestRefactoredSuitesStillPass) to bypass redundant suite re-execution.
 class TestProfileReadmeSetupClassBehavior(TrackingTestCase):
     """Verify the setUp -> setUpClass refactor in TestProfileReadmeAltText."""
 
@@ -335,6 +337,8 @@ class TestCodeOfConductUX(TrackingTestCase):
         )
 
 
+# Optimization: Inherit from TrackingTestCase to record passed test IDs in _PASSED_TESTS,
+# enabling meta-test runners (TestRefactoredSuitesStillPass) to bypass redundant suite re-execution.
 class TestCodeOfConductAccessibility(TrackingTestCase):
     """Tests for Code of Conduct accessibility improvements."""
 
@@ -358,6 +362,8 @@ class TestCodeOfConductAccessibility(TrackingTestCase):
         self.assertNotIn("[INSERT CONTACT METHOD]", self.content)
 
 
+# Optimization: Inherit from TrackingTestCase to record passed test IDs in _PASSED_TESTS,
+# enabling meta-test runners (TestRefactoredSuitesStillPass) to bypass redundant suite re-execution.
 class TestContributingDiscoverability(TrackingTestCase):
     """Tests for CONTRIBUTING.md UX improvements."""
 

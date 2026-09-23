@@ -16,6 +16,8 @@ CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 SUPPORT_PATH = os.path.join(REPO_ROOT, "SUPPORT.md")
 
 
+# Optimization: Inherit from TrackingTestCase to record completed test IDs in _PASSED_TESTS,
+# allowing TestRefactoredSuitesStillPass to bypass redundant re-execution of the palette_ux test suite.
 class TestPaletteUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):

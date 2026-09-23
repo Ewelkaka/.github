@@ -18,6 +18,8 @@ RE_WARNING_ALERT = re.compile(r"> \[!WARNING\]", re.IGNORECASE)
 RE_MAILTO_LINK = re.compile(r"\[opensource-security@github\.com\]\(mailto:opensource-security@github\.com\)")
 
 
+# Optimization: Inherit from TrackingTestCase to record passed test IDs in _PASSED_TESTS,
+# ensuring global test tracking and preventing redundant suite re-executions in meta-tests.
 class TestSecurityUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):

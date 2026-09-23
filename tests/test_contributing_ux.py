@@ -17,6 +17,8 @@ CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 RE_TIP_ALERT = re.compile(r"> \[!TIP\]", re.IGNORECASE)
 
 
+# Optimization: Inherit from TrackingTestCase to record passed test IDs in _PASSED_TESTS,
+# ensuring global test tracking and preventing redundant suite re-executions in meta-tests.
 class TestContributingUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):

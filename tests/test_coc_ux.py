@@ -15,6 +15,8 @@ COC_PATH = os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md")
 CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 
 
+# Optimization: Inherit from TrackingTestCase to record passed test IDs in _PASSED_TESTS,
+# ensuring global test tracking and preventing redundant suite re-executions in meta-tests.
 class TestCoCUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):
