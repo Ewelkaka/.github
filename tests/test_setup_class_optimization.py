@@ -14,6 +14,10 @@ if TESTS_DIR not in sys.path:
 import test_pr_accessibility as pr_accessibility_module  # noqa: E402
 import test_readme_ux as readme_ux_module  # noqa: E402
 import test_palette_ux as palette_ux_module  # noqa: E402
+import test_contributing_ux as contributing_ux_module  # noqa: E402
+import test_security_ux as security_ux_module  # noqa: E402
+import test_coc_ux as coc_ux_module  # noqa: E402
+import test_bolt_journal as bolt_journal_module  # noqa: E402
 
 
 def _get_test_cases(suite):
@@ -39,6 +43,9 @@ class TestSetUpClassOptimization(unittest.TestCase):
         pr_accessibility_module.TestProfileReadmeAltText,
         pr_accessibility_module.TestPaletteMarkdown,
         pr_accessibility_module.TestCodeOfConductUX,
+        pr_accessibility_module.TestProfileReadmeSetupClassBehavior,
+        pr_accessibility_module.TestCodeOfConductAccessibility,
+        pr_accessibility_module.TestContributingDiscoverability,
         readme_ux_module.TestReadmeUX,
         readme_ux_module.TestSupportUX,
         readme_ux_module.TestPullRequestTemplateUX,
@@ -46,12 +53,19 @@ class TestSetUpClassOptimization(unittest.TestCase):
         readme_ux_module.TestFeatureRequestUX,
         readme_ux_module.TestSecurityUX,
         palette_ux_module.TestPaletteUX,
+        contributing_ux_module.TestContributingUX,
+        security_ux_module.TestSecurityUX,
+        coc_ux_module.TestCoCUX,
+        bolt_journal_module.TestBoltJournal,
     ]
 
     PATH_BY_CLASS = {
         pr_accessibility_module.TestProfileReadmeAltText: pr_accessibility_module.PROFILE_README,
         pr_accessibility_module.TestPaletteMarkdown: pr_accessibility_module.PALETTE_MD,
         pr_accessibility_module.TestCodeOfConductUX: pr_accessibility_module.COC_MD,
+        pr_accessibility_module.TestProfileReadmeSetupClassBehavior: pr_accessibility_module.PROFILE_README,
+        pr_accessibility_module.TestCodeOfConductAccessibility: pr_accessibility_module.COC_MD,
+        pr_accessibility_module.TestContributingDiscoverability: pr_accessibility_module.CONTRIBUTING_MD,
         readme_ux_module.TestReadmeUX: readme_ux_module.README_PATH,
         readme_ux_module.TestSupportUX: readme_ux_module.SUPPORT_PATH,
         readme_ux_module.TestPullRequestTemplateUX: readme_ux_module.PR_TEMPLATE_PATH,
@@ -59,6 +73,10 @@ class TestSetUpClassOptimization(unittest.TestCase):
         readme_ux_module.TestFeatureRequestUX: os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "feature_request.md"),
         readme_ux_module.TestSecurityUX: readme_ux_module.SECURITY_PATH,
         palette_ux_module.TestPaletteUX: palette_ux_module.COC_PATH,
+        contributing_ux_module.TestContributingUX: contributing_ux_module.CONTRIBUTING_PATH,
+        security_ux_module.TestSecurityUX: security_ux_module.SECURITY_PATH,
+        coc_ux_module.TestCoCUX: coc_ux_module.COC_PATH,
+        bolt_journal_module.TestBoltJournal: bolt_journal_module.BOLT_MD,
     }
 
     def test_classes_do_not_define_instance_setUp(self):
@@ -139,6 +157,10 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         cls.pr_accessibility_suite = loader.loadTestsFromModule(pr_accessibility_module)
         cls.readme_ux_suite = loader.loadTestsFromModule(readme_ux_module)
         cls.palette_ux_suite = loader.loadTestsFromModule(palette_ux_module)
+        cls.contributing_ux_suite = loader.loadTestsFromModule(contributing_ux_module)
+        cls.security_ux_suite = loader.loadTestsFromModule(security_ux_module)
+        cls.coc_ux_suite = loader.loadTestsFromModule(coc_ux_module)
+        cls.bolt_journal_suite = loader.loadTestsFromModule(bolt_journal_module)
 
     def _run_module_suite(self, suite):
         from test_pr_accessibility import _PASSED_TESTS
@@ -179,6 +201,34 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         self.assertTrue(
             result.wasSuccessful(),
             f"palette_ux suite failed: failures={result.failures}, errors={result.errors}",
+        )
+
+    def test_contributing_ux_suite_passes(self):
+        result = self._run_module_suite(self.contributing_ux_suite)
+        self.assertTrue(
+            result.wasSuccessful(),
+            f"contributing_ux suite failed: failures={result.failures}, errors={result.errors}",
+        )
+
+    def test_security_ux_suite_passes(self):
+        result = self._run_module_suite(self.security_ux_suite)
+        self.assertTrue(
+            result.wasSuccessful(),
+            f"security_ux suite failed: failures={result.failures}, errors={result.errors}",
+        )
+
+    def test_coc_ux_suite_passes(self):
+        result = self._run_module_suite(self.coc_ux_suite)
+        self.assertTrue(
+            result.wasSuccessful(),
+            f"coc_ux suite failed: failures={result.failures}, errors={result.errors}",
+        )
+
+    def test_bolt_journal_suite_passes(self):
+        result = self._run_module_suite(self.bolt_journal_suite)
+        self.assertTrue(
+            result.wasSuccessful(),
+            f"bolt_journal suite failed: failures={result.failures}, errors={result.errors}",
         )
 
 
