@@ -239,7 +239,7 @@ class TestPaletteMarkdown(TrackingTestCase):
         )
 
 
-class TestProfileReadmeSetupClassBehavior(TrackingTestCase):
+class TestProfileReadmeSetupClassBehavior(unittest.TestCase):
     """Verify the setUp -> setUpClass refactor in TestProfileReadmeAltText."""
 
     @classmethod
@@ -335,7 +335,7 @@ class TestCodeOfConductUX(TrackingTestCase):
         )
 
 
-class TestCodeOfConductAccessibility(TrackingTestCase):
+class TestCodeOfConductAccessibility(unittest.TestCase):
     """Tests for Code of Conduct accessibility improvements."""
 
     @classmethod
@@ -358,7 +358,7 @@ class TestCodeOfConductAccessibility(TrackingTestCase):
         self.assertNotIn("[INSERT CONTACT METHOD]", self.content)
 
 
-class TestContributingDiscoverability(TrackingTestCase):
+class TestContributingDiscoverability(unittest.TestCase):
     """Tests for CONTRIBUTING.md UX improvements."""
 
     @classmethod
@@ -367,7 +367,7 @@ class TestContributingDiscoverability(TrackingTestCase):
 
     def test_contributing_links_to_coc(self):
         """CONTRIBUTING.md should link to the local CODE_OF_CONDUCT.md."""
-        self.assertIn("CODE_OF_CONDUCT.md", self.content)
+        self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", self.content)
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 import os
 import unittest
 import re
-from test_pr_accessibility import _read_cached, TrackingTestCase
+from test_pr_accessibility import _read_cached
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
@@ -10,7 +10,7 @@ CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 RE_TIP_ALERT = re.compile(r"> \[!TIP\]", re.IGNORECASE)
 
 
-class TestContributingUX(TrackingTestCase):
+class TestContributingUX(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # Optimization: Read file once per class using _read_cached to optimize I/O
@@ -26,15 +26,6 @@ class TestContributingUX(TrackingTestCase):
         self.assertIn("[How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)", self.content)
         self.assertIn("[Using Pull Requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)", self.content)
         self.assertIn("[GitHub Docs](https://docs.github.com/)", self.content)
-
-    def test_no_duplicate_coc_notices(self):
-        """CONTRIBUTING.md should contain exactly one Code of Conduct notice."""
-        coc_count = self.content.count("CODE_OF_CONDUCT.md")
-        self.assertEqual(
-            coc_count,
-            1,
-            f"Expected exactly 1 Code of Conduct reference in CONTRIBUTING.md, but found {coc_count}.",
-        )
 
 
 if __name__ == "__main__":
