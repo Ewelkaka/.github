@@ -188,3 +188,6 @@
 ## 2026-07-18 - Pre-instantiating mock results and precomputing test ID tuples in meta-tests
 **Learning:** Defining mock classes inside helper methods causes Python to execute `class` statements and allocate class/dict objects on every method invocation. Pre-instantiating mock result objects at module scope and precomputing test ID tuples during `setUpClass()` eliminates repetitive object creation and recursive tree traversal overhead in meta-test suites.
 **Action:** Pre-instantiate static mock objects at module scope and precalculate test ID collections in `setUpClass()` when writing meta-test runners.
+## 2026-07-18 - Ensure complete test class tracking for meta-test suite bypass
+**Learning:** Meta-test runners that verify pre-passed test suites via a global tracking set (`_PASSED_TESTS`) fail to short-circuit if even a single test class in a module inherits from `unittest.TestCase` instead of `TrackingTestCase`. This triggers full redundant re-executions of entire module test suites (36 extra test runs in this suite).
+**Action:** Always ensure ALL test classes in target modules inherit from `TrackingTestCase` so every executed test case records its completion ID in `_PASSED_TESTS`.

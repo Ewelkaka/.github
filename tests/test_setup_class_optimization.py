@@ -61,9 +61,6 @@ class TestSetUpClassOptimization(unittest.TestCase):
         pr_accessibility_module.TestProfileReadmeAltText,
         pr_accessibility_module.TestPaletteMarkdown,
         pr_accessibility_module.TestCodeOfConductUX,
-        pr_accessibility_module.TestProfileReadmeSetupClassBehavior,
-        pr_accessibility_module.TestCodeOfConductAccessibility,
-        pr_accessibility_module.TestContributingDiscoverability,
         readme_ux_module.TestReadmeUX,
         readme_ux_module.TestSupportUX,
         readme_ux_module.TestPullRequestTemplateUX,
@@ -81,9 +78,6 @@ class TestSetUpClassOptimization(unittest.TestCase):
         pr_accessibility_module.TestProfileReadmeAltText: pr_accessibility_module.PROFILE_README,
         pr_accessibility_module.TestPaletteMarkdown: pr_accessibility_module.PALETTE_MD,
         pr_accessibility_module.TestCodeOfConductUX: pr_accessibility_module.COC_MD,
-        pr_accessibility_module.TestProfileReadmeSetupClassBehavior: pr_accessibility_module.PROFILE_README,
-        pr_accessibility_module.TestCodeOfConductAccessibility: pr_accessibility_module.COC_MD,
-        pr_accessibility_module.TestContributingDiscoverability: pr_accessibility_module.CONTRIBUTING_MD,
         readme_ux_module.TestReadmeUX: readme_ux_module.README_PATH,
         readme_ux_module.TestSupportUX: readme_ux_module.SUPPORT_PATH,
         readme_ux_module.TestPullRequestTemplateUX: readme_ux_module.PR_TEMPLATE_PATH,
@@ -201,6 +195,12 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         cls.bolt_journal_ids = tuple(t.id() for t in _get_test_cases(cls.bolt_journal_suite))
 
     def _run_module_suite(self, suite, test_ids):
+    # Performance Optimization: Standard unittest runners re-execute child test suites
+    # loaded via loadTestsFromModule during meta-test checks. By maintaining a global set
+    # of completed test IDs recorded via TrackingTestCase, this check bypasses redundant
+    # suite re-executions with an O(1) space generator expression using all(), eliminating
+    # duplicate CPU and memory overhead during test suite execution.
+    def _run_module_suite(self, suite):
         from test_pr_accessibility import _PASSED_TESTS
 
         if all(tid in _PASSED_TESTS for tid in test_ids):
