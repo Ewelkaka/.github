@@ -146,3 +146,7 @@
 ## 2026-08-15 - Eliminate redundant text fragments and duplicate alert blocks for screen reader flow
 **Learning:** Accumulated duplicate lines and redundant alert blocks in documentation files (such as `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `SUPPORT.md`, and `PULL_REQUEST_TEMPLATE.md`) create severe auditory clutter for screen reader users and visual noise for sighted contributors. Streamlining these files to single, canonical alert blocks and instructions restores clear document scannability and screen reader navigation flow.
 **Action:** Routinely audit Markdown documentation and template files for duplicate text fragments and redundant alert blocks, consolidating them into single, accessible callout blocks.
+
+## 2026-08-16 - Wrap HTML image attributes in double quotes for XHTML compliance and screen-reader parsing
+**Learning:** HTML image tags with unquoted attribute values in Markdown files can cause HTML parsing ambiguities, rendering errors in XHTML-compliant parsers, and speech irregularities in screen readers. Enclosing all image attributes (`src`, `width`, `align`, etc.) in double quotes ensures strict standard compliance and predictable screen-reader behavior across all platforms.
+**Action:** Always verify that HTML `<img>` tags in Markdown documentation have all attribute values enclosed in double quotes.
