@@ -156,10 +156,15 @@ class TestSetUpClassOptimization(unittest.TestCase):
 
     def test_content_matches_direct_file_read(self):
         """The content cached by setUpClass must match a direct read of the underlying file."""
+        # Optimization: Cache raw disk content per unique path in local dict
+        # to eliminate redundant open() syscalls for duplicate target paths.
+        disk_content_cache = {}
         for cls, path in self.PATH_BY_CLASS.items():
             with self.subTest(cls=cls.__name__):
-                with open(path, encoding="utf-8") as fh:
-                    expected = fh.read()
+                if path not in disk_content_cache:
+                    with open(path, encoding="utf-8") as fh:
+                        disk_content_cache[path] = fh.read()
+                expected = disk_content_cache[path]
                 attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX) else "content"
                 self.assertEqual(getattr(cls, attr_name), expected)
 
@@ -194,13 +199,12 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         cls.coc_ux_ids = tuple(t.id() for t in _get_test_cases(cls.coc_ux_suite))
         cls.bolt_journal_ids = tuple(t.id() for t in _get_test_cases(cls.bolt_journal_suite))
 
-    def _run_module_suite(self, suite, test_ids):
     # Performance Optimization: Standard unittest runners re-execute child test suites
     # loaded via loadTestsFromModule during meta-test checks. By maintaining a global set
     # of completed test IDs recorded via TrackingTestCase, this check bypasses redundant
     # suite re-executions with an O(1) space generator expression using all(), eliminating
     # duplicate CPU and memory overhead during test suite execution.
-    def _run_module_suite(self, suite):
+    def _run_module_suite(self, suite, test_ids):
         from test_pr_accessibility import _PASSED_TESTS
 
         if all(tid in _PASSED_TESTS for tid in test_ids):
