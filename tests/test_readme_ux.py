@@ -95,6 +95,10 @@ class TestBugReportUX(TrackingTestCase):
         self.assertIn("> [!TIP]", self.content)
         self.assertIn("[search existing issues](https://github.com/skills/.github/issues)", self.content)
 
+    def test_no_duplicate_lines(self):
+        count = self.content.count("Please search") + self.content.count("Please [search")
+        self.assertEqual(count, 1, f"Expected 1 search instruction line in bug_report.md, found {count}.")
+
 
 class TestFeatureRequestUX(TrackingTestCase):
     @classmethod

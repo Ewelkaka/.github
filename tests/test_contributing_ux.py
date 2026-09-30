@@ -21,6 +21,15 @@ class TestContributingUX(TrackingTestCase):
         self.assertIsNotNone(RE_TIP_ALERT.search(self.content))
         self.assertIn("**Check out these resources to help you get started:**", self.content)
 
+    def test_no_duplicate_coc_notices(self):
+        """CONTRIBUTING.md should not contain duplicate Code of Conduct notice blocks."""
+        count = self.content.count("Please note that this project is released with a")
+        self.assertEqual(
+            count,
+            1,
+            f"Expected exactly 1 Code of Conduct notice block in CONTRIBUTING.md, found {count}.",
+        )
+
     def test_resource_links_present(self):
         """The resource links should be present within the document."""
         self.assertIn("[How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)", self.content)
