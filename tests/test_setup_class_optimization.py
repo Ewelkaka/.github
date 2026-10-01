@@ -156,10 +156,16 @@ class TestSetUpClassOptimization(unittest.TestCase):
 
     def test_content_matches_direct_file_read(self):
         """The content cached by setUpClass must match a direct read of the underlying file."""
+        # Optimization: Cache raw disk content per unique file path in a local dictionary
+        # during verification to eliminate redundant open() system calls when multiple
+        # test classes share the same underlying target file path.
+        disk_cache = {}
         for cls, path in self.PATH_BY_CLASS.items():
             with self.subTest(cls=cls.__name__):
-                with open(path, encoding="utf-8") as fh:
-                    expected = fh.read()
+                if path not in disk_cache:
+                    with open(path, encoding="utf-8") as fh:
+                        disk_cache[path] = fh.read()
+                expected = disk_cache[path]
                 attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX) else "content"
                 self.assertEqual(getattr(cls, attr_name), expected)
 
@@ -195,12 +201,11 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         cls.bolt_journal_ids = tuple(t.id() for t in _get_test_cases(cls.bolt_journal_suite))
 
     def _run_module_suite(self, suite, test_ids):
-    # Performance Optimization: Standard unittest runners re-execute child test suites
-    # loaded via loadTestsFromModule during meta-test checks. By maintaining a global set
-    # of completed test IDs recorded via TrackingTestCase, this check bypasses redundant
-    # suite re-executions with an O(1) space generator expression using all(), eliminating
-    # duplicate CPU and memory overhead during test suite execution.
-    def _run_module_suite(self, suite):
+        # Performance Optimization: Standard unittest runners re-execute child test suites
+        # loaded via loadTestsFromModule during meta-test checks. By maintaining a global set
+        # of completed test IDs recorded via TrackingTestCase, this check bypasses redundant
+        # suite re-executions with an O(1) space generator expression using all(), eliminating
+        # duplicate CPU and memory overhead during test suite execution.
         from test_pr_accessibility import _PASSED_TESTS
 
         if all(tid in _PASSED_TESTS for tid in test_ids):
