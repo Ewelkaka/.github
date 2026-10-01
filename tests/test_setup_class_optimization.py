@@ -194,13 +194,12 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         cls.coc_ux_ids = tuple(t.id() for t in _get_test_cases(cls.coc_ux_suite))
         cls.bolt_journal_ids = tuple(t.id() for t in _get_test_cases(cls.bolt_journal_suite))
 
-    def _run_module_suite(self, suite, test_ids):
     # Performance Optimization: Standard unittest runners re-execute child test suites
     # loaded via loadTestsFromModule during meta-test checks. By maintaining a global set
     # of completed test IDs recorded via TrackingTestCase, this check bypasses redundant
     # suite re-executions with an O(1) space generator expression using all(), eliminating
     # duplicate CPU and memory overhead during test suite execution.
-    def _run_module_suite(self, suite):
+    def _run_module_suite(self, suite, test_ids):
         from test_pr_accessibility import _PASSED_TESTS
 
         if all(tid in _PASSED_TESTS for tid in test_ids):
