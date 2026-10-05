@@ -98,6 +98,12 @@ class TestBugReportUX(TrackingTestCase):
     def test_no_duplicate_lines(self):
         self.assertEqual(self.content.count("Please search"), 0)
         self.assertEqual(self.content.count("Please [search existing issues]"), 1)
+        """bug_report.md should not contain duplicate search advice lines."""
+        self.assertEqual(
+            self.content.count("search existing issues"),
+            1,
+            "Found duplicate search advice lines in bug_report.md.",
+        )
 
 
 class TestFeatureRequestUX(TrackingTestCase):
@@ -112,6 +118,12 @@ class TestFeatureRequestUX(TrackingTestCase):
     def test_no_duplicate_lines(self):
         self.assertEqual(self.content.count("Please search [existing feature requests]"), 0)
         self.assertEqual(self.content.count("Please [search existing feature requests]"), 1)
+        """feature_request.md should not contain duplicate search advice lines."""
+        self.assertEqual(
+            self.content.count("search existing feature requests"),
+            1,
+            "Found duplicate search advice lines in feature_request.md.",
+        )
 
 
 class TestSecurityUX(TrackingTestCase):
