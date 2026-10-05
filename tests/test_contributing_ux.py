@@ -31,6 +31,12 @@ class TestContributingUX(TrackingTestCase):
         """CONTRIBUTING.md should not contain duplicate Code of Conduct notice lines."""
         coc_occurrences = self.content.count("Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).")
         self.assertEqual(coc_occurrences, 1, "Expected exactly one Code of Conduct notice line in CONTRIBUTING.md")
+        """CONTRIBUTING.md should contain exactly one Code of Conduct notice block."""
+        self.assertEqual(
+            self.content.count("Please note that this project is released with a [Contributor Code of Conduct]"),
+            1,
+            "Found duplicate Code of Conduct notice lines in CONTRIBUTING.md.",
+        )
 
 
 if __name__ == "__main__":
