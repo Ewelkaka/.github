@@ -28,6 +28,9 @@ class TestContributingUX(TrackingTestCase):
         self.assertIn("[GitHub Docs](https://docs.github.com/)", self.content)
 
     def test_no_duplicate_coc_notices(self):
+        """CONTRIBUTING.md should not contain duplicate Code of Conduct notice lines."""
+        coc_occurrences = self.content.count("Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).")
+        self.assertEqual(coc_occurrences, 1, "Expected exactly one Code of Conduct notice line in CONTRIBUTING.md")
         """CONTRIBUTING.md should contain exactly one Code of Conduct notice block."""
         self.assertEqual(
             self.content.count("Please note that this project is released with a [Contributor Code of Conduct]"),
