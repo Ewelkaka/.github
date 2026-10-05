@@ -191,3 +191,7 @@
 ## 2026-07-18 - Ensure complete test class tracking for meta-test suite bypass
 **Learning:** Meta-test runners that verify pre-passed test suites via a global tracking set (`_PASSED_TESTS`) fail to short-circuit if even a single test class in a module inherits from `unittest.TestCase` instead of `TrackingTestCase`. This triggers full redundant re-executions of entire module test suites (36 extra test runs in this suite).
 **Action:** Always ensure ALL test classes in target modules inherit from `TrackingTestCase` so every executed test case records its completion ID in `_PASSED_TESTS`.
+
+## 2026-07-19 - Eliminate duplicate disk loops in structural test verification
+**Learning:** Structural verification test methods that validate cached test data against raw disk files can accidentally re-run duplicate file-reading loops if diff merges or refactors duplicate statements. Consolidating file reads into a single dictionary lookup per unique path prevents redundant disk I/O and syntax errors.
+**Action:** Inspect verification methods for duplicated path-iteration loops and consolidate them into a single-pass dictionary lookup per file.
