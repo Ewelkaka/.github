@@ -172,6 +172,16 @@ class TestSetUpClassOptimization(unittest.TestCase):
                     with open(path, encoding="utf-8") as fh:
                         raw_disk_cache[path] = fh.read()
                 expected = raw_disk_cache[path]
+        # Optimization: Cache raw disk content per unique file path in a local dictionary
+        # during verification to eliminate redundant open() calls when multiple test classes
+        # share the same underlying target file path.
+        disk_contents = {}
+        for cls, path in self.PATH_BY_CLASS.items():
+            with self.subTest(cls=cls.__name__):
+                if path not in disk_contents:
+                    with open(path, encoding="utf-8") as fh:
+                        disk_contents[path] = fh.read()
+                expected = disk_contents[path]
                 attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX) else "content"
                 self.assertEqual(getattr(cls, attr_name), expected)
 
@@ -212,6 +222,12 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
     # suite re-executions with an O(1) space generator expression using all(), eliminating
     # duplicate CPU and memory overhead during test suite execution.
     def _run_module_suite(self, suite, test_ids):
+    def _run_module_suite(self, suite, test_ids):
+        # Performance Optimization: Standard unittest runners re-execute child test suites
+        # loaded via loadTestsFromModule during meta-test checks. By maintaining a global set
+        # of completed test IDs recorded via TrackingTestCase, this check bypasses redundant
+        # suite re-executions with an O(1) space generator expression using all(), eliminating
+        # duplicate CPU and memory overhead during test suite execution.
         from test_pr_accessibility import _PASSED_TESTS
 
         if all(tid in _PASSED_TESTS for tid in test_ids):
