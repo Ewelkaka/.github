@@ -60,7 +60,10 @@ class TestSetUpClassOptimization(unittest.TestCase):
     CLASSES_UNDER_TEST = [
         pr_accessibility_module.TestProfileReadmeAltText,
         pr_accessibility_module.TestPaletteMarkdown,
+        pr_accessibility_module.TestProfileReadmeSetupClassBehavior,
         pr_accessibility_module.TestCodeOfConductUX,
+        pr_accessibility_module.TestCodeOfConductAccessibility,
+        pr_accessibility_module.TestContributingDiscoverability,
         readme_ux_module.TestReadmeUX,
         readme_ux_module.TestSupportUX,
         readme_ux_module.TestPullRequestTemplateUX,
@@ -77,7 +80,10 @@ class TestSetUpClassOptimization(unittest.TestCase):
     PATH_BY_CLASS = {
         pr_accessibility_module.TestProfileReadmeAltText: pr_accessibility_module.PROFILE_README,
         pr_accessibility_module.TestPaletteMarkdown: pr_accessibility_module.PALETTE_MD,
+        pr_accessibility_module.TestProfileReadmeSetupClassBehavior: pr_accessibility_module.PROFILE_README,
         pr_accessibility_module.TestCodeOfConductUX: pr_accessibility_module.COC_MD,
+        pr_accessibility_module.TestCodeOfConductAccessibility: pr_accessibility_module.COC_MD,
+        pr_accessibility_module.TestContributingDiscoverability: pr_accessibility_module.CONTRIBUTING_MD,
         readme_ux_module.TestReadmeUX: readme_ux_module.README_PATH,
         readme_ux_module.TestSupportUX: readme_ux_module.SUPPORT_PATH,
         readme_ux_module.TestPullRequestTemplateUX: readme_ux_module.PR_TEMPLATE_PATH,
@@ -156,6 +162,16 @@ class TestSetUpClassOptimization(unittest.TestCase):
 
     def test_content_matches_direct_file_read(self):
         """The content cached by setUpClass must match a direct read of the underlying file."""
+        # Performance Optimization: Cache raw disk content per unique file path in a local
+        # dictionary during verification to eliminate redundant open() system calls when
+        # multiple test classes share the same underlying target file path.
+        raw_disk_cache = {}
+        for cls, path in self.PATH_BY_CLASS.items():
+            with self.subTest(cls=cls.__name__):
+                if path not in raw_disk_cache:
+                    with open(path, encoding="utf-8") as fh:
+                        raw_disk_cache[path] = fh.read()
+                expected = raw_disk_cache[path]
         # Optimization: Cache raw disk content per unique file path in a local dictionary
         # during verification to eliminate redundant open() calls when multiple test classes
         # share the same underlying target file path.
