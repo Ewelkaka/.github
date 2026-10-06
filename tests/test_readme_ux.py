@@ -72,6 +72,9 @@ class TestSupportUX(TrackingTestCase):
     def test_interactive_issue_links(self):
         self.assertIn("[GitHub issues](https://github.com/skills/.github/issues)", self.content)
 
+    def test_security_policy_link_present(self):
+        self.assertIn("To report a security vulnerability, please see our [Security Policy](SECURITY.md).", self.content)
+
 
 class TestPullRequestTemplateUX(TrackingTestCase):
     @classmethod
