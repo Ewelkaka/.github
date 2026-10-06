@@ -191,3 +191,7 @@
 ## 2026-07-18 - Ensure complete test class tracking for meta-test suite bypass
 **Learning:** Meta-test runners that verify pre-passed test suites via a global tracking set (`_PASSED_TESTS`) fail to short-circuit if even a single test class in a module inherits from `unittest.TestCase` instead of `TrackingTestCase`. This triggers full redundant re-executions of entire module test suites (36 extra test runs in this suite).
 **Action:** Always ensure ALL test classes in target modules inherit from `TrackingTestCase` so every executed test case records its completion ID in `_PASSED_TESTS`.
+
+## 2026-07-19 - Module-level imports and class-level tuple caching in test runners
+**Learning:** Re-executing `import` statements inside helper methods called per test method adds unnecessary namespace lookup overhead. Furthermore, inline tuple creation (e.g. `cls in (ClassA, ClassB)`) in loops creates new tuple objects on every iteration. Hoisting imports to module scope and defining static class tuples at class scope eliminates repetitive allocations during test suite execution.
+**Action:** Always hoist imports to module level and define reusable class tuples/sets at class scope in Python unittest suites.
