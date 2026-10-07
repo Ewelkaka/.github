@@ -116,6 +116,10 @@ class TestFeatureRequestUX(TrackingTestCase):
         cls.path = os.path.join(REPO_ROOT, ".github", "ISSUE_TEMPLATE", "feature_request.md")
         cls.content = _read_cached(cls.path)
 
+    def test_typo_fix(self):
+        self.assertIn("what solution you want", self.content)
+        self.assertNotIn("what you solution you want", self.content)
+
     def test_alert_block_present(self):
         self.assertIn("> [!TIP]", self.content)
 
