@@ -12,7 +12,7 @@ assignees: ''
 
 ### Summary
 
-A clear and concise description of what the problem is, and what you solution you want.
+A clear and concise description of what the problem is, and what solution you want.
 
 ### Changes
 
