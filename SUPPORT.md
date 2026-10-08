@@ -12,4 +12,4 @@ This project uses [GitHub issues](https://github.com/skills/.github/issues) to t
 
 ## GitHub Support Policy
 
-Support for this project is limited to the resources listed above.
+Support for this project is limited to the resources listed above. For reporting security vulnerabilities, please see our [Security Policy](SECURITY.md).
