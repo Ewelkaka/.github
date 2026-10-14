@@ -232,7 +232,6 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
     # suite re-executions with an O(1) space generator expression using all(), eliminating
     # duplicate CPU and memory overhead during test suite execution.
     def _run_module_suite(self, suite, test_ids):
-    def _run_module_suite(self, suite, test_ids):
         # Performance Optimization: Standard unittest runners re-execute child test suites
         # loaded via loadTestsFromModule during meta-test checks. By maintaining a global set
         # of completed test IDs recorded via TrackingTestCase, this check bypasses redundant
