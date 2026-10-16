@@ -133,6 +133,11 @@ class TestFeatureRequestUX(TrackingTestCase):
             "Found duplicate search advice lines in feature_request.md.",
         )
 
+    def test_summary_prompt_copy_has_no_typos(self):
+        """feature_request.md should use clear copy without typos under Summary."""
+        self.assertIn("and what solution you want.", self.content)
+        self.assertNotIn("what you solution", self.content)
+
 
 class TestSecurityUX(TrackingTestCase):
     @classmethod
