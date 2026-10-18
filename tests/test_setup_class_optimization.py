@@ -162,6 +162,16 @@ class TestSetUpClassOptimization(unittest.TestCase):
 
     def test_content_matches_direct_file_read(self):
         """The content cached by setUpClass must match a direct read of the underlying file."""
+        # Optimization: Cache raw disk content per unique file path in a local dictionary
+        # during verification to eliminate redundant open() calls when multiple test classes
+        # share the same underlying target file path.
+        disk_contents = {}
+        for cls, path in self.PATH_BY_CLASS.items():
+            with self.subTest(cls=cls.__name__):
+                if path not in disk_contents:
+                    with open(path, encoding="utf-8") as fh:
+                        disk_contents[path] = fh.read()
+                expected = disk_contents[path]
         # Performance Optimization: Cache raw disk content per unique file path in a single
         # local dictionary during verification to eliminate redundant open() system calls
         # and duplicate loop iterations when multiple test classes share target paths.
@@ -206,6 +216,7 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         cls.coc_ux_ids = tuple(t.id() for t in _get_test_cases(cls.coc_ux_suite))
         cls.bolt_journal_ids = tuple(t.id() for t in _get_test_cases(cls.bolt_journal_suite))
 
+    def _run_module_suite(self, suite, test_ids):
     # Performance Optimization: Standard unittest runners re-execute child test suites
     # loaded via loadTestsFromModule during meta-test checks. By maintaining a global set
     # of completed test IDs recorded via TrackingTestCase, this check bypasses redundant
