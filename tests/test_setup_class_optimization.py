@@ -172,6 +172,16 @@ class TestSetUpClassOptimization(unittest.TestCase):
                     with open(path, encoding="utf-8") as fh:
                         disk_contents[path] = fh.read()
                 expected = disk_contents[path]
+        # Performance Optimization: Cache raw disk content per unique file path in a single
+        # local dictionary during verification to eliminate redundant open() system calls
+        # and duplicate loop iterations when multiple test classes share target paths.
+        disk_cache = {}
+        for cls, path in self.PATH_BY_CLASS.items():
+            with self.subTest(cls=cls.__name__):
+                if path not in disk_cache:
+                    with open(path, encoding="utf-8") as fh:
+                        disk_cache[path] = fh.read()
+                expected = disk_cache[path]
                 attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX) else "content"
                 self.assertEqual(getattr(cls, attr_name), expected)
 
@@ -207,6 +217,13 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         cls.bolt_journal_ids = tuple(t.id() for t in _get_test_cases(cls.bolt_journal_suite))
 
     def _run_module_suite(self, suite, test_ids):
+    # Performance Optimization: Standard unittest runners re-execute child test suites
+    # loaded via loadTestsFromModule during meta-test checks. By maintaining a global set
+    # of completed test IDs recorded via TrackingTestCase, this check bypasses redundant
+    # suite re-executions with an O(1) space generator expression using all(), eliminating
+    # duplicate CPU and memory overhead during test suite execution.
+    def _run_module_suite(self, suite, test_ids):
+        # Performance Optimization: Standard unittest runners re-execute child test suites
         # loaded via loadTestsFromModule during meta-test checks. By maintaining a global set
         # of completed test IDs recorded via TrackingTestCase, this check bypasses redundant
         # suite re-executions with an O(1) space generator expression using all(), eliminating
