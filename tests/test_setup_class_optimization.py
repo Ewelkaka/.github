@@ -163,6 +163,26 @@ class TestSetUpClassOptimization(unittest.TestCase):
     def test_content_matches_direct_file_read(self):
         """The content cached by setUpClass must match a direct read of the underlying file."""
         # Optimization: Cache raw disk content per unique file path in a local dictionary
+        # during verification to eliminate redundant open() system calls when multiple
+        # test classes share the same underlying target file path.
+        disk_cache = {}
+        for cls, path in self.PATH_BY_CLASS.items():
+            with self.subTest(cls=cls.__name__):
+                if path not in disk_cache:
+                    with open(path, encoding="utf-8") as fh:
+                        disk_cache[path] = fh.read()
+                expected = disk_cache[path]
+        # Performance Optimization: Cache raw disk content per unique file path in a local
+        # dictionary during verification to eliminate redundant open() system calls when
+        # multiple test classes share the same underlying target file path.
+        raw_disk_cache = {}
+        for cls, path in self.PATH_BY_CLASS.items():
+            with self.subTest(cls=cls.__name__):
+                if path not in raw_disk_cache:
+                    with open(path, encoding="utf-8") as fh:
+                        raw_disk_cache[path] = fh.read()
+                expected = raw_disk_cache[path]
+        # Optimization: Cache raw disk content per unique file path in a local dictionary
         # during verification to eliminate redundant open() calls when multiple test classes
         # share the same underlying target file path.
         disk_contents = {}
