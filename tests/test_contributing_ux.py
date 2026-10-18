@@ -29,13 +29,11 @@ class TestContributingUX(TrackingTestCase):
 
     def test_no_duplicate_coc_notices(self):
         """CONTRIBUTING.md should not contain duplicate Code of Conduct notice lines."""
-        # Optimization: Store count results in local variables to avoid redundant string scanning operations.
         coc_occurrences = self.content.count("Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).")
         self.assertEqual(coc_occurrences, 1, "Expected exactly one Code of Conduct notice line in CONTRIBUTING.md")
-
-        coc_prefix_occurrences = self.content.count("Please note that this project is released with a [Contributor Code of Conduct]")
+        """CONTRIBUTING.md should contain exactly one Code of Conduct notice block."""
         self.assertEqual(
-            coc_prefix_occurrences,
+            self.content.count("Please note that this project is released with a [Contributor Code of Conduct]"),
             1,
             "Found duplicate Code of Conduct notice lines in CONTRIBUTING.md.",
         )
