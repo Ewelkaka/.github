@@ -20,7 +20,6 @@ class TestReadmeUX(TrackingTestCase):
     def setUpClass(cls):
         cls.content = _read_cached(README_PATH)
         cls.readme_content = cls.content
-        cls.coc_content = _read_cached(COC_PATH)
         cls.contributing_content = _read_cached(CONTRIBUTING_PATH)
 
     def test_alert_block_present(self):
@@ -98,8 +97,6 @@ class TestBugReportUX(TrackingTestCase):
     def test_no_duplicate_lines(self):
         count = self.content.count("before filing a new bug report to avoid duplicates.")
         self.assertEqual(count, 1, "Expected exactly one search advice line in bug_report.md")
-        count = self.content.count("Please search")
-        self.assertEqual(count, 0)
         self.assertEqual(self.content.count("Please search"), 0)
         self.assertEqual(self.content.count("Please [search existing issues]"), 1)
         """bug_report.md should not contain duplicate search advice lines."""
@@ -119,11 +116,14 @@ class TestFeatureRequestUX(TrackingTestCase):
     def test_alert_block_present(self):
         self.assertIn("> [!TIP]", self.content)
 
+    def test_summary_prompt_copy_has_no_typos(self):
+        self.assertIn("and what solution you want.", self.content)
+        self.assertNotIn("and what you solution you want.", self.content)
+
     def test_no_duplicate_lines(self):
         count = self.content.count("before suggesting a new feature to avoid duplicates.")
         self.assertEqual(count, 1, "Expected exactly one search advice line in feature_request.md")
-        count = self.content.count("Please search")
-        self.assertEqual(count, 0)
+        self.assertEqual(self.content.count("Please search"), 0)
         self.assertEqual(self.content.count("Please search [existing feature requests]"), 0)
         self.assertEqual(self.content.count("Please [search existing feature requests]"), 1)
         """feature_request.md should not contain duplicate search advice lines."""
@@ -137,6 +137,9 @@ class TestFeatureRequestUX(TrackingTestCase):
         """feature_request.md should use clear copy without typos under Summary."""
         self.assertIn("and what solution you want.", self.content)
         self.assertNotIn("what you solution", self.content)
+        """feature_request.md summary prompt copy should not contain typos."""
+        self.assertIn("and what solution you want.", self.content)
+        self.assertNotIn("and what you solution you want.", self.content)
 
 
 class TestSecurityUX(TrackingTestCase):
