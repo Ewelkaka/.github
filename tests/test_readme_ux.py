@@ -44,6 +44,7 @@ class TestReadmeUX(TrackingTestCase):
         self.assertIn("&copy; 2026 GitHub", self.readme_content)
 
     def test_localized_links(self):
+        self.assertIn("[Contributing](CONTRIBUTING.md)", self.readme_content)
         self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", self.readme_content)
         self.assertIn("[MIT License](LICENSE)", self.readme_content)
         self.assertIn("[Security Policy](SECURITY.md)", self.readme_content)
