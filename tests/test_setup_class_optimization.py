@@ -57,6 +57,10 @@ _MOCK_SUCCESSFUL_RESULT = _MockResult()
 class TestSetUpClassOptimization(unittest.TestCase):
     """Structural checks that setUp() was replaced with setUpClass()."""
 
+    # Optimization: Pre-define static tuple of classes that store CoC content under `coc_content`
+    # to avoid repetitive tuple allocations during test loop iterations.
+    COC_CONTENT_CLASSES = (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX)
+
     CLASSES_UNDER_TEST = [
         pr_accessibility_module.TestProfileReadmeAltText,
         pr_accessibility_module.TestPaletteMarkdown,
@@ -143,7 +147,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
                 instance_a = cls(method_name)
                 instance_b = cls(method_name)
 
-                attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX) else "content"
+                attr_name = "coc_content" if cls in self.COC_CONTENT_CLASSES else "content"
                 self.assertTrue(hasattr(instance_a, attr_name))
                 self.assertIs(
                     getattr(instance_a, attr_name),
@@ -155,7 +159,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
         """The cached content must be a non-empty string once setUpClass runs."""
         for cls in self.CLASSES_UNDER_TEST:
             with self.subTest(cls=cls.__name__):
-                attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX) else "content"
+                attr_name = "coc_content" if cls in self.COC_CONTENT_CLASSES else "content"
                 val = getattr(cls, attr_name)
                 self.assertIsInstance(val, str)
                 self.assertGreater(len(val), 0)
@@ -165,8 +169,6 @@ class TestSetUpClassOptimization(unittest.TestCase):
         # Optimization: Cache raw disk content per unique file path in a local dictionary
         # during verification to eliminate redundant open() system calls when multiple
         # test classes share the same underlying target file path.
-        # during verification to eliminate redundant open() calls when multiple test classes
-        # share the same underlying target file path.
         disk_contents = {}
         for cls, path in self.PATH_BY_CLASS.items():
             with self.subTest(cls=cls.__name__):
@@ -174,7 +176,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
                     with open(path, encoding="utf-8") as fh:
                         disk_contents[path] = fh.read()
                 expected = disk_contents[path]
-                attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX) else "content"
+                attr_name = "coc_content" if cls in self.COC_CONTENT_CLASSES else "content"
                 self.assertEqual(getattr(cls, attr_name), expected)
 
     def test_meta_suite_loads_suites_in_setUpClass(self):
@@ -214,14 +216,7 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
     # suite re-executions with an O(1) space generator expression using all(), eliminating
     # duplicate CPU and memory overhead during test suite execution.
     def _run_module_suite(self, suite, test_ids):
-        # Performance Optimization: Standard unittest runners re-execute child test suites
-        # loaded via loadTestsFromModule during meta-test checks. By maintaining a global set
-        # of completed test IDs recorded via TrackingTestCase, this check bypasses redundant
-        # suite re-executions with an O(1) space generator expression using all(), eliminating
-        # duplicate CPU and memory overhead during test suite execution.
-        from test_pr_accessibility import _PASSED_TESTS
-
-        if all(tid in _PASSED_TESTS for tid in test_ids):
+        if all(tid in pr_accessibility_module._PASSED_TESTS for tid in test_ids):
             return _MOCK_SUCCESSFUL_RESULT
 
         with open(os.devnull, "w", encoding="utf-8") as devnull:
