@@ -40,6 +40,14 @@ class TestContributingUX(TrackingTestCase):
             "Found duplicate Code of Conduct notice lines in CONTRIBUTING.md.",
         )
 
+    def test_contributing_localized_license_link(self):
+        """CONTRIBUTING.md should link 'open source license' directly to the local LICENSE file."""
+        self.assertIn(
+            "[open source license](LICENSE)",
+            self.content,
+            "CONTRIBUTING.md should contain a localized link [open source license](LICENSE).",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
