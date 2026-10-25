@@ -191,3 +191,7 @@
 ## 2026-07-18 - Ensure complete test class tracking for meta-test suite bypass
 **Learning:** Meta-test runners that verify pre-passed test suites via a global tracking set (`_PASSED_TESTS`) fail to short-circuit if even a single test class in a module inherits from `unittest.TestCase` instead of `TrackingTestCase`. This triggers full redundant re-executions of entire module test suites (36 extra test runs in this suite).
 **Action:** Always ensure ALL test classes in target modules inherit from `TrackingTestCase` so every executed test case records its completion ID in `_PASSED_TESTS`.
+
+## 2026-07-18 - Eliminate duplicate method definitions in Python test classes
+**Learning:** Duplicate method definitions in Python classes cause the class dictionary key to be overwritten during class creation, wasting AST parsing and bytecode compilation cycles on unexecuted method bodies.
+**Action:** Consolidate duplicate method definitions in test classes to eliminate redundant bytecode execution during module import.
