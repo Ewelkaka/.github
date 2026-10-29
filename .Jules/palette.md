@@ -154,15 +154,3 @@
 ## 2026-08-17 - Localized security policy link in support documentation
 **Learning:** Users seeking support for security concerns often check `SUPPORT.md` first. Providing a localized link to `SECURITY.md` in support documentation provides a clear, zero-friction path for coordinated disclosure and prevents accidental public issue creation.
 **Action:** Always link to `SECURITY.md` under support policy sections in `SUPPORT.md` to ensure security reporting pathways are intuitive and discoverable.
-## 2026-08-17 - Localize open source license link in contribution guidelines
-**Learning:** Referencing the repository's open source license as unlinked plain text in `CONTRIBUTING.md` introduces friction for prospective contributors seeking to verify licensing terms before submitting changes. Hyperlinking directly to `LICENSE` ensures zero-friction legal inspectability within the local repository context.
-**Action:** Always wrap plain-text legal or license references in contribution guides with relative links to localized repository files (e.g. `LICENSE`).
-## 2026-08-16 - Localize license links in contribution guidelines for immediate access
-**Learning:** Referencing project licenses as plain text in contribution guides creates unnecessary navigation friction for contributors who want to review licensing terms before submitting pull requests. Linking terms like "open source license" directly to the localized `LICENSE` file provides immediate, zero-friction access while preserving repository context.
-**Action:** Always wrap plain-text license references in contribution documentation with direct, localized Markdown links pointing to the repository's `LICENSE` file.
-## 2026-08-17 - Localize license links in contribution guidelines to maximize discoverability
-**Learning:** Referencing a project's open source license in plain un-hyperlinked text within contribution guidelines (`CONTRIBUTING.md`) creates unnecessary friction for contributors wanting to verify terms. Hyperlinking terms like "open source license" directly to the repository's localized `LICENSE` file ensures zero-friction discoverability and keeps contributors within the local repository context.
-**Action:** Always link references to open source licenses directly to the repository's localized `LICENSE` file in onboarding and contribution guidelines.
-## 2026-08-17 - Localize open source license links in contributor guidelines
-**Learning:** Plain-text references to repository licenses (e.g., "the project's open source license") in contribution guidelines create unnecessary navigation friction for prospective contributors seeking legal terms. Wrapping such references in a localized Markdown hyperlink `[open source license](LICENSE)` keeps users within the repository context and provides zero-friction access to licensing terms.
-**Action:** Always localize plain-text license references in onboarding files (`CONTRIBUTING.md`) by linking them directly to the repository's localized `LICENSE` file.
