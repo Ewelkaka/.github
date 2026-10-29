@@ -146,3 +146,7 @@
 ## 2026-08-15 - Eliminate redundant text fragments and duplicate alert blocks for screen reader flow
 **Learning:** Accumulated duplicate lines and redundant alert blocks in documentation files (such as `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `SUPPORT.md`, and `PULL_REQUEST_TEMPLATE.md`) create severe auditory clutter for screen reader users and visual noise for sighted contributors. Streamlining these files to single, canonical alert blocks and instructions restores clear document scannability and screen reader navigation flow.
 **Action:** Routinely audit Markdown documentation and template files for duplicate text fragments and redundant alert blocks, consolidating them into single, accessible callout blocks.
+
+## 2026-08-16 - Clean duplicate alert block disclaimers and search advice lines in contribution templates
+**Learning:** Redundant or copy-pasted disclaimer lines in contribution guides (`CONTRIBUTING.md`) and issue templates (`bug_report.md`, `feature_request.md`) degrade readability and create repetitive audio playback for screen reader users. Consolidating duplicate callout lines into single, canonical alert blocks improves document scannability and maintains clean assistive navigation.
+**Action:** Inspect documentation and GitHub template files for duplicated alert block statements, ensuring each guidance notice is declared exactly once.
