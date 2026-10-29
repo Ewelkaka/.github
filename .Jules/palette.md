@@ -150,3 +150,6 @@
 ## 2026-08-16 - Wrap HTML image attributes in double quotes for XHTML compliance and screen-reader parsing
 **Learning:** HTML image tags with unquoted attribute values in Markdown files can cause HTML parsing ambiguities, rendering errors in XHTML-compliant parsers, and speech irregularities in screen readers. Enclosing all image attributes (`src`, `width`, `align`, etc.) in double quotes ensures strict standard compliance and predictable screen-reader behavior across all platforms.
 **Action:** Always verify that HTML `<img>` tags in Markdown documentation have all attribute values enclosed in double quotes.
+## 2026-08-16 - Clean duplicate alert block disclaimers and search advice lines in contribution templates
+**Learning:** Redundant or copy-pasted disclaimer lines in contribution guides (`CONTRIBUTING.md`) and issue templates (`bug_report.md`, `feature_request.md`) degrade readability and create repetitive audio playback for screen reader users. Consolidating duplicate callout lines into single, canonical alert blocks improves document scannability and maintains clean assistive navigation.
+**Action:** Inspect documentation and GitHub template files for duplicated alert block statements, ensuring each guidance notice is declared exactly once.
