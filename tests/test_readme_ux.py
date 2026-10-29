@@ -119,10 +119,6 @@ class TestFeatureRequestUX(TrackingTestCase):
     def test_alert_block_present(self):
         self.assertIn("> [!TIP]", self.content)
 
-    def test_summary_prompt_copy_has_no_typos(self):
-        self.assertIn("and what solution you want.", self.content)
-        self.assertNotIn("and what you solution you want.", self.content)
-
     def test_no_duplicate_lines(self):
         count = self.content.count("before suggesting a new feature to avoid duplicates.")
         self.assertEqual(count, 1, "Expected exactly one search advice line in feature_request.md")
@@ -135,6 +131,19 @@ class TestFeatureRequestUX(TrackingTestCase):
             self.content.count("search existing feature requests"),
             1,
             "Found duplicate search advice lines in feature_request.md.",
+        )
+
+    def test_summary_prompt_copy_has_no_typos(self):
+        """feature_request.md should contain clear summary prompt copy without typos."""
+        self.assertIn(
+            "and what solution you want.",
+            self.content,
+            "Expected 'and what solution you want.' in feature_request.md",
+        )
+        self.assertNotIn(
+            "what you solution you want",
+            self.content,
+            "Found typo 'what you solution you want' in feature_request.md",
         )
 
 
