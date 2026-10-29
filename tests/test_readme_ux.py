@@ -151,6 +151,15 @@ class TestFeatureRequestUX(TrackingTestCase):
             "Found duplicate search advice lines in feature_request.md.",
         )
 
+    def test_summary_prompt_copy_has_no_typos(self):
+        """feature_request.md summary section should use clear copy without typos."""
+        # Optimization: Consolidate duplicate method definitions to prevent class dictionary key
+        # overwriting and eliminate orphaned string statement execution in runtime bytecode.
+        self.assertIn("what solution you want", self.content)
+        self.assertIn("and what solution you want.", self.content)
+        self.assertNotIn("what you solution you want", self.content)
+        self.assertNotIn("and what you solution you want.", self.content)
+
 
 class TestSecurityUX(TrackingTestCase):
     @classmethod
