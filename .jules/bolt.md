@@ -191,3 +191,13 @@
 ## 2026-07-18 - Ensure complete test class tracking for meta-test suite bypass
 **Learning:** Meta-test runners that verify pre-passed test suites via a global tracking set (`_PASSED_TESTS`) fail to short-circuit if even a single test class in a module inherits from `unittest.TestCase` instead of `TrackingTestCase`. This triggers full redundant re-executions of entire module test suites (36 extra test runs in this suite).
 **Action:** Always ensure ALL test classes in target modules inherit from `TrackingTestCase` so every executed test case records its completion ID in `_PASSED_TESTS`.
+
+## 2026-07-19 - Consolidate duplicate method definitions in test classes
+**Learning:** Defining the same method twice in a Python unittest class overwrites the method in the class dictionary, wasting function object construction cycles and class compilation overhead. Furthermore, orphaned docstrings inside duplicate methods are compiled as no-op string literal statements and executed at runtime.
+**Action:** Audit test classes for duplicate method definitions and consolidate them into single clean methods to optimize class dictionary creation and runtime execution.
+## 2026-07-19 - Avoid duplicate test method definitions in unittest classes
+**Learning:** Duplicate method definitions in a Python `unittest.TestCase` class cause the earlier method definition to be overwritten in the class dictionary during evaluation, leading to wasted function allocations and orphaned bytecode statements.
+**Action:** Consolidate duplicate method names into a single clean test method to optimize class definition overhead and prevent confusing runtime behavior.
+## 2026-07-19 - Eliminate duplicate method definitions in Python unittest classes
+**Learning:** Duplicate method definitions in Python unittest classes cause class dictionary key overwriting (where the later definition silently overrides the former) and trigger redundant bytecode parsing/evaluation during module import.
+**Action:** Cleanly consolidate duplicate method names in unittest classes to eliminate key overwriting overhead and ensure clear, un-shadowed test execution.
