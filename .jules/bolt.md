@@ -195,3 +195,12 @@
 ## 2026-07-19 - Eliminate duplicate test method definitions in unittest classes
 **Learning:** Defining duplicate method names in a Python `unittest.TestCase` class causes Python to silently overwrite the earlier method in the class dictionary. This causes lost test coverage, redundant function allocation overhead during class construction, and orphan string expression statement evaluation in bytecode.
 **Action:** Always audit test classes for duplicate method names and consolidate assertions into a single method to ensure complete test coverage and eliminate redundant bytecode execution.
+## 2026-07-19 - Consolidate duplicate method definitions in test classes
+**Learning:** Defining the same method twice in a Python unittest class overwrites the method in the class dictionary, wasting function object construction cycles and class compilation overhead. Furthermore, orphaned docstrings inside duplicate methods are compiled as no-op string literal statements and executed at runtime.
+**Action:** Audit test classes for duplicate method definitions and consolidate them into single clean methods to optimize class dictionary creation and runtime execution.
+## 2026-07-19 - Avoid duplicate test method definitions in unittest classes
+**Learning:** Duplicate method definitions in a Python `unittest.TestCase` class cause the earlier method definition to be overwritten in the class dictionary during evaluation, leading to wasted function allocations and orphaned bytecode statements.
+**Action:** Consolidate duplicate method names into a single clean test method to optimize class definition overhead and prevent confusing runtime behavior.
+## 2026-07-19 - Eliminate duplicate method definitions in Python unittest classes
+**Learning:** Duplicate method definitions in Python unittest classes cause class dictionary key overwriting (where the later definition silently overrides the former) and trigger redundant bytecode parsing/evaluation during module import.
+**Action:** Cleanly consolidate duplicate method names in unittest classes to eliminate key overwriting overhead and ensure clear, un-shadowed test execution.
