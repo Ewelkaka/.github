@@ -21,15 +21,6 @@ class TestContributingUX(TrackingTestCase):
         self.assertIsNotNone(RE_TIP_ALERT.search(self.content))
         self.assertIn("**Check out these resources to help you get started:**", self.content)
 
-    def test_no_duplicate_coc_notices(self):
-        """CONTRIBUTING.md should not contain duplicate Code of Conduct notice blocks."""
-        count = self.content.count("Please note that this project is released with a")
-        self.assertEqual(
-            count,
-            1,
-            f"Expected exactly 1 Code of Conduct notice block in CONTRIBUTING.md, found {count}.",
-        )
-
     def test_resource_links_present(self):
         """The resource links should be present within the document."""
         self.assertIn("[How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)", self.content)
@@ -40,22 +31,6 @@ class TestContributingUX(TrackingTestCase):
         """CONTRIBUTING.md should contain exactly one Code of Conduct notice line inside its alert block."""
         coc_notices = [line for line in self.content.splitlines() if "Please note that this project is released with a" in line]
         self.assertEqual(len(coc_notices), 1, "Expected exactly 1 Code of Conduct notice block in CONTRIBUTING.md")
-        """Contributing guide should contain exactly one Code of Conduct notice block."""
-        self.assertEqual(self.content.count("Please note that this project is released with a"), 1)
-        """CONTRIBUTING.md should contain exactly one Code of Conduct notice line."""
-        self.assertEqual(
-            self.content.count("Please note that this project is released with a"),
-            1,
-            "Expected exactly one Code of Conduct notice line in CONTRIBUTING.md",
-        """CONTRIBUTING.md should not contain duplicate Code of Conduct notice lines."""
-        coc_occurrences = self.content.count("Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).")
-        self.assertEqual(coc_occurrences, 1, "Expected exactly one Code of Conduct notice line in CONTRIBUTING.md")
-        """CONTRIBUTING.md should contain exactly one Code of Conduct notice block."""
-        self.assertEqual(
-            self.content.count("Please note that this project is released with a [Contributor Code of Conduct]"),
-            1,
-            "Found duplicate Code of Conduct notice lines in CONTRIBUTING.md.",
-        )
 
 
 if __name__ == "__main__":
