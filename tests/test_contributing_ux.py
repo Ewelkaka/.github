@@ -28,6 +28,9 @@ class TestContributingUX(TrackingTestCase):
         self.assertIn("[GitHub Docs](https://docs.github.com/)", self.content)
 
     def test_contributing_localized_license_link(self):
+        """CONTRIBUTING.md should link 'open source license' to LICENSE."""
+        self.assertIn("[open source license](LICENSE)", self.content)
+        self.assertNotIn("project's open source license.", self.content)
         """CONTRIBUTING.md should link directly to the localized LICENSE file."""
         """CONTRIBUTING.md should link 'open source license' to the local LICENSE file."""
         self.assertIn(
