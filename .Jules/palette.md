@@ -154,6 +154,3 @@
 ## 2026-08-17 - Ensure clear and error-free copy in issue template prompts
 **Learning:** Typos and awkward phrasing in guidance prompts within issue templates create subtle cognitive friction and lower perceived repository polish for contributors drafting feature requests or bug reports. Proofreading prompt copy to ensure clean, natural phrasing creates a seamless and inviting contribution experience.
 **Action:** Routinely audit issue templates for typos and awkward phrasing in prompt text to maintain high documentation quality and smooth contributor onboarding.
-## 2026-08-17 - Ensure clear and precise prompt copy in issue templates
-**Learning:** Grammatical errors or awkward phrases in template prompts (like `what you solution you want.`) disrupt author focus during issue composition and diminish project polish. Clear, precise prompt copy reduces cognitive friction for contributors filing bug reports or feature requests.
-**Action:** Routinely audit issue and pull request template summary prompts for grammar, clarity, and conciseness to ensure a smooth authoring experience.
