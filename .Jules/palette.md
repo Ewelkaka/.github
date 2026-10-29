@@ -151,6 +151,9 @@
 **Learning:** Redundant or copy-pasted disclaimer lines in contribution guides (`CONTRIBUTING.md`) and issue templates (`bug_report.md`, `feature_request.md`) degrade readability and create repetitive audio playback for screen reader users. Consolidating duplicate callout lines into single, canonical alert blocks improves document scannability and maintains clean assistive navigation.
 **Action:** Inspect documentation and GitHub template files for duplicated alert block statements, ensuring each guidance notice is declared exactly once.
 
+## 2026-08-17 - Localize open source license link in contribution guidelines
+**Learning:** Referencing the repository's open source license as unlinked plain text in `CONTRIBUTING.md` introduces friction for prospective contributors seeking to verify licensing terms before submitting changes. Hyperlinking directly to `LICENSE` ensures zero-friction legal inspectability within the local repository context.
+**Action:** Always wrap plain-text legal or license references in contribution guides with relative links to localized repository files (e.g. `LICENSE`).
 ## 2026-08-16 - Localize license links in contribution guidelines for immediate access
 **Learning:** Referencing project licenses as plain text in contribution guides creates unnecessary navigation friction for contributors who want to review licensing terms before submitting pull requests. Linking terms like "open source license" directly to the localized `LICENSE` file provides immediate, zero-friction access while preserving repository context.
 **Action:** Always wrap plain-text license references in contribution documentation with direct, localized Markdown links pointing to the repository's `LICENSE` file.
