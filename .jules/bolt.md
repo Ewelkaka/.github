@@ -195,3 +195,6 @@
 ## 2026-07-18 - Eliminate duplicate method definitions in Python test classes
 **Learning:** Duplicate method definitions in Python classes cause the class dictionary key to be overwritten during class creation, wasting AST parsing and bytecode compilation cycles on unexecuted method bodies.
 **Action:** Consolidate duplicate method definitions in test classes to eliminate redundant bytecode execution during module import.
+## 2026-07-19 - Eliminate duplicate method definitions in Python unittest classes
+**Learning:** Duplicate method definitions in Python unittest classes cause class dictionary key overwriting (where the later definition silently overrides the former) and trigger redundant bytecode parsing/evaluation during module import.
+**Action:** Cleanly consolidate duplicate method names in unittest classes to eliminate key overwriting overhead and ensure clear, un-shadowed test execution.
