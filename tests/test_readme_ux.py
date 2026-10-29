@@ -126,6 +126,7 @@ class TestFeatureRequestUX(TrackingTestCase):
         self.assertIn("> [!TIP]", self.content)
 
     def test_summary_prompt_copy_has_no_typos(self):
+        """feature_request.md should have clear prompt copy without 'what you solution' typo."""
         """feature_request.md summary section should use clear copy ('and what solution you want.')."""
         # Optimization: Consolidated duplicate method definitions to avoid namespace overwriting and runtime bytecode overhead.
         # Optimization: Consolidate duplicate method definition into a single test case to prevent
