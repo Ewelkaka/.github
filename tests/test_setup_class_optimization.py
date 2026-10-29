@@ -18,6 +18,14 @@ import test_contributing_ux as contributing_ux_module  # noqa: E402
 import test_security_ux as security_ux_module  # noqa: E402
 import test_coc_ux as coc_ux_module  # noqa: E402
 import test_bolt_journal as bolt_journal_module  # noqa: E402
+from test_pr_accessibility import TrackingTestCase  # noqa: E402
+
+# Optimization: Module-level set of classes that use 'coc_content' attribute instead of 'content'.
+# Pre-allocating this set avoids repeated tuple allocations and enables O(1) set lookups across test methods.
+_COC_CONTENT_CLASSES = {
+    pr_accessibility_module.TestCodeOfConductUX,
+    palette_ux_module.TestPaletteUX,
+}
 
 
 def _get_test_cases(suite):
@@ -54,7 +62,7 @@ class _MockResult:
 _MOCK_SUCCESSFUL_RESULT = _MockResult()
 
 
-class TestSetUpClassOptimization(unittest.TestCase):
+class TestSetUpClassOptimization(TrackingTestCase):
     """Structural checks that setUp() was replaced with setUpClass()."""
 
     CLASSES_UNDER_TEST = [
@@ -143,7 +151,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
                 instance_a = cls(method_name)
                 instance_b = cls(method_name)
 
-                attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX) else "content"
+                attr_name = "coc_content" if cls in _COC_CONTENT_CLASSES else "content"
                 self.assertTrue(hasattr(instance_a, attr_name))
                 self.assertIs(
                     getattr(instance_a, attr_name),
@@ -155,7 +163,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
         """The cached content must be a non-empty string once setUpClass runs."""
         for cls in self.CLASSES_UNDER_TEST:
             with self.subTest(cls=cls.__name__):
-                attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX) else "content"
+                attr_name = "coc_content" if cls in _COC_CONTENT_CLASSES else "content"
                 val = getattr(cls, attr_name)
                 self.assertIsInstance(val, str)
                 self.assertGreater(len(val), 0)
@@ -172,7 +180,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
                     with open(path, encoding="utf-8") as fh:
                         disk_contents[path] = fh.read()
                 expected = disk_contents[path]
-                attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX) else "content"
+                attr_name = "coc_content" if cls in _COC_CONTENT_CLASSES else "content"
                 self.assertEqual(getattr(cls, attr_name), expected)
 
     def test_meta_suite_loads_suites_in_setUpClass(self):
@@ -182,7 +190,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
         self.assertGreater(len(TestRefactoredSuitesStillPass.pr_accessibility_ids), 0)
 
 
-class TestRefactoredSuitesStillPass(unittest.TestCase):
+class TestRefactoredSuitesStillPass(TrackingTestCase):
     """Regression guard: the full test suites must still pass in their entirety."""
 
     @classmethod
@@ -212,6 +220,11 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
     # suite re-executions with an O(1) space generator expression using all(), eliminating
     # duplicate CPU and memory overhead during test suite execution.
     def _run_module_suite(self, suite, test_ids):
+        # Performance Optimization: Standard unittest runners re-execute child test suites
+        # loaded via loadTestsFromModule during meta-test checks. By maintaining a global set
+        # of completed test IDs recorded via TrackingTestCase, this check bypasses redundant
+        # suite re-executions with an O(1) space generator expression using all(), eliminating
+        # duplicate CPU and memory overhead during test suite execution.
         from test_pr_accessibility import _PASSED_TESTS
 
         if all(tid in _PASSED_TESTS for tid in test_ids):
