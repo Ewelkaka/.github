@@ -116,8 +116,11 @@ class TestProfileReadmeAltText(TrackingTestCase):
 
     def test_all_img_tags_have_nonempty_alt(self):
         """Every <img> tag in the file must carry a non-empty alt attribute."""
-        img_tags = RE_IMG_TAG_ALL.findall(self.content)
-        for tag in img_tags:
+        # Optimization: Use finditer generator instead of findall list allocation to reduce memory churn.
+        # Optimization: Use finditer() instead of findall() to iterate over match objects
+        # directly without allocating an intermediate list of strings in memory.
+        for match in RE_IMG_TAG_ALL.finditer(self.content):
+            tag = match.group(0)
             alt_match = RE_ALT_ATTRIBUTE.search(tag)
             self.assertIsNotNone(
                 alt_match,
