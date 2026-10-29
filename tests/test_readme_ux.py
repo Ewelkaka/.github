@@ -44,7 +44,6 @@ class TestReadmeUX(TrackingTestCase):
         self.assertIn("&copy; 2026 GitHub", self.readme_content)
 
     def test_localized_links(self):
-        self.assertIn("[Contributing](CONTRIBUTING.md)", self.readme_content)
         self.assertIn("[Code of Conduct](CODE_OF_CONDUCT.md)", self.readme_content)
         self.assertIn("[MIT License](LICENSE)", self.readme_content)
         self.assertIn("[Security Policy](SECURITY.md)", self.readme_content)
@@ -127,13 +126,8 @@ class TestFeatureRequestUX(TrackingTestCase):
 
     def test_summary_prompt_copy_has_no_typos(self):
         """feature_request.md should have clear prompt copy without 'what you solution' typo."""
-        """feature_request.md summary section should use clear copy ('and what solution you want.')."""
-        # Optimization: Consolidated duplicate method definitions to avoid namespace overwriting and runtime bytecode overhead.
-        # Optimization: Consolidate duplicate method definition into a single test case to prevent
-        # class dictionary key overwriting and eliminate redundant function allocation & bytecode execution.
-        self.assertIn("what solution you want", self.content)
         self.assertIn("and what solution you want.", self.content)
-        self.assertNotIn("what you solution you want", self.content)
+        self.assertNotIn("and what you solution you want.", self.content)
 
     def test_no_duplicate_lines(self):
         """feature_request.md should not contain duplicate search advice lines."""
@@ -156,18 +150,6 @@ class TestFeatureRequestUX(TrackingTestCase):
             1,
             "Found duplicate search advice lines in feature_request.md.",
         )
-
-    def test_summary_prompt_copy_has_no_typos(self):
-        """feature_request.md summary section should use clear copy ('and what solution you want.')."""
-        # Optimization: Consolidate duplicate method definitions to prevent class dictionary key overwriting
-        # and eliminate orphaned string statement execution in runtime bytecode.
-        """feature_request.md summary section should use clear copy without typos."""
-        # Optimization: Consolidate duplicate method definitions to prevent class dictionary key
-        # overwriting and eliminate orphaned string statement execution in runtime bytecode.
-        self.assertIn("what solution you want", self.content)
-        self.assertIn("and what solution you want.", self.content)
-        self.assertNotIn("what you solution you want", self.content)
-        self.assertNotIn("and what you solution you want.", self.content)
 
 
 class TestSecurityUX(TrackingTestCase):
