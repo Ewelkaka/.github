@@ -158,6 +158,8 @@ class TestFeatureRequestUX(TrackingTestCase):
         )
 
     def test_summary_prompt_copy_has_no_typos(self):
+        self.assertIn("and what solution you want.", self.content)
+        self.assertNotIn("what you solution you want", self.content)
         """feature_request.md summary section should use clear copy ('and what solution you want.')."""
         # Optimization: Consolidate duplicate method definitions to prevent class dictionary key overwriting
         # and eliminate orphaned string statement execution in runtime bytecode.
