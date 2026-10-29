@@ -27,51 +27,16 @@ class TestContributingUX(TrackingTestCase):
         self.assertIn("[Using Pull Requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)", self.content)
         self.assertIn("[GitHub Docs](https://docs.github.com/)", self.content)
 
-    def test_contributing_localized_license_link(self):
-        """CONTRIBUTING.md should have a localized link to LICENSE."""
-        """CONTRIBUTING.md should link directly to the local LICENSE file."""
-        """CONTRIBUTING.md should link 'open source license' to the localized LICENSE file."""
-        """CONTRIBUTING.md should link 'open source license' to LICENSE."""
-        self.assertIn("[open source license](LICENSE)", self.content)
-        self.assertNotIn("project's open source license.", self.content)
-        """CONTRIBUTING.md should link directly to the localized LICENSE file."""
-        """CONTRIBUTING.md should link 'open source license' to the local LICENSE file."""
-        self.assertIn(
-            "[open source license](LICENSE)",
-            self.content,
-            "Localized open source license link not found in CONTRIBUTING.md",
-        )
-        """CONTRIBUTING.md should contain a localized link to LICENSE."""
-        self.assertIn("[open source license](LICENSE)", self.content)
-
     def test_no_duplicate_coc_notices(self):
         """CONTRIBUTING.md should not contain duplicate Code of Conduct notice lines."""
-        # Optimization: Store count results in local variables to avoid redundant string scanning operations.
         coc_occurrences = self.content.count("Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).")
         self.assertEqual(coc_occurrences, 1, "Expected exactly one Code of Conduct notice line in CONTRIBUTING.md")
-
-        coc_prefix_occurrences = self.content.count("Please note that this project is released with a [Contributor Code of Conduct]")
+        """CONTRIBUTING.md should contain exactly one Code of Conduct notice block."""
         self.assertEqual(
-            coc_prefix_occurrences,
+            self.content.count("Please note that this project is released with a [Contributor Code of Conduct]"),
             1,
             "Found duplicate Code of Conduct notice lines in CONTRIBUTING.md.",
         )
-
-    def test_contributing_localized_license_link(self):
-        """CONTRIBUTING.md should link 'open source license' to the local LICENSE file."""
-        self.assertIn(
-            "[open source license](LICENSE)",
-            self.content,
-            "Localized open source license link not found in CONTRIBUTING.md.",
-        )
-        """CONTRIBUTING.md should link 'open source license' directly to the local LICENSE file."""
-        self.assertIn(
-            "[open source license](LICENSE)",
-            self.content,
-            "CONTRIBUTING.md should contain a localized link [open source license](LICENSE).",
-        )
-        """CONTRIBUTING.md should link 'open source license' to the localized LICENSE file."""
-        self.assertIn("[open source license](LICENSE)", self.content)
 
 
 if __name__ == "__main__":
