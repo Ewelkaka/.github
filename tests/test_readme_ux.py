@@ -124,6 +124,14 @@ class TestFeatureRequestUX(TrackingTestCase):
     def test_alert_block_present(self):
         self.assertIn("> [!TIP]", self.content)
 
+    def test_summary_prompt_copy_has_no_typos(self):
+        """feature_request.md summary section should use clear copy ('and what solution you want.')."""
+        # Optimization: Consolidate duplicate method definition into a single test case to prevent
+        # class dictionary key overwriting and eliminate redundant function allocation & bytecode execution.
+        self.assertIn("what solution you want", self.content)
+        self.assertIn("and what solution you want.", self.content)
+        self.assertNotIn("what you solution you want", self.content)
+
     def test_no_duplicate_lines(self):
         """feature_request.md should not contain duplicate search advice lines."""
         # Optimization: Store count results in local variables to avoid redundant string scanning operations.
@@ -150,7 +158,12 @@ class TestFeatureRequestUX(TrackingTestCase):
         """feature_request.md summary section should use clear copy ('and what solution you want.')."""
         # Optimization: Consolidate duplicate method definitions to prevent class dictionary key overwriting
         # and eliminate orphaned string statement execution in runtime bytecode.
+        """feature_request.md summary section should use clear copy without typos."""
+        # Optimization: Consolidate duplicate method definitions to prevent class dictionary key
+        # overwriting and eliminate orphaned string statement execution in runtime bytecode.
+        self.assertIn("what solution you want", self.content)
         self.assertIn("and what solution you want.", self.content)
+        self.assertNotIn("what you solution you want", self.content)
         self.assertNotIn("and what you solution you want.", self.content)
 
 

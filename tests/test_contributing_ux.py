@@ -27,6 +27,21 @@ class TestContributingUX(TrackingTestCase):
         self.assertIn("[Using Pull Requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)", self.content)
         self.assertIn("[GitHub Docs](https://docs.github.com/)", self.content)
 
+    def test_contributing_localized_license_link(self):
+        """CONTRIBUTING.md should link 'open source license' to the localized LICENSE file."""
+        """CONTRIBUTING.md should link 'open source license' to LICENSE."""
+        self.assertIn("[open source license](LICENSE)", self.content)
+        self.assertNotIn("project's open source license.", self.content)
+        """CONTRIBUTING.md should link directly to the localized LICENSE file."""
+        """CONTRIBUTING.md should link 'open source license' to the local LICENSE file."""
+        self.assertIn(
+            "[open source license](LICENSE)",
+            self.content,
+            "Localized open source license link not found in CONTRIBUTING.md",
+        )
+        """CONTRIBUTING.md should contain a localized link to LICENSE."""
+        self.assertIn("[open source license](LICENSE)", self.content)
+
     def test_no_duplicate_coc_notices(self):
         """CONTRIBUTING.md should not contain duplicate Code of Conduct notice lines."""
         # Optimization: Store count results in local variables to avoid redundant string scanning operations.
@@ -39,6 +54,10 @@ class TestContributingUX(TrackingTestCase):
             1,
             "Found duplicate Code of Conduct notice lines in CONTRIBUTING.md.",
         )
+
+    def test_contributing_localized_license_link(self):
+        """CONTRIBUTING.md should link 'open source license' to the localized LICENSE file."""
+        self.assertIn("[open source license](LICENSE)", self.content)
 
 
 if __name__ == "__main__":
