@@ -185,6 +185,14 @@ class TestSetUpClassOptimization(TrackingTestCase):
         # Optimization: Cache raw disk content per unique file path in a local dictionary
         # during verification to eliminate redundant open() system calls when multiple
         # test classes share the same underlying target file path.
+        disk_cache = {}
+        for cls, path in self.PATH_BY_CLASS.items():
+            with self.subTest(cls=cls.__name__):
+                if path not in disk_cache:
+                    with open(path, encoding="utf-8") as fh:
+                        disk_cache[path] = fh.read()
+                expected = disk_cache[path]
+                attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX) else "content"
         disk_contents = {}
         for cls, path in self.PATH_BY_CLASS.items():
             with self.subTest(cls=cls.__name__):
