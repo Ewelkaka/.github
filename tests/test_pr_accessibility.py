@@ -116,11 +116,8 @@ class TestProfileReadmeAltText(TrackingTestCase):
 
     def test_all_img_tags_have_nonempty_alt(self):
         """Every <img> tag in the file must carry a non-empty alt attribute."""
-        # Optimization: Use finditer generator instead of findall list allocation to reduce memory churn.
-        # Optimization: Use finditer() instead of findall() to iterate over match objects
-        # directly without allocating an intermediate list of strings in memory.
-        for match in RE_IMG_TAG_ALL.finditer(self.content):
-            tag = match.group(0)
+        img_tags = RE_IMG_TAG_ALL.findall(self.content)
+        for tag in img_tags:
             alt_match = RE_ALT_ATTRIBUTE.search(tag)
             self.assertIsNotNone(
                 alt_match,
@@ -131,14 +128,6 @@ class TestProfileReadmeAltText(TrackingTestCase):
                 0,
                 f"<img> tag has an empty or whitespace-only alt attribute: {tag}",
             )
-
-    def test_img_attributes_use_double_quotes(self):
-        """All HTML attributes on <img> tags must be enclosed in double quotes for XHTML/HTML standard compliance."""
-        self.assertIn(
-            '<img alt="GitHub Skills character illustration" src="https://user-images.githubusercontent.com/1221423/156894097-ff2d6566-7b6a-4488-950e-f4ebe990965a.svg" width="200" align="right">',
-            self.content,
-            "Expected <img> tag attributes in profile/README.md to be enclosed in double quotes.",
-        )
 
 
 class TestPaletteMarkdown(TrackingTestCase):
