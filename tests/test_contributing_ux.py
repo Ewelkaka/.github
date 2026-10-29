@@ -36,9 +36,6 @@ class TestContributingUX(TrackingTestCase):
             1,
             "Found duplicate Code of Conduct notice lines in CONTRIBUTING.md.",
         )
-        """CONTRIBUTING.md should contain exactly one Code of Conduct notice line inside its alert block."""
-        coc_notices = [line for line in self.content.splitlines() if "Please note that this project is released with a" in line]
-        self.assertEqual(len(coc_notices), 1, "Expected exactly 1 Code of Conduct notice block in CONTRIBUTING.md")
 
 
 if __name__ == "__main__":

@@ -68,7 +68,10 @@ class TestSetUpClassOptimization(unittest.TestCase):
     CLASSES_UNDER_TEST = [
         pr_accessibility_module.TestProfileReadmeAltText,
         pr_accessibility_module.TestPaletteMarkdown,
+        pr_accessibility_module.TestProfileReadmeSetupClassBehavior,
         pr_accessibility_module.TestCodeOfConductUX,
+        pr_accessibility_module.TestCodeOfConductAccessibility,
+        pr_accessibility_module.TestContributingDiscoverability,
         readme_ux_module.TestReadmeUX,
         readme_ux_module.TestSupportUX,
         readme_ux_module.TestPullRequestTemplateUX,
@@ -85,7 +88,10 @@ class TestSetUpClassOptimization(unittest.TestCase):
     PATH_BY_CLASS = {
         pr_accessibility_module.TestProfileReadmeAltText: pr_accessibility_module.PROFILE_README,
         pr_accessibility_module.TestPaletteMarkdown: pr_accessibility_module.PALETTE_MD,
+        pr_accessibility_module.TestProfileReadmeSetupClassBehavior: pr_accessibility_module.PROFILE_README,
         pr_accessibility_module.TestCodeOfConductUX: pr_accessibility_module.COC_MD,
+        pr_accessibility_module.TestCodeOfConductAccessibility: pr_accessibility_module.COC_MD,
+        pr_accessibility_module.TestContributingDiscoverability: pr_accessibility_module.CONTRIBUTING_MD,
         readme_ux_module.TestReadmeUX: readme_ux_module.README_PATH,
         readme_ux_module.TestSupportUX: readme_ux_module.SUPPORT_PATH,
         readme_ux_module.TestPullRequestTemplateUX: readme_ux_module.PR_TEMPLATE_PATH,
@@ -164,6 +170,10 @@ class TestSetUpClassOptimization(unittest.TestCase):
 
     def test_content_matches_direct_file_read(self):
         """The content cached by setUpClass must match a direct read of the underlying file."""
+        # Optimization: Cache raw disk content per unique file path in a local dictionary
+        # during verification to eliminate redundant open() system calls when multiple
+        # test classes share the same underlying target file path.
+        disk_cache = {}
         for cls, path in self.PATH_BY_CLASS.items():
             with self.subTest(cls=cls.__name__):
                 if path not in disk_cache:
@@ -171,9 +181,6 @@ class TestSetUpClassOptimization(unittest.TestCase):
                         disk_cache[path] = fh.read()
                 expected = disk_cache[path]
                 attr_name = "coc_content" if cls in _COC_CONTENT_CLASSES else "content"
-                with open(path, encoding="utf-8") as fh:
-                    expected = fh.read()
-                attr_name = "coc_content" if cls in (pr_accessibility_module.TestCodeOfConductUX, palette_ux_module.TestPaletteUX) else "content"
                 self.assertEqual(getattr(cls, attr_name), expected)
 
     def test_meta_suite_loads_suites_in_setUpClass(self):
@@ -218,8 +225,6 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         # of completed test IDs recorded via TrackingTestCase, this check bypasses redundant
         # suite re-executions with an O(1) space generator expression using all(), eliminating
         # duplicate CPU and memory overhead during test suite execution.
-        from test_pr_accessibility import _PASSED_TESTS
-
         if all(tid in _PASSED_TESTS for tid in test_ids):
             return _MOCK_SUCCESSFUL_RESULT
 
