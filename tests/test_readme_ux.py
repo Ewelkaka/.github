@@ -96,11 +96,13 @@ class TestBugReportUX(TrackingTestCase):
         self.assertIn("[search existing issues](https://github.com/skills/.github/issues)", self.content)
 
     def test_no_duplicate_lines(self):
-        """bug_report.md should not contain duplicate search advice lines."""
-        advice_count = self.content.count("before filing a new bug report to avoid duplicates.")
-        self.assertEqual(advice_count, 1, "Expected exactly one search advice line in bug_report.md")
+        count = self.content.count("before filing a new bug report to avoid duplicates.")
+        self.assertEqual(count, 1, "Expected exactly one search advice line in bug_report.md")
+        count = self.content.count("Please search")
+        self.assertEqual(count, 0)
         self.assertEqual(self.content.count("Please search"), 0)
         self.assertEqual(self.content.count("Please [search existing issues]"), 1)
+        """bug_report.md should not contain duplicate search advice lines."""
         self.assertEqual(
             self.content.count("search existing issues"),
             1,
@@ -117,13 +119,18 @@ class TestFeatureRequestUX(TrackingTestCase):
     def test_alert_block_present(self):
         self.assertIn("> [!TIP]", self.content)
 
+    def test_summary_prompt_copy_has_no_typos(self):
+        self.assertIn("and what solution you want.", self.content)
+        self.assertNotIn("and what you solution you want.", self.content)
+
     def test_no_duplicate_lines(self):
-        """feature_request.md should not contain duplicate search advice lines."""
-        advice_count = self.content.count("before suggesting a new feature to avoid duplicates.")
-        self.assertEqual(advice_count, 1, "Expected exactly one search advice line in feature_request.md")
-        self.assertEqual(self.content.count("Please search"), 0)
+        count = self.content.count("before suggesting a new feature to avoid duplicates.")
+        self.assertEqual(count, 1, "Expected exactly one search advice line in feature_request.md")
+        count = self.content.count("Please search")
+        self.assertEqual(count, 0)
         self.assertEqual(self.content.count("Please search [existing feature requests]"), 0)
         self.assertEqual(self.content.count("Please [search existing feature requests]"), 1)
+        """feature_request.md should not contain duplicate search advice lines."""
         self.assertEqual(
             self.content.count("search existing feature requests"),
             1,
