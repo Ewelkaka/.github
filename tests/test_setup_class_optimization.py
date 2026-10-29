@@ -13,6 +13,7 @@ if TESTS_DIR not in sys.path:
 
 import test_pr_accessibility as pr_accessibility_module  # noqa: E402
 from test_pr_accessibility import _PASSED_TESTS  # noqa: E402
+from test_pr_accessibility import TrackingTestCase  # noqa: E402
 import test_readme_ux as readme_ux_module  # noqa: E402
 import test_palette_ux as palette_ux_module  # noqa: E402
 import test_contributing_ux as contributing_ux_module  # noqa: E402
@@ -55,7 +56,7 @@ class _MockResult:
 _MOCK_SUCCESSFUL_RESULT = _MockResult()
 
 
-class TestSetUpClassOptimization(unittest.TestCase):
+class TestSetUpClassOptimization(TrackingTestCase):
     """Structural checks that setUp() was replaced with setUpClass()."""
 
     _COC_CONTENT_CLASSES = (
@@ -188,7 +189,7 @@ class TestSetUpClassOptimization(unittest.TestCase):
         self.assertGreater(len(TestRefactoredSuitesStillPass.pr_accessibility_ids), 0)
 
 
-class TestRefactoredSuitesStillPass(unittest.TestCase):
+class TestRefactoredSuitesStillPass(TrackingTestCase):
     """Regression guard: the full test suites must still pass in their entirety."""
 
     @classmethod
@@ -212,17 +213,14 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
         cls.coc_ux_ids = tuple(t.id() for t in _get_test_cases(cls.coc_ux_suite))
         cls.bolt_journal_ids = tuple(t.id() for t in _get_test_cases(cls.bolt_journal_suite))
 
-    # Performance Optimization: Standard unittest runners re-execute child test suites
-    # loaded via loadTestsFromModule during meta-test checks. By maintaining a global set
-    # of completed test IDs recorded via TrackingTestCase, this check bypasses redundant
-    # suite re-executions with an O(1) space generator expression using all(), eliminating
-    # duplicate CPU and memory overhead during test suite execution.
     def _run_module_suite(self, suite, test_ids):
         # Performance Optimization: Standard unittest runners re-execute child test suites
         # loaded via loadTestsFromModule during meta-test checks. By maintaining a global set
         # of completed test IDs recorded via TrackingTestCase, this check bypasses redundant
         # suite re-executions with an O(1) space generator expression using all(), eliminating
         # duplicate CPU and memory overhead during test suite execution.
+        from test_pr_accessibility import _PASSED_TESTS
+
         if all(tid in _PASSED_TESTS for tid in test_ids):
             return _MOCK_SUCCESSFUL_RESULT
 
