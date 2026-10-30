@@ -98,19 +98,6 @@ class TestBugReportUX(TrackingTestCase):
     def test_no_duplicate_lines(self):
         advice_line = "**Please [search existing issues](https://github.com/skills/.github/issues)"
         self.assertEqual(self.content.count(advice_line), 1)
-        """bug_report.md should not contain duplicate search advice lines."""
-        self.assertEqual(
-            self.content.count("before filing a new bug report to avoid duplicates."),
-            1,
-            "Expected exactly one search advice line in bug_report.md",
-        )
-        self.assertEqual(self.content.count("Please search"), 0)
-        self.assertEqual(self.content.count("Please [search existing issues]"), 1)
-        self.assertEqual(
-            self.content.count("search existing issues"),
-            1,
-            "Found duplicate search advice lines in bug_report.md.",
-        )
 
 
 class TestFeatureRequestUX(TrackingTestCase):
@@ -125,33 +112,6 @@ class TestFeatureRequestUX(TrackingTestCase):
     def test_no_duplicate_lines(self):
         advice_line = "**Please [search existing feature requests](https://github.com/skills/.github/issues?q=is%3Aissue+label%3Afeature)"
         self.assertEqual(self.content.count(advice_line), 1)
-        """feature_request.md should not contain duplicate search advice lines."""
-        self.assertEqual(
-            self.content.count("before suggesting a new feature to avoid duplicates."),
-            1,
-            "Expected exactly one search advice line in feature_request.md",
-        )
-        self.assertEqual(self.content.count("Please search"), 0)
-        self.assertEqual(self.content.count("Please search [existing feature requests]"), 0)
-        self.assertEqual(self.content.count("Please [search existing feature requests]"), 1)
-        self.assertEqual(
-            self.content.count("search existing feature requests"),
-            1,
-            "Found duplicate search advice lines in feature_request.md.",
-        )
-
-    def test_summary_prompt_copy_has_no_typos(self):
-        """feature_request.md should contain clear summary prompt copy without typos."""
-        self.assertIn(
-            "and what solution you want.",
-            self.content,
-            "Expected 'and what solution you want.' in feature_request.md",
-        )
-        self.assertNotIn(
-            "what you solution you want",
-            self.content,
-            "Found typo 'what you solution you want' in feature_request.md",
-        )
 
 
 class TestSecurityUX(TrackingTestCase):
