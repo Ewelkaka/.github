@@ -143,6 +143,9 @@
 **Learning:** Accumulated duplicate copyright and policy footer lines in a repository's main README create repetitive speech output for screen reader users and visual clutter. Keeping a single canonical footer line cleans up the landing page experience and respects screen reader flow.
 **Action:** Ensure project footers contain exactly one clean line of essential policy and copyright links.
 
+## 2026-08-14 - Consolidate duplicate enforcement disclaimers in Code of Conduct
+**Learning:** Duplicate disclaimer lines and repeated alert blocks in Code of Conduct enforcement sections create auditory clutter for screen reader users and visual noise for contributors seeking incident reporting procedures. Consolidating repeated notices into a single clean `> [!IMPORTANT]` alert block maintains high visual scannability and screen reader efficiency.
+**Action:** Audit community governance documents for duplicate enforcement paragraphs or stacked alert blocks and consolidate them into a single canonical alert block.
 ## 2026-08-15 - Deduplicate search advice blocks in issue templates for clean scannability
 **Learning:** Duplicate search instructions inside `> [!TIP]` alert blocks in issue templates create visual clutter and repetitive audio announcements for screen reader users. Keeping a single, concise search advice sentence with clear hyperlinks improves scannability and maintains clean assistive technology navigation.
 **Action:** Always audit issue templates for repeated text blocks and ensure each alert container presents a single canonical advice line.
