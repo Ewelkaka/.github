@@ -146,3 +146,20 @@
 ## 2026-08-15 - Remove duplicate disclaimer repetitions in templates for screen reader clarity
 **Learning:** Over time, issue templates and documentation files can accumulate repetitive duplicate lines and blockquote fragments. These duplicate blocks create significant auditory clutter for screen reader users who must listen to repetitive text multiple times. Cleaning up these duplicate lines restores document visual scannability while preserving all active links and required alert structures.
 **Action:** Audit documentation and issue template files for redundant duplicate paragraphs or blockquotes and consolidate them into concise, clear, single-instance alert blocks.
+## 2026-08-14 - Consolidate duplicate enforcement disclaimers in Code of Conduct
+**Learning:** Duplicate disclaimer lines and repeated alert blocks in Code of Conduct enforcement sections create auditory clutter for screen reader users and visual noise for contributors seeking incident reporting procedures. Consolidating repeated notices into a single clean `> [!IMPORTANT]` alert block maintains high visual scannability and screen reader efficiency.
+**Action:** Audit community governance documents for duplicate enforcement paragraphs or stacked alert blocks and consolidate them into a single canonical alert block.
+## 2026-08-15 - Deduplicate search advice blocks in issue templates for clean scannability
+**Learning:** Duplicate search instructions inside `> [!TIP]` alert blocks in issue templates create visual clutter and repetitive audio announcements for screen reader users. Keeping a single, concise search advice sentence with clear hyperlinks improves scannability and maintains clean assistive technology navigation.
+**Action:** Always audit issue templates for repeated text blocks and ensure each alert container presents a single canonical advice line.
+## 2026-08-15 - Eliminate redundant text fragments and duplicate alert blocks for screen reader flow
+**Learning:** Accumulated duplicate lines and redundant alert blocks in documentation files (such as `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `SUPPORT.md`, and `PULL_REQUEST_TEMPLATE.md`) create severe auditory clutter for screen reader users and visual noise for sighted contributors. Streamlining these files to single, canonical alert blocks and instructions restores clear document scannability and screen reader navigation flow.
+**Action:** Routinely audit Markdown documentation and template files for duplicate text fragments and redundant alert blocks, consolidating them into single, accessible callout blocks.
+
+## 2026-08-16 - Clean duplicate alert block disclaimers and search advice lines in contribution templates
+**Learning:** Redundant or copy-pasted disclaimer lines in contribution guides (`CONTRIBUTING.md`) and issue templates (`bug_report.md`, `feature_request.md`) degrade readability and create repetitive audio playback for screen reader users. Consolidating duplicate callout lines into single, canonical alert blocks improves document scannability and maintains clean assistive navigation.
+**Action:** Inspect documentation and GitHub template files for duplicated alert block statements, ensuring each guidance notice is declared exactly once.
+
+## 2026-08-17 - Ensure clear and error-free copy in issue template prompts
+**Learning:** Typos and awkward phrasing in guidance prompts within issue templates create subtle cognitive friction and lower perceived repository polish for contributors drafting feature requests or bug reports. Proofreading prompt copy to ensure clean, natural phrasing creates a seamless and inviting contribution experience.
+**Action:** Routinely audit issue templates for typos and awkward phrasing in prompt text to maintain high documentation quality and smooth contributor onboarding.
