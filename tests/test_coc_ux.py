@@ -1,6 +1,6 @@
 import os
 import unittest
-from test_pr_accessibility import _read_cached
+from test_pr_accessibility import _read_cached, TrackingTestCase
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 README_PATH = os.path.join(REPO_ROOT, "README.md")
@@ -8,7 +8,7 @@ COC_PATH = os.path.join(REPO_ROOT, "CODE_OF_CONDUCT.md")
 CONTRIBUTING_PATH = os.path.join(REPO_ROOT, "CONTRIBUTING.md")
 
 
-class TestCoCUX(unittest.TestCase):
+class TestCoCUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):
         cls.coc_content = _read_cached(COC_PATH)
@@ -27,6 +27,10 @@ class TestCoCUX(unittest.TestCase):
 
     def test_contributing_coc_link(self):
         self.assertIn("CODE_OF_CONDUCT.md", self.contributing_content)
+
+    def test_no_duplicate_enforcement_notices(self):
+        self.assertEqual(self.coc_content.count("> [!IMPORTANT]"), 1)
+        self.assertEqual(self.coc_content.count("All complaints will be reviewed and investigated promptly and fairly."), 1)
 
 
 if __name__ == "__main__":
