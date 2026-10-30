@@ -96,6 +96,8 @@ class TestBugReportUX(TrackingTestCase):
         self.assertIn("[search existing issues](https://github.com/skills/.github/issues)", self.content)
 
     def test_no_duplicate_lines(self):
+        advice_line = "**Please [search existing issues](https://github.com/skills/.github/issues)"
+        self.assertEqual(self.content.count(advice_line), 1)
         """bug_report.md should not contain duplicate search advice lines."""
         self.assertEqual(
             self.content.count("before filing a new bug report to avoid duplicates."),
@@ -121,6 +123,8 @@ class TestFeatureRequestUX(TrackingTestCase):
         self.assertIn("> [!TIP]", self.content)
 
     def test_no_duplicate_lines(self):
+        advice_line = "**Please [search existing feature requests](https://github.com/skills/.github/issues?q=is%3Aissue+label%3Afeature)"
+        self.assertEqual(self.content.count(advice_line), 1)
         """feature_request.md should not contain duplicate search advice lines."""
         self.assertEqual(
             self.content.count("before suggesting a new feature to avoid duplicates."),
