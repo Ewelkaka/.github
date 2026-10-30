@@ -1,4 +1,3 @@
-
 # Contributor Covenant Code of Conduct
 
 ## Our Pledge
@@ -65,6 +64,7 @@ representative at an online or offline event.
 > Instances of abusive, harassing, or otherwise unacceptable behavior may be
 > reported to the community leaders responsible for enforcement at
 > [opensource-security@github.com](mailto:opensource-security@github.com).
+> Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the community leaders responsible for enforcement at [opensource-security@github.com](mailto:opensource-security@github.com).
 
 All complaints will be reviewed and investigated promptly and fairly.
 
