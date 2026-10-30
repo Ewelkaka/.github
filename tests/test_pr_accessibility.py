@@ -116,10 +116,8 @@ class TestProfileReadmeAltText(TrackingTestCase):
 
     def test_all_img_tags_have_nonempty_alt(self):
         """Every <img> tag in the file must carry a non-empty alt attribute."""
-        # Optimization: Use finditer() generator instead of findall() list allocation to
-        # iterate over match objects directly without allocating intermediate list in memory.
-        for match in RE_IMG_TAG_ALL.finditer(self.content):
-            tag = match.group(0)
+        img_tags = RE_IMG_TAG_ALL.findall(self.content)
+        for tag in img_tags:
             alt_match = RE_ALT_ATTRIBUTE.search(tag)
             self.assertIsNotNone(
                 alt_match,
@@ -219,6 +217,11 @@ class TestPaletteMarkdown(TrackingTestCase):
             "Expected 'brand' keyword not found in the learning section of .Jules/palette.md.",
         )
 
+
+
+
+
+
     def test_content_is_class_level_attribute(self):
         """After the setUpClass refactor, content must be a class-level attribute."""
         self.assertIn(
@@ -236,7 +239,7 @@ class TestPaletteMarkdown(TrackingTestCase):
         )
 
 
-class TestProfileReadmeSetupClassBehavior(TrackingTestCase):
+class TestProfileReadmeSetupClassBehavior(unittest.TestCase):
     """Verify the setUp -> setUpClass refactor in TestProfileReadmeAltText."""
 
     @classmethod
@@ -332,7 +335,7 @@ class TestCodeOfConductUX(TrackingTestCase):
         )
 
 
-class TestCodeOfConductAccessibility(TrackingTestCase):
+class TestCodeOfConductAccessibility(unittest.TestCase):
     """Tests for Code of Conduct accessibility improvements."""
 
     @classmethod
@@ -355,7 +358,7 @@ class TestCodeOfConductAccessibility(TrackingTestCase):
         self.assertNotIn("[INSERT CONTACT METHOD]", self.content)
 
 
-class TestContributingDiscoverability(TrackingTestCase):
+class TestContributingDiscoverability(unittest.TestCase):
     """Tests for CONTRIBUTING.md UX improvements."""
 
     @classmethod
