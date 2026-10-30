@@ -1,7 +1,7 @@
 import os
 import unittest
 import re
-from test_pr_accessibility import _read_cached
+from test_pr_accessibility import _read_cached, TrackingTestCase
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECURITY_PATH = os.path.join(REPO_ROOT, "SECURITY.md")
@@ -11,7 +11,7 @@ RE_WARNING_ALERT = re.compile(r"> \[!WARNING\]", re.IGNORECASE)
 RE_MAILTO_LINK = re.compile(r"\[opensource-security@github\.com\]\(mailto:opensource-security@github\.com\)")
 
 
-class TestSecurityUX(unittest.TestCase):
+class TestSecurityUX(TrackingTestCase):
     @classmethod
     def setUpClass(cls):
         # Optimization: Read file once per class via centralized _read_cached helper
