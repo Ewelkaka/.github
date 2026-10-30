@@ -218,6 +218,8 @@ class TestRefactoredSuitesStillPass(unittest.TestCase):
     # suite re-executions with an O(1) space generator expression using all(), eliminating
     # duplicate CPU and memory overhead during test suite execution.
     def _run_module_suite(self, suite, test_ids):
+        from test_pr_accessibility import _PASSED_TESTS
+
         if all(tid in _PASSED_TESTS for tid in test_ids):
             return _MOCK_SUCCESSFUL_RESULT
 
