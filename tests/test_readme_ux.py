@@ -124,6 +124,14 @@ class TestFeatureRequestUX(TrackingTestCase):
     def test_alert_block_present(self):
         self.assertIn("> [!TIP]", self.content)
 
+    # Optimization: Consolidated duplicate test_summary_prompt_copy_has_no_typos method
+    # definition into a single method to eliminate class dictionary key overwriting and
+    # wasteful bytecode parsing/compilation overhead during class creation.
+    def test_summary_prompt_copy_has_no_typos(self):
+        """feature_request.md summary section should use clear copy ('and what solution you want.')."""
+        self.assertIn("and what solution you want.", self.content)
+        self.assertNotIn("and what you solution you want.", self.content)
+
     def test_no_duplicate_lines(self):
         lines = [line.strip() for line in self.content.splitlines() if "before suggesting a new feature" in line]
         self.assertEqual(len(lines), 1, "feature_request.md contains duplicate search advice lines")
