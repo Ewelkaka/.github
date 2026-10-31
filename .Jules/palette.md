@@ -163,3 +163,7 @@
 ## 2026-08-17 - Ensure clear and error-free copy in issue template prompts
 **Learning:** Typos and awkward phrasing in guidance prompts within issue templates create subtle cognitive friction and lower perceived repository polish for contributors drafting feature requests or bug reports. Proofreading prompt copy to ensure clean, natural phrasing creates a seamless and inviting contribution experience.
 **Action:** Routinely audit issue templates for typos and awkward phrasing in prompt text to maintain high documentation quality and smooth contributor onboarding.
+
+## 2026-10-31 - Consolidate duplicate note instructions in pull request templates
+**Learning:** Duplicate instructional lines inside `> [!NOTE]` callouts within pull request templates produce unnecessary visual repetition and auditory clutter for screen reader users, disrupting the contributor onboarding flow. Consolidating repeated guidelines into a single, clean alert block preserves essential linking guidance while optimizing screen reader accessibility and scannability.
+**Action:** Inspect PR templates for duplicated alert block statements and consolidate them into a single concise note block with interactive links.
