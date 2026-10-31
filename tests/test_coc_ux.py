@@ -28,6 +28,10 @@ class TestCoCUX(TrackingTestCase):
     def test_contributing_coc_link(self):
         self.assertIn("CODE_OF_CONDUCT.md", self.contributing_content)
 
+    def test_no_duplicate_enforcement_notices(self):
+        self.assertEqual(self.coc_content.count("> [!IMPORTANT]"), 1)
+        self.assertEqual(self.coc_content.count("All complaints will be reviewed and investigated promptly and fairly."), 1)
+
 
 if __name__ == "__main__":
     unittest.main()

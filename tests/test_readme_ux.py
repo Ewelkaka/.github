@@ -96,20 +96,20 @@ class TestBugReportUX(TrackingTestCase):
         self.assertIn("[search existing issues](https://github.com/skills/.github/issues)", self.content)
 
     def test_no_duplicate_lines(self):
+        lines = [line.strip() for line in self.content.splitlines() if "before filing a new bug report" in line]
+        self.assertEqual(len(lines), 1, "bug_report.md contains duplicate search advice lines")
+        advice_line = "**Please [search existing issues](https://github.com/skills/.github/issues)"
+        self.assertEqual(self.content.count(advice_line), 1)
         """bug_report.md should not contain duplicate search advice lines."""
-        # Optimization: Store count results in local variables to avoid redundant string scanning operations.
-        advice_count = self.content.count("before filing a new bug report to avoid duplicates.")
-        self.assertEqual(advice_count, 1, "Expected exactly one search advice line in bug_report.md")
-
-        please_search_count = self.content.count("Please search")
-        self.assertEqual(please_search_count, 0)
-
-        please_link_count = self.content.count("Please [search existing issues]")
-        self.assertEqual(please_link_count, 1)
-
-        search_issues_count = self.content.count("search existing issues")
         self.assertEqual(
-            search_issues_count,
+            self.content.count("before filing a new bug report to avoid duplicates."),
+            1,
+            "Expected exactly one search advice line in bug_report.md",
+        )
+        self.assertEqual(self.content.count("Please search"), 0)
+        self.assertEqual(self.content.count("Please [search existing issues]"), 1)
+        self.assertEqual(
+            self.content.count("search existing issues"),
             1,
             "Found duplicate search advice lines in bug_report.md.",
         )
@@ -133,35 +133,37 @@ class TestFeatureRequestUX(TrackingTestCase):
         self.assertNotIn("and what you solution you want.", self.content)
 
     def test_no_duplicate_lines(self):
+        lines = [line.strip() for line in self.content.splitlines() if "before suggesting a new feature" in line]
+        self.assertEqual(len(lines), 1, "feature_request.md contains duplicate search advice lines")
+        advice_line = "**Please [search existing feature requests](https://github.com/skills/.github/issues?q=is%3Aissue+label%3Afeature)"
+        self.assertEqual(self.content.count(advice_line), 1)
         """feature_request.md should not contain duplicate search advice lines."""
-        # Optimization: Store count results in local variables to avoid redundant string scanning operations.
-        advice_count = self.content.count("before suggesting a new feature to avoid duplicates.")
-        self.assertEqual(advice_count, 1, "Expected exactly one search advice line in feature_request.md")
-
-        please_search_count = self.content.count("Please search")
-        self.assertEqual(please_search_count, 0)
-
-        please_unlinked_count = self.content.count("Please search [existing feature requests]")
-        self.assertEqual(please_unlinked_count, 0)
-
-        please_linked_count = self.content.count("Please [search existing feature requests]")
-        self.assertEqual(please_linked_count, 1)
-
-        search_requests_count = self.content.count("search existing feature requests")
         self.assertEqual(
-            search_requests_count,
+            self.content.count("before suggesting a new feature to avoid duplicates."),
+            1,
+            "Expected exactly one search advice line in feature_request.md",
+        )
+        self.assertEqual(self.content.count("Please search"), 0)
+        self.assertEqual(self.content.count("Please search [existing feature requests]"), 0)
+        self.assertEqual(self.content.count("Please [search existing feature requests]"), 1)
+        self.assertEqual(
+            self.content.count("search existing feature requests"),
             1,
             "Found duplicate search advice lines in feature_request.md.",
         )
 
     def test_summary_prompt_copy_has_no_typos(self):
-        """feature_request.md summary section should use clear copy without typos."""
-        # Optimization: Consolidate duplicate method definitions to prevent class dictionary key
-        # overwriting and eliminate orphaned string statement execution in runtime bytecode.
-        self.assertIn("what solution you want", self.content)
-        self.assertIn("and what solution you want.", self.content)
-        self.assertNotIn("what you solution you want", self.content)
-        self.assertNotIn("and what you solution you want.", self.content)
+        """feature_request.md should contain clear summary prompt copy without typos."""
+        self.assertIn(
+            "and what solution you want.",
+            self.content,
+            "Expected 'and what solution you want.' in feature_request.md",
+        )
+        self.assertNotIn(
+            "what you solution you want",
+            self.content,
+            "Found typo 'what you solution you want' in feature_request.md",
+        )
 
 
 class TestSecurityUX(TrackingTestCase):

@@ -185,6 +185,9 @@
 **Learning:** When a single test class asserts against multiple distinct static files (such as CODE_OF_CONDUCT.md, README.md, and CONTRIBUTING.md in TestCodeOfConductUX), performing `_read()` calls on-demand inside each test method leads to multiple redundant `openat()` calls. Caching all required static files at class creation time via `@classmethod setUpClass(cls)` completely eliminates redundant system-level disk reads.
 **Action:** Identify all test methods performing raw direct file reads within a single class, and hoist all of them into a unified `@classmethod setUpClass(cls)` block.
 
+## 2026-07-18 - Ensure complete test tracking in meta-test suites
+**Learning:** When using tracking base classes (e.g., `TrackingTestCase`) to record executed test IDs and bypass redundant sub-suite re-executions in meta-tests, any test class inheriting directly from `unittest.TestCase` instead of the tracking base class will cause the entire suite check to fail, triggering 36 redundant re-executions.
+**Action:** Ensure all test classes in a suite inherit from the tracking base class so that every executed test case ID is properly recorded in global state.
 ## 2026-07-18 - Pre-instantiating mock results and precomputing test ID tuples in meta-tests
 **Learning:** Defining mock classes inside helper methods causes Python to execute `class` statements and allocate class/dict objects on every method invocation. Pre-instantiating mock result objects at module scope and precomputing test ID tuples during `setUpClass()` eliminates repetitive object creation and recursive tree traversal overhead in meta-test suites.
 **Action:** Pre-instantiate static mock objects at module scope and precalculate test ID collections in `setUpClass()` when writing meta-test runners.
@@ -198,3 +201,6 @@
 ## 2026-07-19 - Eliminate duplicate method definitions in Python unittest classes
 **Learning:** Duplicate method definitions in Python unittest classes cause class dictionary key overwriting (where the later definition silently overrides the former) and trigger redundant bytecode parsing/evaluation during module import.
 **Action:** Cleanly consolidate duplicate method names in unittest classes to eliminate key overwriting overhead and ensure clear, un-shadowed test execution.
+## 2026-07-19 - Module-level imports and class-level tuple caching in test runners
+**Learning:** Re-executing `import` statements inside helper methods called per test method adds unnecessary namespace lookup overhead. Furthermore, inline tuple creation (e.g. `cls in (ClassA, ClassB)`) in loops creates new tuple objects on every iteration. Hoisting imports to module scope and defining static class tuples at class scope eliminates repetitive allocations during test suite execution.
+**Action:** Always hoist imports to module level and define reusable class tuples/sets at class scope in Python unittest suites.
