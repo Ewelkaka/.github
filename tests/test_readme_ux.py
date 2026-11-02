@@ -72,6 +72,19 @@ class TestSupportUX(TrackingTestCase):
     def test_interactive_issue_links(self):
         self.assertIn("[GitHub issues](https://github.com/skills/.github/issues)", self.content)
 
+    def test_no_duplicate_issue_instructions(self):
+        """SUPPORT.md should not contain duplicate issue filing instruction lines."""
+        self.assertEqual(
+            self.content.count("This project uses [GitHub issues](https://github.com/skills/.github/issues) to track bugs and feature requests."),
+            1,
+            "SUPPORT.md contains duplicate issue tracking instructions.",
+        )
+        self.assertEqual(
+            self.content.count("before filing new issues to avoid duplicates."),
+            1,
+            "SUPPORT.md contains duplicate search advice.",
+        )
+
 
 class TestPullRequestTemplateUX(TrackingTestCase):
     @classmethod
