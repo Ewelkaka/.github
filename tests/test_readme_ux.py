@@ -3,7 +3,13 @@ Tests for README and documentation UX improvements.
 """
 
 import os
+import sys
 import unittest
+
+TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
+if TESTS_DIR not in sys.path:
+    sys.path.insert(0, TESTS_DIR)
+
 from test_pr_accessibility import _read_cached, TrackingTestCase
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -83,6 +89,21 @@ class TestPullRequestTemplateUX(TrackingTestCase):
 
     def test_interactive_issue_link(self):
         self.assertIn("[open a new issue](https://github.com/skills/.github/issues/new/choose)", self.content)
+
+    def test_no_duplicate_note_instructions(self):
+        """PULL_REQUEST_TEMPLATE.md should not contain duplicate note instruction lines."""
+        linking_advice = "If there's an existing issue for your change, please link to it below next to \"Closes\"."
+        self.assertEqual(
+            self.content.count(linking_advice),
+            1,
+            "PULL_REQUEST_TEMPLATE.md contains duplicate issue linking advice lines.",
+        )
+        new_issue_advice = "[open a new issue](https://github.com/skills/.github/issues/new/choose)"
+        self.assertEqual(
+            self.content.count(new_issue_advice),
+            1,
+            "PULL_REQUEST_TEMPLATE.md contains duplicate new issue advice lines.",
+        )
 
 
 class TestBugReportUX(TrackingTestCase):
