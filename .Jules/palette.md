@@ -163,3 +163,7 @@
 ## 2026-08-17 - Ensure clear and error-free copy in issue template prompts
 **Learning:** Typos and awkward phrasing in guidance prompts within issue templates create subtle cognitive friction and lower perceived repository polish for contributors drafting feature requests or bug reports. Proofreading prompt copy to ensure clean, natural phrasing creates a seamless and inviting contribution experience.
 **Action:** Routinely audit issue templates for typos and awkward phrasing in prompt text to maintain high documentation quality and smooth contributor onboarding.
+
+## 2026-08-18 - Consolidate duplicate issue filing guidance paragraphs in support documentation
+**Learning:** Duplicate issue filing guidance paragraphs in support documentation (`SUPPORT.md`) create auditory redundancy for screen reader users and unnecessary cognitive clutter for contributors seeking help. Removing the redundant paragraph leaves a concise, single-instance instruction block, improving document scannability and screen reader efficiency.
+**Action:** Audit support documentation for duplicate guidance paragraphs or instructions and consolidate them into a clean, single canonical block.
