@@ -79,6 +79,11 @@ class TestSupportUX(TrackingTestCase):
         self.assertIn("[GitHub issues](https://github.com/skills/.github/issues)", self.content)
 
     def test_no_duplicate_issue_instructions(self):
+        """SUPPORT.md should not contain duplicate issue filing guidance paragraphs."""
+        self.assertEqual(
+            self.content.count("This project uses [GitHub issues]"),
+            1,
+            "Expected exactly one issue guidance paragraph in SUPPORT.md",
         """SUPPORT.md should not contain duplicate issue filing instruction lines."""
         self.assertEqual(
             self.content.count("This project uses [GitHub issues](https://github.com/skills/.github/issues) to track bugs and feature requests."),
@@ -88,6 +93,7 @@ class TestSupportUX(TrackingTestCase):
         self.assertEqual(
             self.content.count("before filing new issues to avoid duplicates."),
             1,
+            "Found duplicate issue search guidance lines in SUPPORT.md",
             "SUPPORT.md contains duplicate search advice.",
         )
 
