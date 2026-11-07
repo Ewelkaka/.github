@@ -83,6 +83,7 @@ class TestSupportUX(TrackingTestCase):
         self.assertEqual(
             self.content.count("This project uses [GitHub issues]"),
             1,
+            "Found duplicate issue tracking lines in SUPPORT.md.",
             "Expected exactly one issue guidance paragraph in SUPPORT.md",
         """SUPPORT.md should not contain duplicate issue filing instruction lines."""
         self.assertEqual(
@@ -93,6 +94,7 @@ class TestSupportUX(TrackingTestCase):
         self.assertEqual(
             self.content.count("before filing new issues to avoid duplicates."),
             1,
+            "Expected exactly one issue guidance paragraph in SUPPORT.md.",
             "Found duplicate issue search guidance lines in SUPPORT.md",
             "SUPPORT.md contains duplicate search advice.",
         )
