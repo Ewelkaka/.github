@@ -95,6 +95,12 @@ class TestPullRequestTemplateUX(TrackingTestCase):
             self.content.count("If there's _not_ an existing issue, please [open a new issue]"),
             1,
             "Expected exactly one new issue creation instruction line in PULL_REQUEST_TEMPLATE.md",
+            "PULL_REQUEST_TEMPLATE.md contains duplicate issue linking instructions.",
+        )
+        self.assertEqual(
+            self.content.count("open a new issue"),
+            1,
+            "PULL_REQUEST_TEMPLATE.md contains duplicate 'open a new issue' instructions.",
         )
 
 
@@ -141,9 +147,17 @@ class TestFeatureRequestUX(TrackingTestCase):
     # definition into a single method to eliminate class dictionary key overwriting and
     # wasteful bytecode parsing/compilation overhead during class creation.
     def test_summary_prompt_copy_has_no_typos(self):
-        """feature_request.md summary section should use clear copy ('and what solution you want.')."""
-        self.assertIn("and what solution you want.", self.content)
-        self.assertNotIn("and what you solution you want.", self.content)
+        """feature_request.md summary section should use clear copy without typos ('and what solution you want.')."""
+        self.assertIn(
+            "and what solution you want.",
+            self.content,
+            "Expected 'and what solution you want.' in feature_request.md",
+        )
+        self.assertNotIn(
+            "what you solution you want",
+            self.content,
+            "Found typo 'what you solution you want' in feature_request.md",
+        )
 
     def test_no_duplicate_lines(self):
         lines = [line.strip() for line in self.content.splitlines() if "before suggesting a new feature" in line]
@@ -163,19 +177,6 @@ class TestFeatureRequestUX(TrackingTestCase):
             self.content.count("search existing feature requests"),
             1,
             "Found duplicate search advice lines in feature_request.md.",
-        )
-
-    def test_summary_prompt_copy_has_no_typos(self):
-        """feature_request.md should contain clear summary prompt copy without typos."""
-        self.assertIn(
-            "and what solution you want.",
-            self.content,
-            "Expected 'and what solution you want.' in feature_request.md",
-        )
-        self.assertNotIn(
-            "what you solution you want",
-            self.content,
-            "Found typo 'what you solution you want' in feature_request.md",
         )
 
 
