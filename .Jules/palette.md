@@ -167,3 +167,12 @@
 ## 2026-08-18 - Deduplicate issue filing guidance in support documentation
 **Learning:** Duplicate issue filing paragraphs in `SUPPORT.md` produce repetitive audio announcements for screen reader users and unnecessary visual clutter for contributors seeking help. Presenting a single, canonical instruction paragraph with rich interactive Markdown links preserves screen reader flow and maintains a clean, scannable support guide.
 **Action:** Audit support documentation for duplicate instructional paragraphs and consolidate them into a single concise paragraph with descriptive hyperlinks.
+## 2026-08-18 - Consolidate duplicate instructions in pull request templates
+**Learning:** Repeated instructions inside `> [!NOTE]` alert blocks in `PULL_REQUEST_TEMPLATE.md` introduce auditory clutter for screen reader users and visual redundancy for contributors opening new PRs. Consolidating repeated sentences into a single, canonical note block ensures a clean, concise authoring experience while preserving essential links to issue creation workflows.
+**Action:** Audit pull request templates for duplicated guidance notes or repetitive issue-linking instructions, ensuring each prompt is stated exactly once.
+## 2026-08-18 - Consolidate duplicate note instructions in pull request templates
+**Learning:** Redundant sentence fragments within GitHub-native alert blocks (such as `> [!NOTE]` in `PULL_REQUEST_TEMPLATE.md`) create auditory fatigue for screen reader users and clutter the visual hierarchy for contributors filing pull requests. Consolidating repeated issue-linking instructions into a single clear block preserves actionable hyperlinks while restoring clean, accessible scannability.
+**Action:** Audit pull request and issue templates for redundant alert block sentences and consolidate them into a single, concise guidance instruction.
+## 2026-10-31 - Consolidate duplicate note instructions in pull request templates
+**Learning:** Duplicate instructional lines inside `> [!NOTE]` callouts within pull request templates produce unnecessary visual repetition and auditory clutter for screen reader users, disrupting the contributor onboarding flow. Consolidating repeated guidelines into a single, clean alert block preserves essential linking guidance while optimizing screen reader accessibility and scannability.
+**Action:** Inspect PR templates for duplicated alert block statements and consolidate them into a single concise note block with interactive links.
