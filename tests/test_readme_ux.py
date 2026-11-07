@@ -128,11 +128,13 @@ class TestPullRequestTemplateUX(TrackingTestCase):
         self.assertEqual(
             self.content.count("If there's an existing issue for your change, please link to it below next to \"Closes\"."),
             1,
+            "Expected exactly one issue linking instruction in PULL_REQUEST_TEMPLATE.md",
             "Found duplicate note lines in PULL_REQUEST_TEMPLATE.md",
         )
         self.assertEqual(
             self.content.count("[open a new issue](https://github.com/skills/.github/issues/new/choose)"),
             1,
+            "Expected exactly one 'open a new issue' link in PULL_REQUEST_TEMPLATE.md",
             "Found duplicate issue creation links in PULL_REQUEST_TEMPLATE.md",
             "Expected exactly one issue linking instruction line in PULL_REQUEST_TEMPLATE.md",
         )
