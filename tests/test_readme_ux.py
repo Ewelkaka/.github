@@ -84,6 +84,19 @@ class TestPullRequestTemplateUX(TrackingTestCase):
     def test_interactive_issue_link(self):
         self.assertIn("[open a new issue](https://github.com/skills/.github/issues/new/choose)", self.content)
 
+    def test_no_duplicate_note_instructions(self):
+        """PULL_REQUEST_TEMPLATE.md should not contain duplicate note instructions."""
+        self.assertEqual(
+            self.content.count("If there's an existing issue for your change, please link to it below next to \"Closes\"."),
+            1,
+            "Expected exactly one issue linking instruction in PULL_REQUEST_TEMPLATE.md",
+        )
+        self.assertEqual(
+            self.content.count("[open a new issue](https://github.com/skills/.github/issues/new/choose)"),
+            1,
+            "Expected exactly one 'open a new issue' link in PULL_REQUEST_TEMPLATE.md",
+        )
+
 
 class TestBugReportUX(TrackingTestCase):
     @classmethod
