@@ -3,7 +3,13 @@ Tests for README and documentation UX improvements.
 """
 
 import os
+import sys
 import unittest
+
+TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
+if TESTS_DIR not in sys.path:
+    sys.path.insert(0, TESTS_DIR)
+
 from test_pr_accessibility import _read_cached, TrackingTestCase
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -78,11 +84,19 @@ class TestSupportUX(TrackingTestCase):
             self.content.count("This project uses [GitHub issues]"),
             1,
             "Found duplicate issue tracking lines in SUPPORT.md.",
+            "Expected exactly one issue guidance paragraph in SUPPORT.md",
+        """SUPPORT.md should not contain duplicate issue filing instruction lines."""
+        self.assertEqual(
+            self.content.count("This project uses [GitHub issues](https://github.com/skills/.github/issues) to track bugs and feature requests."),
+            1,
+            "SUPPORT.md contains duplicate issue tracking instructions.",
         )
         self.assertEqual(
             self.content.count("before filing new issues to avoid duplicates."),
             1,
             "Expected exactly one issue guidance paragraph in SUPPORT.md.",
+            "Found duplicate issue search guidance lines in SUPPORT.md",
+            "SUPPORT.md contains duplicate search advice.",
         )
 
 
@@ -96,6 +110,43 @@ class TestPullRequestTemplateUX(TrackingTestCase):
 
     def test_interactive_issue_link(self):
         self.assertIn("[open a new issue](https://github.com/skills/.github/issues/new/choose)", self.content)
+
+    def test_no_duplicate_note_instructions(self):
+        """PULL_REQUEST_TEMPLATE.md should not contain duplicate note instruction lines."""
+        linking_advice = "If there's an existing issue for your change, please link to it below next to \"Closes\"."
+        self.assertEqual(
+            self.content.count(linking_advice),
+            1,
+            "PULL_REQUEST_TEMPLATE.md contains duplicate issue linking advice lines.",
+        )
+        new_issue_advice = "[open a new issue](https://github.com/skills/.github/issues/new/choose)"
+        self.assertEqual(
+            self.content.count(new_issue_advice),
+            1,
+            "PULL_REQUEST_TEMPLATE.md contains duplicate new issue advice lines.",
+        """PULL_REQUEST_TEMPLATE.md should not contain duplicate note instructions."""
+        self.assertEqual(
+            self.content.count("If there's an existing issue for your change, please link to it below next to \"Closes\"."),
+            1,
+            "Found duplicate note lines in PULL_REQUEST_TEMPLATE.md",
+        )
+        self.assertEqual(
+            self.content.count("[open a new issue](https://github.com/skills/.github/issues/new/choose)"),
+            1,
+            "Found duplicate issue creation links in PULL_REQUEST_TEMPLATE.md",
+            "Expected exactly one issue linking instruction line in PULL_REQUEST_TEMPLATE.md",
+        )
+        self.assertEqual(
+            self.content.count("If there's _not_ an existing issue, please [open a new issue]"),
+            1,
+            "Expected exactly one new issue creation instruction line in PULL_REQUEST_TEMPLATE.md",
+            "PULL_REQUEST_TEMPLATE.md contains duplicate issue linking instructions.",
+        )
+        self.assertEqual(
+            self.content.count("open a new issue"),
+            1,
+            "PULL_REQUEST_TEMPLATE.md contains duplicate 'open a new issue' instructions.",
+        )
 
 
 class TestBugReportUX(TrackingTestCase):
@@ -141,9 +192,17 @@ class TestFeatureRequestUX(TrackingTestCase):
     # definition into a single method to eliminate class dictionary key overwriting and
     # wasteful bytecode parsing/compilation overhead during class creation.
     def test_summary_prompt_copy_has_no_typos(self):
-        """feature_request.md summary section should use clear copy ('and what solution you want.')."""
-        self.assertIn("and what solution you want.", self.content)
-        self.assertNotIn("and what you solution you want.", self.content)
+        """feature_request.md summary section should use clear copy without typos ('and what solution you want.')."""
+        self.assertIn(
+            "and what solution you want.",
+            self.content,
+            "Expected 'and what solution you want.' in feature_request.md",
+        )
+        self.assertNotIn(
+            "what you solution you want",
+            self.content,
+            "Found typo 'what you solution you want' in feature_request.md",
+        )
 
     def test_no_duplicate_lines(self):
         lines = [line.strip() for line in self.content.splitlines() if "before suggesting a new feature" in line]
@@ -163,19 +222,6 @@ class TestFeatureRequestUX(TrackingTestCase):
             self.content.count("search existing feature requests"),
             1,
             "Found duplicate search advice lines in feature_request.md.",
-        )
-
-    def test_summary_prompt_copy_has_no_typos(self):
-        """feature_request.md should contain clear summary prompt copy without typos."""
-        self.assertIn(
-            "and what solution you want.",
-            self.content,
-            "Expected 'and what solution you want.' in feature_request.md",
-        )
-        self.assertNotIn(
-            "what you solution you want",
-            self.content,
-            "Found typo 'what you solution you want' in feature_request.md",
         )
 
 
